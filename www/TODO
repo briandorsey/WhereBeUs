@@ -1,0 +1,3 @@
+add cron to expire updates over 2 hours old
+add update_age (in seconds) calculated from update_datetime
+add property for twitter display name
