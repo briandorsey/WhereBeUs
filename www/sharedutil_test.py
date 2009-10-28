@@ -46,9 +46,26 @@ def test_get_updates():
     assert resp['status'] == '200'
     print resp
     print content
-    json = simplejson.loads(content)
-    print json
+    json_data = simplejson.loads(content)
+    print json_data
+    assert len(json_data) == 0
 
 def test_post_update():
+    url = base_url + '/api/1/update/'
+    h = httplib2.Http()
     update = create_LocationUpdateJSON()
+    update.hashtag = 'posttag'
+    json_data = simplejson.dumps(update)
+    resp, content = h.request(url,
+                            'POST', body=json_data,
+                            headers={'content-type':'application/json'} )
+    print json_data
+    print url
+    print resp
+    print content
+    assert resp['status'] == '200'
+    returned_data = simplejson.loads(content)
+    # TODO: do we want to assert that the return is the update? or, should we
+    # return the hashtag query instead?
+    # assert json_data == returned_data
 
