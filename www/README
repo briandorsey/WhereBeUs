@@ -1,1 +1,36 @@
-top level directory for the appengine app
+
+
+API
+===
+
+update dictionary
+-----------------
+
+This is passed up by the client when their location changes and returned by the
+server.
+
+{
+    "twitter_user_name": "name",
+    "twitter_profile_image_url": "http://someurl",
+    "hashtag": "hashtag",
+    "latitude": 123.456,
+    "longitude": 123.456,
+    "message": "this is the message",
+    "update_datetime": "2009-10-28T06:47:11.690511"
+}
+
+
+/api/1/hashtag/THETAG
+-------------------
+
+GET - get a list of update dictionaries which match THETAG.
+
+/api/1/update/
+--------------
+
+POST - a single update dictionary with (presumably) updated location info. The
+twitter_user_name is used as the DataStore key_name. Any previous data for that
+user is overwritten.
+
+The value of update_datetime (if any) is ignored.
+
