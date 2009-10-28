@@ -15,6 +15,9 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		55A127C91097F42600B79AB5 /* TwitterCredentialsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A127C81097F42600B79AB5 /* TwitterCredentialsController.xib */; };
 		55A127CF1097F53200B79AB5 /* TwitterCredentialsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A127CE1097F53200B79AB5 /* TwitterCredentialsController.m */; };
+		55D1CC821098190500FD9606 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSDataAdditions.m */; };
+		55D1CC8510981A6F00FD9606 /* TwitterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC8410981A6F00FD9606 /* TwitterService.m */; };
+		55D1CCC91098211A00FD9606 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CCC81098211A00FD9606 /* Utilities.m */; };
 		55D919A81098046F008CB1BF /* JsonConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919A51098046F008CB1BF /* JsonConnection.m */; };
 		55D919A91098046F008CB1BF /* JsonResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919A71098046F008CB1BF /* JsonResponse.m */; };
 		55D919DD109804C7008CB1BF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919D2109804C7008CB1BF /* NSObject+SBJSON.m */; };
@@ -38,6 +41,12 @@
 		55A127C81097F42600B79AB5 /* TwitterCredentialsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwitterCredentialsController.xib; sourceTree = "<group>"; };
 		55A127CD1097F53200B79AB5 /* TwitterCredentialsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCredentialsController.h; sourceTree = "<group>"; };
 		55A127CE1097F53200B79AB5 /* TwitterCredentialsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCredentialsController.m; sourceTree = "<group>"; };
+		55D1CC801098190500FD9606 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
+		55D1CC811098190500FD9606 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		55D1CC8310981A6F00FD9606 /* TwitterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterService.h; sourceTree = "<group>"; };
+		55D1CC8410981A6F00FD9606 /* TwitterService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterService.m; sourceTree = "<group>"; };
+		55D1CCC71098211A00FD9606 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		55D1CCC81098211A00FD9606 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
 		55D919A41098046F008CB1BF /* JsonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonConnection.h; sourceTree = "<group>"; };
 		55D919A51098046F008CB1BF /* JsonConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonConnection.m; sourceTree = "<group>"; };
 		55D919A61098046F008CB1BF /* JsonResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonResponse.h; sourceTree = "<group>"; };
@@ -76,6 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				55D919CF109804BC008CB1BF /* JSON */,
+				55D1CC8310981A6F00FD9606 /* TwitterService.h */,
+				55D1CC8410981A6F00FD9606 /* TwitterService.m */,
 				55D919A41098046F008CB1BF /* JsonConnection.h */,
 				55D919A51098046F008CB1BF /* JsonConnection.m */,
 				55D919A61098046F008CB1BF /* JsonResponse.h */,
@@ -84,6 +95,10 @@
 				1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */,
 				55A127CD1097F53200B79AB5 /* TwitterCredentialsController.h */,
 				55A127CE1097F53200B79AB5 /* TwitterCredentialsController.m */,
+				55D1CC801098190500FD9606 /* NSDataAdditions.h */,
+				55D1CC811098190500FD9606 /* NSDataAdditions.m */,
+				55D1CCC71098211A00FD9606 /* Utilities.h */,
+				55D1CCC81098211A00FD9606 /* Utilities.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -229,6 +244,9 @@
 				55D919E0109804C7008CB1BF /* SBJsonBase.m in Sources */,
 				55D919E1109804C7008CB1BF /* SBJsonParser.m in Sources */,
 				55D919E2109804C7008CB1BF /* SBJsonWriter.m in Sources */,
+				55D1CC821098190500FD9606 /* NSDataAdditions.m in Sources */,
+				55D1CC8510981A6F00FD9606 /* TwitterService.m in Sources */,
+				55D1CCC91098211A00FD9606 /* Utilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

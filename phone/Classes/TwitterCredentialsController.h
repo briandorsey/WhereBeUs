@@ -13,11 +13,13 @@
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *loginButton;
+	IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *usernameField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordField;
 @property (nonatomic, retain) IBOutlet UIButton *loginButton;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 - (IBAction)loginButtonPushed:(id)sender;
 - (IBAction)textChanged:(id)sender;

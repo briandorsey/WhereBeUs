@@ -1,26 +1,32 @@
 //
 //  JsonConnection.m
-//  WalkScore
+//  TweetSpot
 //
-//  Created by Rob LaRubbio on 3/30/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Dave Peck on 10/27/09.
+//  Copyright Code Orange 2009. All rights reserved.
 //
 
 #import "JsonConnection.h"
 #import "JsonResponse.h"
 #import "JSON.h"
+#import "NSDataAdditions.h"
 
-static NSString *const kREFERER_URL = @"http://www.walkscore.com/iphone/";
+static NSString *const kREFERER_URL = @"http://ourtweetspot.appspot.com/";
 static NSString *const kREFERER_HEADER = @"Referer";
 
 @implementation JsonConnection
 
 + (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData
 {
-	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData] autorelease];
+	return [JsonConnection connectionWithURL:theURL delegate:theDelegate userData:theUserData authUsername:nil authPassword:nil];
 }
 
-- (id)initWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData
++ (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword
+{
+	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:theAuthUsername authPassword:theAuthPassword] autorelease];
+}
+
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword
 {
 	self = [super init];
 	if (self != nil) 
@@ -34,6 +40,12 @@ static NSString *const kREFERER_HEADER = @"Referer";
 		// NSAssert(finalURL != nil, @"BROKEN URL");
 				
 		NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:finalURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+		if ((theAuthUsername != nil) && (theAuthPassword != nil))
+		{
+			NSString *usernameAndPassword = [NSString stringWithFormat:@"%@:%@", theAuthUsername, theAuthPassword];
+			NSString *base64 = [[NSData dataWithBytes:[usernameAndPassword cString] length:[usernameAndPassword length]] base64Encoding];
+			[request addValue:[NSString stringWithFormat:@"Basic %@", base64] forHTTPHeaderField:@"Authorization"];			
+		}
 		[request setValue:kREFERER_URL forHTTPHeaderField:kREFERER_HEADER];
 		
 		// Be sure to pre-flight all requests

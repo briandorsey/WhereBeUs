@@ -1,9 +1,9 @@
 //
 //  JsonResult.m
-//  WalkScore
+//  TweetSpot
 //
-//  Created by Dave Peck on 5/22/09.
-//  Copyright 2009 Code Orange. All rights reserved.
+//  Created by Dave Peck on 10/27/09.
+//  Copyright Code Orange 2009. All rights reserved.
 //
 
 #import "JsonResponse.h"

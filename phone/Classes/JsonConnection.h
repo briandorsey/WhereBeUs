@@ -1,9 +1,9 @@
 //
 //  JsonConnection.h
-//  WalkScore
+//  TweetSpot
 //
-//  Created by Rob LaRubbio on 3/30/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Created by Dave Peck on 10/27/09.
+//  Copyright Code Orange 2009. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -20,15 +20,16 @@ enum
 @class JsonResponse;
 
 @interface JsonConnection : NSObject {
-    NSURLConnection *connection;
+    NSURLConnection *connection;	
 	NSURLResponse *response;
     NSMutableData *data;	
 	id<JsonConnectionDelegate> delegate;	
-	id userData;	
+	id userData;
 }
 
 + (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData;
-- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData;
++ (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword;
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword;
 - (void)cancel;
 
 @end

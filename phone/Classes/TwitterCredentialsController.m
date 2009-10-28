@@ -7,6 +7,8 @@
 //
 
 #import "TwitterCredentialsController.h"
+#import "TwitterService.h"
+#import "Utilities.h"
 
 
 @implementation TwitterCredentialsController
@@ -33,10 +35,58 @@
 @synthesize usernameField;
 @synthesize passwordField;
 @synthesize loginButton;
+@synthesize activityIndicator;
+
+
+- (void)startLoginProcess
+{
+	[self disableLoginButton];
+	[self.usernameField setEnabled:NO];
+	[self.passwordField setEnabled:NO];
+	[self.activityIndicator startAnimating];	
+}
+
+- (void)stopLoginProcess
+{
+	[self enableLoginButton];
+	[self.usernameField setEnabled:YES];
+	[self.passwordField setEnabled:YES];
+	[self.activityIndicator stopAnimating];	
+}
+
+- (void)verifyCredentials_returned:(id)results
+{
+	[self stopLoginProcess];
+	
+	if (results == nil)
+	{
+		[Utilities displayModalAlertWithTitle:@"Network Error" message:@"We couldn't contact Twitter. Please check your network connection and try again." buttonTitle:@"OK"];
+		return;
+	}
+	
+	if (![results isDictionary])
+	{
+		[Utilities displayModalAlertWithTitle:@"Twitter Error" message:@"Twitter returned an unexpected response. Please try again." buttonTitle:@"OK"];
+		return;
+	}
+	
+	NSDictionary *dictionary = [results dictionary];
+	
+	NSString *error = [dictionary valueForKey:TWITTER_ERROR];
+	if (error != nil)
+	{
+		[Utilities displayModalAlertWithTitle:@"Invalid" message:@"Either your username or your password was incorrect. Please try again." buttonTitle:@"OK"];
+		return;
+	}
+	
+	NSString *bio = [dictionary valueForKey:TWITTER_BIO];
+	[Utilities displayModalAlertWithTitle:@"Your Bio" message:bio buttonTitle:@"OK"];
+}
 
 - (IBAction)loginButtonPushed:(id)sender
 {
-	
+	[self startLoginProcess];
+	[TwitterService verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
 }
 
 - (IBAction)textChanged:(id)sender
@@ -88,6 +138,7 @@
 	self.usernameField = nil;
 	self.passwordField = nil;
 	self.loginButton = nil;
+	self.activityIndicator = nil;
     [super dealloc];
 }
 
