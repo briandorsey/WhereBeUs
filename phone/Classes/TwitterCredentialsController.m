@@ -12,6 +12,21 @@
 @implementation TwitterCredentialsController
 
 //-----------------------------------------------------------------------
+// Private Stuff
+//-----------------------------------------------------------------------
+
+- (void)disableLoginButton
+{
+	[self.loginButton setEnabled:NO];
+}
+
+- (void)enableLoginButton
+{
+	[self.loginButton setEnabled:YES];
+}
+
+
+//-----------------------------------------------------------------------
 // Outlets and Actions
 //-----------------------------------------------------------------------
 
@@ -19,16 +34,22 @@
 @synthesize passwordField;
 @synthesize loginButton;
 
-- (void)loginButtonPushed:(id)sender
+- (IBAction)loginButtonPushed:(id)sender
 {
 }
 
-- (void)usernameTextChanged:(id)sender
+- (IBAction)textChanged:(id)sender
 {
-}
-
-- (void)passwordTextChanged:(id)sender
-{
+	NSString *username = [self.usernameField text];
+	NSString *password = [self.passwordField text];
+	if (([username length] > 1) && ([password length] > 2))
+	{
+		[self enableLoginButton];
+	}
+	else
+	{
+		[self disableLoginButton];
+	}		
 }
 
 
@@ -41,8 +62,8 @@
 	// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
     [super viewDidLoad];
 	
-	[self.loginButton setEnabled:NO];
-	[self.loginButton setHighlighted:NO];
+	[self.loginButton setTitleColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] forState:UIControlStateDisabled];
+	[self disableLoginButton];
 	[self.usernameField becomeFirstResponder];
 }
 

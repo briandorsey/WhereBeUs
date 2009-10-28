@@ -19,8 +19,7 @@
 @property (nonatomic, retain) IBOutlet UITextField *passwordField;
 @property (nonatomic, retain) IBOutlet UIButton *loginButton;
 
-- (void)loginButtonPushed:(id)sender;
-- (void)usernameTextChanged:(id)sender;
-- (void)passwordTextChanged:(id)sender;
+- (IBAction)loginButtonPushed:(id)sender;
+- (IBAction)textChanged:(id)sender;
 
 @end
