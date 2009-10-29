@@ -43,7 +43,7 @@ static NSString *const kREFERER_HEADER = @"Referer";
 		if ((theAuthUsername != nil) && (theAuthPassword != nil))
 		{
 			NSString *usernameAndPassword = [NSString stringWithFormat:@"%@:%@", theAuthUsername, theAuthPassword];
-			NSString *base64 = [[NSData dataWithBytes:[usernameAndPassword cString] length:[usernameAndPassword length]] base64Encoding];
+			NSString *base64 = [[NSData dataWithBytes:[usernameAndPassword cStringUsingEncoding:NSASCIIStringEncoding] length:[usernameAndPassword length]] base64Encoding];
 			[request addValue:[NSString stringWithFormat:@"Basic %@", base64] forHTTPHeaderField:@"Authorization"];			
 		}
 		[request setValue:kREFERER_URL forHTTPHeaderField:kREFERER_HEADER];
