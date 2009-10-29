@@ -7,7 +7,6 @@
 //
 
 #import "TweetSpotAppDelegate.h"
-#import "RootViewController.h"
 
 
 @implementation TweetSpotAppDelegate

@@ -9,7 +9,7 @@
 #import "TwitterCredentialsController.h"
 #import "ConnectionHelper.h"
 #import "Utilities.h"
-
+#import "JsonResponse.h"
 
 @implementation TwitterCredentialsController
 
@@ -54,7 +54,7 @@
 	[self.activityIndicator stopAnimating];	
 }
 
-- (void)verifyCredentials_returned:(id)results
+- (void)verifyCredentials_returned:(JsonResponse *)results
 {
 	[self stopLoginProcess];
 	

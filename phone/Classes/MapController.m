@@ -18,12 +18,71 @@
 
 @synthesize broadcastButton;
 @synthesize hashField;
+@synthesize activityIndicator;
 @synthesize overlayView;
 @synthesize previousButton;
 @synthesize nextButton;
 @synthesize usernameLabel;
-@synthesize userIconField;
+@synthesize userIconView;
 @synthesize mapView;
+
+
+//------------------------------------------------------------------
+// Private implementation
+//------------------------------------------------------------------
+
+- (void)hideOverlay
+{	
+	CGRect rect = self.view.frame;	
+	overlayView.frame = CGRectMake(rect.origin.x, rect.origin.y - rect.size.height, rect.size.width, rect.size.height);
+	overlayView.hidden = YES;
+}
+
+- (void)dealloc
+{
+	self.broadcastButton = nil;
+	self.hashField = nil;
+	self.activityIndicator = nil;
+	self.overlayView = nil;
+	self.previousButton = nil;
+	self.nextButton = nil;
+	self.usernameLabel = nil;
+	self.userIconView = nil;
+	self.mapView = nil;
+	
+    [super dealloc];
+}
+
+
+//------------------------------------------------------------------
+// Actions
+//------------------------------------------------------------------
+
+- (IBAction)broadcastButtonPushed:(id)sender
+{
+}
+
+- (IBAction)tweetButtonPushed:(id)sender
+{
+}
+
+- (IBAction)hashFieldTextChanged:(id)sender
+{
+}
+
+- (IBAction)previousButtonPushed:(id)sender
+{
+}
+
+- (IBAction)nextButtonPushed:(id)sender
+{
+}
+
+
+//------------------------------------------------------------------
+// Map View Delegate
+//------------------------------------------------------------------
+
 
 
 //------------------------------------------------------------------
@@ -33,6 +92,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+	[self hideOverlay];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -50,13 +110,6 @@
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.navigationController setNavigationBarHidden:YES animated:animated];	
     [super viewWillAppear:animated];
-}
-
-
-- (void)dealloc
-{
-	
-    [super dealloc];
 }
 
 
