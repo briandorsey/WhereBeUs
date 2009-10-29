@@ -93,7 +93,7 @@
 
 - (void)gotWindowEvent:(UIEvent *)event
 {
-	// if the user clicks away from the text field, blur it
+	// if the text field has focus and the user clicks outside of it, drop the focus
 	if ([self.hashField isFirstResponder])
 	{
 		if ([event type] == UIEventTypeTouches)
