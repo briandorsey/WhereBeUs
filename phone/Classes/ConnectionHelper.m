@@ -54,7 +54,7 @@ static NSString *const kActionValue = @"actionValue";
 + (void)verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password];	
+	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
 }
 
 

@@ -32,7 +32,7 @@ enum
 
 + (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSString *)postData;
 
-- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSData *)thePostData;
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSString *)thePostData;
 - (void)cancel;
 
 @end

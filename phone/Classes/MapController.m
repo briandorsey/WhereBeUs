@@ -16,6 +16,7 @@
 // Properties
 //------------------------------------------------------------------
 
+@synthesize navigationBar;
 @synthesize broadcastButton;
 @synthesize hashField;
 @synthesize activityIndicator;
@@ -40,6 +41,7 @@
 
 - (void)dealloc
 {
+	self.navigationBar = nil;
 	self.broadcastButton = nil;
 	self.hashField = nil;
 	self.activityIndicator = nil;
@@ -86,6 +88,32 @@
 
 
 //------------------------------------------------------------------
+// Tweet Spot Window Delegate
+//------------------------------------------------------------------
+
+- (void)gotWindowEvent:(UIEvent *)event
+{
+	// if the user clicks away from the text field, blur it
+	if ([self.hashField isFirstResponder])
+	{
+		if ([event type] == UIEventTypeTouches)
+		{
+			NSSet *set = [event allTouches];
+			for (UITouch *touch in set)
+			{
+				CGPoint location = [touch locationInView:self.view];
+				if (location.y >= self.navigationBar.frame.size.height)
+				{
+					[self.hashField resignFirstResponder];
+					break;
+				}
+			}
+		}
+	}
+}
+
+
+//------------------------------------------------------------------
 // UIViewController overrides
 //------------------------------------------------------------------
 
@@ -109,7 +137,15 @@
 {
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.navigationController setNavigationBarHidden:YES animated:animated];	
+	[delegate.window setWindowDelegate:self];
     [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+	[delegate.window setWindowDelegate:nil];	
+    [super viewWillDisappear:animated];
 }
 
 

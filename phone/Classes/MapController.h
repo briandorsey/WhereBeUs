@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "AsyncImageView.h"
+#import "TweetSpotWindow.h"
 
-@interface MapController : UIViewController<MKMapViewDelegate> {
+@interface MapController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate> {
 	// top area
+	IBOutlet UINavigationBar *navigationBar;
 	IBOutlet UIBarButtonItem *broadcastButton;
 	IBOutlet UITextField *hashField;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -27,6 +29,7 @@
 	IBOutlet MKMapView *mapView;
 }	
 
+@property (nonatomic, retain) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *broadcastButton;
 @property (nonatomic, retain) IBOutlet UITextField *hashField;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;

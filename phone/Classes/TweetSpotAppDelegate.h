@@ -6,13 +6,15 @@
 //  Copyright Code Orange 2009. All rights reserved.
 //
 
+#import "TweetSpotWindow.h"
+
 @interface TweetSpotAppDelegate : NSObject <UIApplicationDelegate> {
     
-    UIWindow *window;
+    TweetSpotWindow *window;
     UINavigationController *navigationController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet TweetSpotWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 @end
