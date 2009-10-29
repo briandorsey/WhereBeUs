@@ -28,11 +28,14 @@
 
 + (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
 
-+ (void)ts_getUpdatesForHashtag:(NSString *)hashtag;
-+ (void)ts_postUpdateWithTwitterUsername:(NSString *)twitterUsername 
-	twitterFullName:(NSString *)twitterFullName 
-	twitterProfileImageURL:(NSString *)twitterProfileImageURL 
-	hashtag:(NSString *)hashtag 
-	coordinate:(CLLocationCoordinate2D)coordinate;
++ (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag;
+
++ (void)ts_postUpdateWithTarget:(id)target 
+						 action:(SEL)action
+				twitterUsername:(NSString *)twitterUsername 
+				twitterFullName:(NSString *)twitterFullName 
+		 twitterProfileImageURL:(NSString *)twitterProfileImageURL 
+						hashtag:(NSString *)hashtag 
+					 coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

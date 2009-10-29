@@ -58,17 +58,19 @@ static NSString *const kActionValue = @"actionValue";
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
 }
 
-+ (void)ts_getUpdatesForHashtag:(NSString *)hashtag
++ (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://localhost:8080/api/1/hashtag/%@/", hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
 }
 
-+ (void)ts_postUpdateWithTwitterUsername:(NSString *)twitterUsername 
-						 twitterFullName:(NSString *)twitterFullName 
-				  twitterProfileImageURL:(NSString *)twitterProfileImageURL 
-								 hashtag:(NSString *)hashtag 
-							  coordinate:(CLLocationCoordinate2D)coordinate
++ (void)ts_postUpdateWithTarget:(id)target 
+						 action:(SEL)action
+				twitterUsername:(NSString *)twitterUsername 
+				twitterFullName:(NSString *)twitterFullName 
+		 twitterProfileImageURL:(NSString *)twitterProfileImageURL 
+						hashtag:(NSString *)hashtag 
+					 coordinate:(CLLocationCoordinate2D)coordinate
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", nil];
