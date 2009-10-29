@@ -6,14 +6,14 @@
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "TwitterService.h"
+#import "ConnectionHelper.h"
 #import "JsonResponse.h"
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
 
 
-@implementation TwitterService
+@implementation ConnectionHelper
 
 //------------------------------------------------------------------------
 // Helper code to make everything automagical.
@@ -33,7 +33,7 @@ static NSString *const kActionValue = @"actionValue";
 
 + (id)getDelegate
 {
-	static TwitterService *_sing;
+	static ConnectionHelper *_sing;
 	
 	@synchronized (self)
 	{
@@ -53,8 +53,8 @@ static NSString *const kActionValue = @"actionValue";
 
 + (void)verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
 {
-	NSDictionary *d = [TwitterService dictionaryFromTarget:target action:action];
-	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[TwitterService getDelegate] userData:d authUsername:username authPassword:password];	
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password];	
 }
 
 
@@ -66,7 +66,7 @@ static NSString *const kActionValue = @"actionValue";
 {
 	id target;
 	SEL action;
-	[TwitterService expandDictionary:theUserData target:&target action:&action];
+	[ConnectionHelper expandDictionary:theUserData target:&target action:&action];
 	
 	[target performSelector:action withObject:jsonResponse];	
 	
@@ -77,7 +77,7 @@ static NSString *const kActionValue = @"actionValue";
 {
 	id target;
 	SEL action;
-	[TwitterService expandDictionary:theUserData target:&target action:&action];
+	[ConnectionHelper expandDictionary:theUserData target:&target action:&action];
 	
 	[target performSelector:action withObject:nil];	
 	

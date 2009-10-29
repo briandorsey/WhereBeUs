@@ -7,7 +7,7 @@
 //
 
 #import "TwitterCredentialsController.h"
-#import "TwitterService.h"
+#import "ConnectionHelper.h"
 #import "Utilities.h"
 
 
@@ -86,7 +86,7 @@
 - (IBAction)loginButtonPushed:(id)sender
 {
 	[self startLoginProcess];
-	[TwitterService verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
+	[ConnectionHelper verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
 }
 
 - (IBAction)textChanged:(id)sender

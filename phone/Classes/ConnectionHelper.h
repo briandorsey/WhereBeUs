@@ -15,16 +15,15 @@
 #define TWITTER_BIO @"description"
 #define TWITTER_ERROR @"error"
 
-@interface TwitterService : NSObject<JsonConnectionDelegate> {
+@interface ConnectionHelper : NSObject<JsonConnectionDelegate> {
 
 }
 
 
 // This class makes it a little less painful to do async calls to the Twitter API
 // All callback selectors should follow the form:
-//		myCallbackWithResults:(id)results;
+//		myCallbackWithResults:(JsonResponse *)results;
 // If results is nil, an error occured.
-// Otherwise, results is the JSON content (usually typed NSDictionary*) returned by the twitter API call.
 
 + (void)verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
 
