@@ -49,7 +49,7 @@ class HashTagHandler(webapp.RequestHandler):
 class UpdateHandler(webapp.RequestHandler):
     def post(self):
         try:
-            data = simplejson.loads(self.request.body)        
+            data = simplejson.loads(self.request.body.decode('utf8'))
             update = LocationUpdate.get_or_insert(key_name = data['twitter_user_name'])
             update.twitter_user_name = data['twitter_user_name']
             update.twitter_full_name = data['twitter_full_name']
