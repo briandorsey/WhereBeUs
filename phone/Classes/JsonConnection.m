@@ -11,7 +11,7 @@
 #import "JSON.h"
 #import "NSDataAdditions.h"
 
-static NSString *const kREFERER_URL = @"http://ourtweetspot.appspot.com/";
+static NSString *const kREFERER_URL = @"http://ourtweetspot.appspot.com/iphone/";
 static NSString *const kREFERER_HEADER = @"Referer";
 
 @implementation JsonConnection
@@ -23,10 +23,15 @@ static NSString *const kREFERER_HEADER = @"Referer";
 
 + (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword
 {
-	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:theAuthUsername authPassword:theAuthPassword] autorelease];
+	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:theAuthUsername authPassword:theAuthPassword postData:nil] autorelease];
 }
 
-- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword
++ (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSData *)thePostData
+{
+	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:nil authPassword:nil postData:thePostData] autorelease];
+}
+
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSData *)thePostData
 {
 	self = [super init];
 	if (self != nil) 
@@ -47,6 +52,12 @@ static NSString *const kREFERER_HEADER = @"Referer";
 			[request addValue:[NSString stringWithFormat:@"Basic %@", base64] forHTTPHeaderField:@"Authorization"];			
 		}
 		[request setValue:kREFERER_URL forHTTPHeaderField:kREFERER_HEADER];
+		
+		if (postData != nil)
+		{
+			[request setHTTPMethod:@"POST"];
+			[request setHTTPBody:postData];
+		}
 		
 		// Be sure to pre-flight all requests
 		if ([NSURLConnection canHandleRequest:request])
