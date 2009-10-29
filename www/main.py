@@ -13,7 +13,7 @@ def BREAKPOINT():
   p.set_trace()
 
 class LocationUpdate(db.Model):
-    twitter_user_name = db.StringProperty()
+    twitter_username = db.StringProperty()
     twitter_full_name = db.StringProperty()
     twitter_profile_image_url = db.LinkProperty()
     hashtag = db.StringProperty()
@@ -25,33 +25,39 @@ class HashTagHandler(webapp.RequestHandler):
     @staticmethod
     def location_update_dictionary(update):
         return {
-            'twitter_user_name': update.twitter_user_name, 
+            'twitter_username': update.twitter_username, 
             'twitter_full_name': update.twitter_full_name,
             'twitter_profile_image_url': str(update.twitter_profile_image_url),
             'latitude': update.latitude,
             'longitude': update.longitude,
-            'update_datetime': update.update_datetime.isoformat()
+            'update_datetime': update.update_datetime.isoformat(),
         }
 
     def get(self, hashtag):
-        data = []
-        updates = LocationUpdate.all().filter('hashtag =', hashtag).fetch(100)
-        for update in updates:
-            data.append(HashTagHandler.location_update_dictionary(update))
+        try:
+            update_list = []
+            updates = LocationUpdate.all().filter('hashtag =', hashtag).fetch(100)
+            for update in updates:
+                update_list.append(HashTagHandler.location_update_dictionary(update))
+        except:
+            response = {'success': False, 'message': 'Datastore failure', 'call_again_seconds': 15, 'updates': []}
+        else:
+            response = {'success': True, 'message': 'OK', 'call_again_seconds': 15, 'updates': update_list}
+                
         self.response.headers['Content-Type'] = 'application/json'
         callback = self.request.get("callback")
         if callback:
-            data = '%s(%s);' % (callback, simplejson.dumps(data))
+            data = '%s(%s);' % (callback, simplejson.dumps(response))
             self.response.out.write(data)
         else:
-            self.response.out.write(simplejson.dumps(data))
+            self.response.out.write(simplejson.dumps(response))
 
 class UpdateHandler(webapp.RequestHandler):
     def post(self):
         try:
             data = simplejson.loads(self.request.body.decode('utf8'))
-            update = LocationUpdate.get_or_insert(key_name = data['twitter_user_name'])
-            update.twitter_user_name = data['twitter_user_name']
+            update = LocationUpdate.get_or_insert(key_name = data['twitter_username'])
+            update.twitter_username = data['twitter_username']
             update.twitter_full_name = data['twitter_full_name']
             update.twitter_profile_image_url = data['twitter_profile_image_url']
             update.hashtag = data['hashtag']

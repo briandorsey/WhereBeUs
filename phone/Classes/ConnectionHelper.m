@@ -8,6 +8,7 @@
 
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
+#import "NSObject+SBJSON.h"
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
@@ -51,10 +52,28 @@ static NSString *const kActionValue = @"actionValue";
 // Public API
 //------------------------------------------------------------------------
 
-+ (void)verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
++ (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
+}
+
++ (void)ts_getUpdatesForHashtag:(NSString *)hashtag
+{
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://localhost:8080/api/1/hashtag/%@/", hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
+}
+
++ (void)ts_postUpdateWithTwitterUsername:(NSString *)twitterUsername 
+						 twitterFullName:(NSString *)twitterFullName 
+				  twitterProfileImageURL:(NSString *)twitterProfileImageURL 
+								 hashtag:(NSString *)hashtag 
+							  coordinate:(CLLocationCoordinate2D)coordinate
+{
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", nil];
+	NSString *postJson = [postDictionary JSONRepresentation];
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://localhost:8080/api/1/hashtag/%@/", hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:postJson];		
 }
 
 

@@ -86,7 +86,7 @@
 - (IBAction)loginButtonPushed:(id)sender
 {
 	[self startLoginProcess];
-	[ConnectionHelper verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
+	[ConnectionHelper twitter_verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
 }
 
 - (IBAction)textChanged:(id)sender

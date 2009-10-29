@@ -1,3 +1,13 @@
 add cron to expire updates over 2 hours old
 add update_age (in seconds) calculated from update_datetime
-add property for twitter display name
+
+
+Brian -- I made some changes to the service format. All replies have 'success' and 'message' fields 
+in addition to everything else, just to make handling errors (like datastore under high load) a little
+easier.
+
+I realized that the hashtag/foo/ call wasn't actually producing filled dictionaries so I changed
+it. I wasn't sure how you wanted to use the sharedutils stuff so I cut it out... put it back 
+in as desired...
+
+-Dave

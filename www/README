@@ -3,6 +3,14 @@
 API
 ===
 
+response format
+---------------
+
+all responses are JSON dictionaries that contain at least two keys: 'success' and 'message'
+
+
+
+
 update dictionary
 -----------------
 
@@ -10,7 +18,7 @@ This is passed up by the client when their location changes and returned by the
 server.
 
 {
-    "twitter_user_name": "name",
+    "twitter_username": "name",
     "twitter_full_name": "full name",
     "twitter_profile_image_url": "http://someurl",
     "hashtag": "hashtag",
@@ -28,10 +36,14 @@ Update time doesn't need to be sent from the phone -- let our service decide.
 
 GET - returns a list of update dictionaries which match THETAG.
 
+The list of dictionaries is in the 'updates' top level key.
+
 
 /api/1/update/
 --------------
 
 POST - a single update dictionary with (presumably) updated location info. The
-twitter_user_name is used as the DataStore key_name. Any previous data for that
+twitter_username is used as the DataStore key_name. Any previous data for that
 user is overwritten.
+
+Returns success/message and nothing else.

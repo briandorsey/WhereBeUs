@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 #import "JsonConnection.h"
 
 #define TWITTER_FULL_NAME @"name"
@@ -25,6 +26,13 @@
 //		myCallbackWithResults:(JsonResponse *)results;
 // If results is nil, an error occured.
 
-+ (void)verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
++ (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
+
++ (void)ts_getUpdatesForHashtag:(NSString *)hashtag;
++ (void)ts_postUpdateWithTwitterUsername:(NSString *)twitterUsername 
+	twitterFullName:(NSString *)twitterFullName 
+	twitterProfileImageURL:(NSString *)twitterProfileImageURL 
+	hashtag:(NSString *)hashtag 
+	coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end
