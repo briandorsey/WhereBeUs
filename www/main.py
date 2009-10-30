@@ -7,6 +7,8 @@ from django.utils import simplejson
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 
+import sharedutil
+
 def BREAKPOINT():
   import pdb
   p = pdb.Pdb(None, sys.__stdin__, sys.__stdout__)
@@ -25,16 +27,16 @@ class LocationUpdate(db.Model):
 class HashTagHandler(webapp.RequestHandler):
     @staticmethod
     def location_update_dictionary(update):
-        return {
-            'twitter_username': update.twitter_username, 
-            'twitter_full_name': update.twitter_full_name,
-            'twitter_profile_image_url': str(update.twitter_profile_image_url),
-            'hashtag': update.hashtag,
-            'message': update.message,
-            'latitude': update.latitude,
-            'longitude': update.longitude,
-            'update_datetime': update.update_datetime.isoformat(),
-        }
+        location_update = sharedutil.LocationUpdateJSON()
+        location_update.twitter_username = update.twitter_username, 
+        location_update.twitter_full_name = update.twitter_full_name,
+        location_update.twitter_profile_image_url = str(update.twitter_profile_image_url),
+        location_update.hashtag = update.hashtag,
+        location_update.message = update.message,
+        location_update.latitude = update.latitude,
+        location_update.longitude = update.longitude,
+        location_update.update_datetime = update.update_datetime.isoformat(),
+        return location_update
 
     def get(self, hashtag):
         try:
