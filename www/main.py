@@ -17,6 +17,7 @@ class LocationUpdate(db.Model):
     twitter_full_name = db.StringProperty()
     twitter_profile_image_url = db.LinkProperty()
     hashtag = db.StringProperty()
+    message = db.StringProperty()
     latitude = db.FloatProperty()
     longitude = db.FloatProperty()
     update_datetime = db.DateTimeProperty()
@@ -28,6 +29,8 @@ class HashTagHandler(webapp.RequestHandler):
             'twitter_username': update.twitter_username, 
             'twitter_full_name': update.twitter_full_name,
             'twitter_profile_image_url': str(update.twitter_profile_image_url),
+            'hashtag': update.hashtag,
+            'message': update.message,
             'latitude': update.latitude,
             'longitude': update.longitude,
             'update_datetime': update.update_datetime.isoformat(),

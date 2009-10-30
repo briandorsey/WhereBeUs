@@ -76,5 +76,23 @@ def test_post_update():
     check_json_response(json_response)
     assert json_response['success'] == True
 
+    url = base_url + '/api/1/hashtag/posttag/'
+    resp, content = h.request(url, 'GET')
+    print url
+    assert resp['status'] == '200'
+    print resp
+    print content
+    json_response = simplejson.loads(content)
+    print json_response
+    check_json_response(json_response)
+    assert 'call_again_seconds' in json_response
+    assert 'updates' in json_response
+    assert len(json_response['updates']) == 1
+    update_data = json_response['updates'][0]
+    for key in sharedutil.LocationUpdateJSON().__allowed_attributes__:
+        print key
+        assert key in update_data
+
+
 # TODO: add a test for malformed update json - make sure it returns 400 or 500
 # http codes for errors
