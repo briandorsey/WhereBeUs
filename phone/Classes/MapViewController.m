@@ -6,10 +6,10 @@
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "MapController.h"
+#import "MapViewController.h"
 #import "TweetSpotAppDelegate.h"
 
-@implementation MapController
+@implementation MapViewController
 
 
 //------------------------------------------------------------------

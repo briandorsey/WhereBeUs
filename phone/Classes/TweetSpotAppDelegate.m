@@ -7,35 +7,52 @@
 //
 
 #import "TweetSpotAppDelegate.h"
-
+#import "TweetSpotState.h"
+#import "MapViewController.h"
 
 @implementation TweetSpotAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
 
+- (void)showMapViewController
+{
+	MapViewController *mapViewController = [[[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil] autorelease];
+	[navigationController pushViewController:mapViewController animated:NO];
+}
 
-#pragma mark -
-#pragma mark Application lifecycle
+- (void)applicationDidFinishLaunching:(UIApplication *)application 
+{   
+	// Load our application state (potentially from a file)
+	TweetSpotState *state = [TweetSpotState shared];
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
-    
-    // Override point for customization after app launch    
+	// because of the way MainWindow.xib is set up, our navigation controller
+	// already has the twitter credentials view pushed onto it
 	
+	if (state.hasTwitterCredentials)
+	{
+		// but we already have valid credentials, so manually
+		// inflate the Map xib and push it onto the navigation hierarchy
+		[self showMapViewController];
+	}
+
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 }
 
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-	// Save data if appropriate
+- (void)applicationWillTerminate:(UIApplication *)application 
+{
+	TweetSpotState *state = [TweetSpotState shared];
+	
+	if (state.isDirty)
+	{
+		[state save];
+	}
 }
 
-
-#pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc {
+- (void)dealloc 
+{
 	[navigationController release];
 	[window release];
 	[super dealloc];

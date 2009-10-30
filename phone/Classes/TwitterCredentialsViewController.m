@@ -6,12 +6,14 @@
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "TwitterCredentialsController.h"
+#import "TwitterCredentialsViewController.h"
 #import "ConnectionHelper.h"
 #import "Utilities.h"
 #import "JsonResponse.h"
+#import "TweetSpotState.h"
+#import "TweetSpotAppDelegate.h"
 
-@implementation TwitterCredentialsController
+@implementation TwitterCredentialsViewController
 
 //-----------------------------------------------------------------------
 // Private Stuff
@@ -79,8 +81,17 @@
 		return;
 	}
 	
-	NSString *bio = [dictionary valueForKey:TWITTER_BIO];
-	[Utilities displayModalAlertWithTitle:@"Your Bio" message:bio buttonTitle:@"OK"];
+	// Success! Remember the twitter account information.
+	TweetSpotState *state = [TweetSpotState shared];
+	state.twitterUsername = [[[self.usernameField text] copy] autorelease];
+	state.twitterPassword = [[[self.passwordField text] copy] autorelease];
+	state.twitterFullName = [dictionary valueForKey:TWITTER_FULL_NAME];
+	state.twitterProfileImageURL = [dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL];
+	[state save];
+	
+	// Now go to the map.
+	TweetSpotAppDelegate *app = [[UIApplication sharedApplication] delegate];
+	[app showMapViewController];	
 }
 
 - (IBAction)loginButtonPushed:(id)sender
@@ -89,7 +100,7 @@
 	[ConnectionHelper twitter_verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
 }
 
-- (IBAction)textChanged:(id)sender
+- (void)setAppropriateStateForLoginButton
 {
 	NSString *username = [self.usernameField text];
 	NSString *password = [self.passwordField text];
@@ -103,6 +114,11 @@
 	}		
 }
 
+- (IBAction)textChanged:(id)sender
+{
+	[self setAppropriateStateForLoginButton];
+}
+
 
 //-----------------------------------------------------------------------
 // UIViewController overrides
@@ -111,10 +127,25 @@
 - (void)viewDidLoad 
 {
 	// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-    [super viewDidLoad];
-	
+    [super viewDidLoad];	
 	[self.loginButton setTitleColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] forState:UIControlStateDisabled];
-	[self disableLoginButton];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	TweetSpotState *state = [TweetSpotState shared];
+	if (state.hasTwitterCredentials)
+	{
+		[self.usernameField setText:state.twitterUsername];
+		[self.passwordField setText:state.twitterPassword];
+	}
+	else
+	{
+		[self.usernameField setText:@""];
+		[self.passwordField setText:@""];
+	}
+
+	[self setAppropriateStateForLoginButton];
 	[self.usernameField becomeFirstResponder];
 }
 

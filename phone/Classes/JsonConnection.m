@@ -102,12 +102,9 @@ static NSString *const kREFERER_HEADER = @"Referer";
 
 - (void)connection:(NSURLConnection *)theConnection didReceiveResponse:(NSURLResponse *)theResponse
 {
-	if (response != nil)
-	{
-		// according to the URL Loading System guide, it is possible to receive 
-		// multiple responses in some cases (server redirects; multi-part MIME responses; etc)
-		[response release];
-	}
+	// according to the URL Loading System guide, it is possible to receive 
+	// multiple responses in some cases (server redirects; multi-part MIME responses; etc)
+	[response release];
 	response = [theResponse retain];
 }
 

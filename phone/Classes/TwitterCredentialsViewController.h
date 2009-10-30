@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface TwitterCredentialsController : UIViewController {
+@interface TwitterCredentialsViewController : UIViewController {
 	IBOutlet UITextField *usernameField;
 	IBOutlet UITextField *passwordField;
 	IBOutlet UIButton *loginButton;

@@ -11,7 +11,7 @@
 #import "AsyncImageView.h"
 #import "TweetSpotWindow.h"
 
-@interface MapController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate> {
 	// top area
 	IBOutlet UINavigationBar *navigationBar;
 	IBOutlet UIBarButtonItem *broadcastButton;
