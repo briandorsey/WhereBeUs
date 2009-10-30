@@ -16,23 +16,32 @@
 @interface TweetSpotState : NSObject<NSCoding, NSCopying> {
 	NSString *twitterUsername;
 	NSString *twitterPassword;
+	NSString *twitterFullName;
+	NSString *twitterProfileImageURL;
 	NSString *currentHashtag;
 	NSString *currentMessage;
+	
+	BOOL isDirty;
 }
 
 + (TweetSpotState *)shared;
 
+- (BOOL)isDirty;
+- (void)save;
+
 - (BOOL)hasTwitterCredentials;
-- (BOOL)hasHashtag;
-- (BOOL)hasMessage;
 
 - (NSString *)twitterUsername;
 - (NSString *)twitterPassword;
+- (NSString *)twitterFullName;
+- (NSString *)twitterProfileImageURL;
 - (NSString *)currentHashtag;
 - (NSString *)currentMessage;
 
 - (void)setTwitterUsername:(NSString *)newTwitterUsername;
 - (void)setTwitterPassword:(NSString *)newTwitterPassword;
+- (void)setTwitterFullName:(NSString *)newTwitterFullName;
+- (void)setTwitterProfileImageURL:(NSString *)newTwitterProfileImageURL;
 - (void)setCurrentHashtag:(NSString *)newCurrentHashtag;
 - (void)setCurrentMessage:(NSString *)newCurrentMessage;
 

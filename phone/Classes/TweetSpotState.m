@@ -12,6 +12,8 @@ static NSString *const kTweetSpotStateFileName = @"tweetspot.state";
 
 static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
+static NSString *const kTwitterFullNameKey = @"twitter_full_name";
+static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url";
 static NSString *const kCurrentHashtagKey = @"current_hashtag";
 static NSString *const kCurrentMessageKey = @"current_message";
 
@@ -83,24 +85,26 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	return _shared;
 }
 
-- (void)saveStateFile
+- (void)save
 {
-	@try
+	if (isDirty)
 	{
-		[NSKeyedArchiver archiveRootObject:self toFile:[TweetSpotState filePath]];
-	}
-	@catch (id exception)
-	{
-		// no-op -- not the end of the world if we fail to save state 
-		// (though definitely SURPRISING!)
+		@try
+		{
+			[NSKeyedArchiver archiveRootObject:self toFile:[TweetSpotState filePath]];
+			isDirty = NO;
+		}
+		@catch (id exception)
+		{
+			// no-op -- not the end of the world if we fail to save state 
+			// (though definitely SURPRISING!)
+		}
 	}
 }
 
 - (void)propertyChanged
 {
-	// I originally just had this mark dirty, and had a separate
-	// "save" routine -- but this is probably easier overall.
-	[self saveStateFile];
+	isDirty = YES;
 }
 
 #pragma mark Init/Dealloc
@@ -109,8 +113,11 @@ static NSString *const kCurrentMessageKey = @"current_message";
 {
 	twitterUsername = nil;
 	twitterPassword = nil;
+	twitterFullName = nil;
+	twitterProfileImageURL = nil;
 	currentHashtag = nil;
 	currentMessage = nil;
+	isDirty = NO;
 }
 
 - (id)init
@@ -127,6 +134,8 @@ static NSString *const kCurrentMessageKey = @"current_message";
 {	
 	[twitterUsername release];
 	[twitterPassword release];
+	[twitterFullName release];
+	[twitterProfileImageURL release];
 	[currentHashtag release];
 	[currentMessage release];
 	[super dealloc];
@@ -139,14 +148,9 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	return (twitterUsername != nil) && (twitterPassword != nil);
 }
 
-- (BOOL)hasHashtag
+- (BOOL)isDirty
 {
-	return (currentHashtag != nil);
-}
-
-- (BOOL)hasMessage
-{
-	return (currentMessage != nil);
+	return isDirty;
 }
 
 - (NSString *)twitterUsername
@@ -157,6 +161,16 @@ static NSString *const kCurrentMessageKey = @"current_message";
 - (NSString *)twitterPassword
 {
 	return twitterPassword;
+}
+
+- (NSString *)twitterFullName
+{
+	return twitterFullName;
+}
+
+- (NSString *)twitterProfileImageURL
+{
+	return twitterProfileImageURL;
 }
 
 - (NSString *)currentHashtag
@@ -180,6 +194,20 @@ static NSString *const kCurrentMessageKey = @"current_message";
 {
 	[twitterPassword autorelease];
 	twitterPassword = [newTwitterPassword retain];
+	[self propertyChanged];
+}
+
+- (void)setTwitterFullName:(NSString *)newTwitterFullName
+{
+	[twitterFullName autorelease];
+	twitterFullName = [newTwitterFullName retain];
+	[self propertyChanged];
+}
+
+- (void)setTwitterProfileImageURL:(NSString *)newTwitterProfileImageURL
+{
+	[twitterProfileImageURL autorelease];
+	twitterProfileImageURL = [newTwitterProfileImageURL retain];
 	[self propertyChanged];
 }
 
@@ -208,6 +236,8 @@ static NSString *const kCurrentMessageKey = @"current_message";
 {
 	[encoder encodeObject:twitterUsername forKey:kTwitterUsernameKey];
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
+	[encoder encodeObject:twitterFullName forKey:kTwitterFullNameKey];
+	[encoder encodeObject:twitterProfileImageURL forKey:kTwitterProfileImageURLKey];
 	[encoder encodeObject:currentHashtag forKey:kCurrentHashtagKey];
 	[encoder encodeObject:currentMessage forKey:kCurrentMessageKey];
 }
@@ -221,6 +251,8 @@ static NSString *const kCurrentMessageKey = @"current_message";
 		[self setDefaults];
 		self.twitterUsername = [decoder decodeObjectForKey:kTwitterUsernameKey];
 		self.twitterPassword = [decoder decodeObjectForKey:kTwitterPasswordKey];
+		self.twitterFullName = [decoder decodeObjectForKey:kTwitterFullNameKey];
+		self.twitterProfileImageURL = [decoder decodeObjectForKey:kTwitterProfileImageURLKey];
 		self.currentHashtag = [decoder decodeObjectForKey:kCurrentHashtagKey];
 		self.currentMessage = [decoder decodeObjectForKey:kCurrentMessageKey];
 	}
@@ -236,6 +268,8 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	
 	copy.twitterUsername = [[twitterUsername copy] autorelease];
 	copy.twitterPassword = [[twitterPassword copy] autorelease];
+	copy.twitterFullName = [[twitterFullName copy] autorelease];
+	copy.twitterProfileImageURL = [[twitterProfileImageURL copy] autorelease];
 	copy.currentHashtag = [[currentHashtag copy] autorelease];
 	copy.currentMessage = [[currentMessage copy] autorelease];
 	
