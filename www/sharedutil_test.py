@@ -9,7 +9,7 @@ base_url = "http://localhost:8082"
 
 def create_LocationUpdateJSON():
     update = sharedutil.LocationUpdateJSON()
-    update.twitter_user_name = 'name'
+    update.twitter_username = 'name'
     update.hashtag = 'hashtag'
     update.twitter_profile_image_url = 'http://someurl'
     update.latitude = 123.456
@@ -39,16 +39,20 @@ def test_get_root():
     print content
 
 def test_get_updates():
-    url = base_url + '/api/1/hashtag/testtag'
+    url = base_url + '/api/1/hashtag/testtag/'
     h = httplib2.Http()
     resp, content = h.request(url, 'GET')
     print url
     assert resp['status'] == '200'
     print resp
     print content
-    json_data = simplejson.loads(content)
-    print json_data
-    assert len(json_data) == 0
+    json_response = simplejson.loads(content)
+    print json_response
+    assert 'success' in json_response
+    assert 'message' in json_response
+    assert 'call_again_seconds' in json_response
+    assert 'updates' in json_response
+    assert len(json_response['updates']) == 0
 
 def test_post_update():
     url = base_url + '/api/1/update/'
