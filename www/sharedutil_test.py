@@ -10,6 +10,7 @@ base_url = "http://localhost:8082"
 def create_LocationUpdateJSON():
     update = sharedutil.LocationUpdateJSON()
     update.twitter_username = 'name'
+    update.twitter_full_name = 'Full Name'
     update.hashtag = 'hashtag'
     update.twitter_profile_image_url = 'http://someurl'
     update.latitude = 123.456
@@ -17,6 +18,10 @@ def create_LocationUpdateJSON():
     update.message = "this is the message"
     update.update_datetime = datetime.datetime.utcnow().isoformat()
     return update
+
+def check_json_response(response):
+    assert 'success' in response
+    assert 'message' in response
 
 def test_LocationUpdateJSON():
     update = create_LocationUpdateJSON()
@@ -48,8 +53,7 @@ def test_get_updates():
     print content
     json_response = simplejson.loads(content)
     print json_response
-    assert 'success' in json_response
-    assert 'message' in json_response
+    check_json_response(json_response)
     assert 'call_again_seconds' in json_response
     assert 'updates' in json_response
     assert len(json_response['updates']) == 0
@@ -68,8 +72,9 @@ def test_post_update():
     print resp
     print content
     assert resp['status'] == '200'
-    returned_data = simplejson.loads(content)
-    # TODO: do we want to assert that the return is the update? or, should we
-    # return the hashtag query instead?
-    # assert json_data == returned_data
+    json_response = simplejson.loads(content)
+    check_json_response(json_response)
+    assert json_response['success'] == True
 
+# TODO: add a test for malformed update json - make sure it returns 400 or 500
+# http codes for errors
