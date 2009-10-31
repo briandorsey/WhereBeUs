@@ -13,9 +13,7 @@
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate> {
 	// top area
-	IBOutlet UINavigationBar *navigationBar;
 	IBOutlet UIBarButtonItem *broadcastButton;
-	IBOutlet UITextField *hashField;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	
 	// overlay area
@@ -29,9 +27,7 @@
 	IBOutlet MKMapView *mapView;
 }	
 
-@property (nonatomic, retain) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *broadcastButton;
-@property (nonatomic, retain) IBOutlet UITextField *hashField;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) IBOutlet UIView *overlayView;
 @property (nonatomic, retain) IBOutlet UIButton *previousButton;

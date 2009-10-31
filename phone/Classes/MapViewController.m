@@ -16,9 +16,7 @@
 // Properties
 //------------------------------------------------------------------
 
-@synthesize navigationBar;
 @synthesize broadcastButton;
-@synthesize hashField;
 @synthesize activityIndicator;
 @synthesize overlayView;
 @synthesize previousButton;
@@ -41,9 +39,7 @@
 
 - (void)dealloc
 {
-	self.navigationBar = nil;
 	self.broadcastButton = nil;
-	self.hashField = nil;
 	self.activityIndicator = nil;
 	self.overlayView = nil;
 	self.previousButton = nil;
@@ -94,7 +90,7 @@
 - (void)gotWindowEvent:(UIEvent *)event
 {
 	// if the text field has focus and the user clicks outside of it, drop the focus
-	if ([self.hashField isFirstResponder])
+	if ([self.navigationItem.titleView isFirstResponder])
 	{
 		if ([event type] == UIEventTypeTouches)
 		{
@@ -102,9 +98,9 @@
 			for (UITouch *touch in set)
 			{
 				CGPoint location = [touch locationInView:self.view];
-				if (location.y >= self.navigationBar.frame.size.height)
+				if (location.y >= 42)
 				{
-					[self.hashField resignFirstResponder];
+					[self.navigationItem.titleView resignFirstResponder];
 					break;
 				}
 			}
@@ -116,6 +112,23 @@
 //------------------------------------------------------------------
 // UIViewController overrides
 //------------------------------------------------------------------
+
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self != nil) 
+	{
+		TweetSpotAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+		UINavigationController *navigationController = appDelegate.navigationController;
+		CGRect navigationFrame = navigationController.navigationBar.frame;
+		UITextField *hashView = [[UITextField alloc] initWithFrame:CGRectMake(0, navigationFrame.origin.y + 5, 150.0, navigationFrame.size.height - 8)];
+		hashView.borderStyle = UITextBorderStyleBezel;
+		hashView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
+		hashView.placeholder = @"hash tag";
+		self.navigationItem.titleView = hashView;
+    }
+    return self;
+}
 
 - (void)viewDidLoad 
 {
@@ -136,7 +149,6 @@
 - (void)viewWillAppear:(BOOL)animated 
 {
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-	[delegate.navigationController setNavigationBarHidden:YES animated:animated];	
 	[delegate.window setWindowDelegate:self];
     [super viewWillAppear:animated];
 }

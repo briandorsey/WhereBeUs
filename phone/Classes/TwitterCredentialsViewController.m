@@ -39,7 +39,6 @@
 @synthesize loginButton;
 @synthesize activityIndicator;
 
-
 - (void)startLoginProcess
 {
 	[self disableLoginButton];
@@ -91,7 +90,7 @@
 	
 	// Now go to the map.
 	TweetSpotAppDelegate *app = [[UIApplication sharedApplication] delegate];
-	[app showMapViewController];	
+	[app showMapViewController:YES];	
 }
 
 - (IBAction)loginButtonPushed:(id)sender
@@ -124,11 +123,21 @@
 // UIViewController overrides
 //-----------------------------------------------------------------------
 
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
+{
+    self = [super initWithNibName:nibName bundle:nibBundle];
+    if (self != nil) 
+	{
+		self.navigationItem.title = @"Login";
+    }
+    return self;
+}
+
 - (void)viewDidLoad 
 {
-	// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
     [super viewDidLoad];	
 	[self.loginButton setTitleColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] forState:UIControlStateDisabled];
+	[self.usernameField setClearsOnBeginEditing:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -17,7 +17,7 @@
 @property (nonatomic, retain) IBOutlet TweetSpotWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
-- (void)showMapViewController;
+- (void)showMapViewController:(BOOL)animated;
 
 @end
 
