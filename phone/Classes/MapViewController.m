@@ -14,6 +14,7 @@
 #import "JsonResponse.h"
 
 static const NSTimeInterval kUpdateTimerSeconds = 15;
+#define kDefaultLatLonSpan 0.05
 
 @implementation MapViewController
 
@@ -198,6 +199,25 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	return YES;
 }
 
+//------------------------------------------------------------------
+// Map View Management
+//------------------------------------------------------------------
+
+- (void)centerAndZoomOnCoordinate:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated
+{
+	// Region and Zoom
+	MKCoordinateRegion region;
+	MKCoordinateSpan span;
+	
+	span.latitudeDelta = kDefaultLatLonSpan;
+	span.longitudeDelta = kDefaultLatLonSpan;
+	
+	region.span = span;
+	region.center = coordinate;
+	
+	[mapView setRegion:	[mapView regionThatFits:region]	animated:animated];
+}
+
 
 //------------------------------------------------------------------
 // Location Manager Delegate
@@ -240,7 +260,11 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 		{
 			currentCoordinate = newLocation.coordinate;
-			hasCoordinate = YES;
+			if (!hasCoordinate)
+			{
+				hasCoordinate = YES;
+				[self centerAndZoomOnCoordinate:currentCoordinate animated:YES];
+			}
 			[self updateServiceWithLocation];
 		}
 	}
@@ -250,12 +274,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
 	// XXX TODO
 }
-
-
-//------------------------------------------------------------------
-// Map View Delegate
-//------------------------------------------------------------------
-
 
 
 //------------------------------------------------------------------
@@ -329,7 +347,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		locationManager.distanceFilter = 100; /* don't update unless you've moved 100 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
-		[locationManager startUpdatingLocation];		
+		[locationManager startUpdatingLocation];			
     }
     return self;
 }
