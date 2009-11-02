@@ -12,6 +12,7 @@
 #import "Utilities.h"
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
+#import "UpdateAnnotation.h"
 
 static const NSTimeInterval kUpdateTimerSeconds = 15;
 #define kDefaultLatLonSpan 0.05
@@ -45,14 +46,25 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		if (success)
 		{
 			NSArray *updates = [dictionary objectForKey:@"updates"];
-			NSMutableString *all_names_hack = [NSMutableString stringWithString:@"All names: "];
 			
 			for (NSDictionary *update in updates)
 			{
-				[all_names_hack appendFormat:@"%@, ", [update objectForKey:@"twitter_username"]];
+				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
+				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
+				
+				// XXX TODO deal with annotations that go away
+				
+				if (annotation == nil)
+				{
+					annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
+					[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
+					[self.mapView addAnnotation:annotation];
+				}
+				else
+				{
+					[annotation updateWithDictionary:update];
+				}
 			}
-			
-			NSLog(@"Got updates: %@", all_names_hack);
 		}
 		
 	}
@@ -116,6 +128,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	self.usernameLabel = nil;
 	self.userIconView = nil;
 	self.mapView = nil;
+	
+	[twitterUsernameToAnnotation release];
 	
 	[locationManager stopUpdatingLocation];
 	[locationManager release];
@@ -316,6 +330,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		updatingLocation = NO;
 		gettingLocationUpdates = NO;
 		hasCoordinate = NO;
+		twitterUsernameToAnnotation = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
 
 		// Do some UI junk
 		TweetSpotAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -347,7 +362,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		locationManager.distanceFilter = 100; /* don't update unless you've moved 100 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
-		[locationManager startUpdatingLocation];			
+		[locationManager startUpdatingLocation];
     }
     return self;
 }
