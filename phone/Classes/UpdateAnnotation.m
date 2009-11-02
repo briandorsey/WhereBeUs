@@ -45,6 +45,7 @@
 
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
+	// XXX TODO error handling
 	self.twitterUsername = (NSString *)[dictionary objectForKey:@"twitter_username"];
 	self.twitterFullName = (NSString *)[dictionary objectForKey:@"twitter_full_name"];
 	self.twitterProfileImageURL = [NSURL URLWithString:(NSString *)[dictionary objectForKey:@"twitter_profile_image_url"]];
@@ -53,7 +54,7 @@
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"longitude"] doubleValue];
 	
 	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
 	self.lastUpdate = [dateFormatter dateFromString:(NSString *)[dictionary objectForKey:@"update_datetime"]];	
 }
 
