@@ -30,6 +30,9 @@
 	
 	CLLocationCoordinate2D currentCoordinate;
 	BOOL hasCoordinate;
+	
+	// keep this handy for performance
+	NSMutableDictionary *twitterUsernameToAnnotation;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *overlayView;

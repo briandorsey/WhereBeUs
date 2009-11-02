@@ -14,6 +14,7 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		550721DB109B98BC0025B4FA /* TweetSpotState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* TweetSpotState.m */; };
+		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		557191791098F5980059E40F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557191781098F5980059E40F /* MapViewController.xib */; };
 		5571917D1098F5B60059E40F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5571917C1098F5B60059E40F /* MapViewController.m */; };
 		55719184109904BF0059E40F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55719183109904BF0059E40F /* AsyncImageView.m */; };
@@ -52,6 +53,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		550721D9109B98BC0025B4FA /* TweetSpotState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpotState.h; sourceTree = "<group>"; };
 		550721DA109B98BC0025B4FA /* TweetSpotState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotState.m; sourceTree = "<group>"; };
+		550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotation.h; sourceTree = "<group>"; };
+		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		557191781098F5980059E40F /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		5571917B1098F5B60059E40F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		5571917C1098F5B60059E40F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				55AC0FDF109E8CB400101F7F /* Utilities */,
 				55AC0FE0109E8CC800101F7F /* Networking */,
 				55AC0FE1109E8CDF00101F7F /* Interface */,
+				550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */,
+				550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */,
 				1D3623240D0F684500981E51 /* TweetSpotAppDelegate.h */,
 				1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */,
 				550721D9109B98BC0025B4FA /* TweetSpotState.h */,
@@ -335,6 +340,7 @@
 				55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */,
 				55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */,
 				55AC0FF3109E8D7B00101F7F /* TweetViewController.m in Sources */,
+				550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
