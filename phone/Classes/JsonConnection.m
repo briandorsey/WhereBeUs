@@ -123,6 +123,7 @@ static NSString *const kREFERER_HEADER = @"Referer";
 {
 	if (data == nil || response == nil)
 	{
+		NSLog(@"data was: %@ and response was: %@", data, response);
 		[delegate jsonConnection:self didFailWithError:[NSError errorWithDomain:@"JsonConnection" code:JsonConnectionError_Network_Failure userInfo:nil] userData:userData];
 		[connection release];
 		connection = nil;

@@ -12,6 +12,8 @@
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
+static NSString *const kServiceBaseURL = @"http://localhost:8080";
+// static NSString *const kServiceBaseURL = @"http://ourtweetspot.appspot.com";
 
 
 @implementation ConnectionHelper
@@ -61,7 +63,7 @@ static NSString *const kActionValue = @"actionValue";
 + (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://ourtweetspot.appspot.com/api/1/hashtag/%@/", hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/hashtag/%@/", kServiceBaseURL, hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
 }
 
 + (void)ts_postUpdateWithTarget:(id)target 
@@ -75,7 +77,7 @@ static NSString *const kActionValue = @"actionValue";
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", nil];
 	NSString *postJson = [postDictionary JSONRepresentation];
-	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://ourtweetspot.appspot.com/api/1/hashtag/%@/", hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:postJson];		
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:postJson];		
 }
 
 

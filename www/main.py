@@ -28,14 +28,14 @@ class HashTagHandler(webapp.RequestHandler):
     @staticmethod
     def location_update_dictionary(update):
         location_update = sharedutil.LocationUpdateJSON()
-        location_update.twitter_username = update.twitter_username, 
-        location_update.twitter_full_name = update.twitter_full_name,
-        location_update.twitter_profile_image_url = str(update.twitter_profile_image_url),
-        location_update.hashtag = update.hashtag,
-        location_update.message = update.message,
-        location_update.latitude = update.latitude,
-        location_update.longitude = update.longitude,
-        location_update.update_datetime = update.update_datetime.isoformat(),
+        location_update.twitter_username = update.twitter_username
+        location_update.twitter_full_name = update.twitter_full_name
+        location_update.twitter_profile_image_url = str(update.twitter_profile_image_url)
+        location_update.hashtag = update.hashtag
+        location_update.message = update.message
+        location_update.latitude = update.latitude
+        location_update.longitude = update.longitude
+        location_update.update_datetime = update.update_datetime.isoformat()
         return location_update
 
     def get(self, hashtag):
@@ -56,6 +56,8 @@ class HashTagHandler(webapp.RequestHandler):
             self.response.out.write(data)
         else:
             self.response.out.write(simplejson.dumps(response))
+            sys.__stdout__.write(simplejson.dumps(response))
+            sys.__stdout__.flush()
 
 class UpdateHandler(webapp.RequestHandler):
     def post(self):
