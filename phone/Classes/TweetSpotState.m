@@ -213,6 +213,15 @@ static NSString *const kCurrentMessageKey = @"current_message";
 
 - (void)setCurrentHashtag:(NSString *)newCurrentHashtag
 {
+	if (currentHashtag != nil)
+	{
+		if ([currentHashtag isEqualToString:newCurrentHashtag])
+		{
+			// NO-OP
+			return;
+		}
+	}
+	
 	[currentHashtag autorelease];
 	currentHashtag = [newCurrentHashtag retain];
 	

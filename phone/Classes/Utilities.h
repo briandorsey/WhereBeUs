@@ -15,5 +15,4 @@
 
 +(void)displayModalAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle;
 
-
 @end

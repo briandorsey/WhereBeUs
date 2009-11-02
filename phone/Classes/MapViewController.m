@@ -131,6 +131,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (IBAction)tweetButtonPushed:(id)sender
 {
+	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate showTweetViewController:YES]; 
 }
 
 - (IBAction)hashtagFieldTextChanged:(id)sender
@@ -163,6 +165,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	{
 		state.currentHashtag = self.hashtagField.text;
 		[state save];
+		
+		// new hashtag -- let the service know!
+		[self updateServiceWithLocation];
 		
 		if ([state.currentHashtag length] > 0)
 		{
@@ -214,6 +219,17 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	// XXX TODO -- think we want to use a timer for post/get
 }
 
+- (void)updateServiceWithLocation
+{
+	if (hasCoordinate)
+	{
+		TweetSpotState *state = [TweetSpotState shared];
+		updatingLocation = YES;
+		NSLog(@"Got location, updating service!");
+		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:currentCoordinate];
+	}
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	NSLog(@"Got location.");
@@ -223,9 +239,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		NSLog(@"Got location, thinking about updating service.");
 		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 		{
-			updatingLocation = YES;
-			NSLog(@"Got location, updating service!");
-			[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:newLocation.coordinate];		
+			currentCoordinate = newLocation.coordinate;
+			hasCoordinate = YES;
+			[self updateServiceWithLocation];
 		}
 	}
 }
@@ -278,11 +294,17 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
+		// set up basic state
+		updatingLocation = NO;
+		gettingLocationUpdates = NO;
+		hasCoordinate = NO;
+
+		// Do some UI junk
 		TweetSpotAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 		UINavigationController *navigationController = appDelegate.navigationController;
 		CGRect navigationFrame = navigationController.navigationBar.frame;
 		
-		// wire up the hash view
+		// wire up the hash textfield -- it is (currently) the title of the navigation item, which is a little odd?
 		UITextField *hashtagView = [[UITextField alloc] initWithFrame:CGRectMake(0, navigationFrame.origin.y + 5, 150.0, navigationFrame.size.height - 8)];
 		hashtagView.borderStyle = UITextBorderStyleBezel;
 		hashtagView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
@@ -294,8 +316,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		if ([[TweetSpotState shared].currentHashtag length] > 0)
 		{
 			[self startWatchingForUpdates];
-		}
-			
+		}			
 		hashtagView.delegate = self;		
 		self.navigationItem.titleView = hashtagView;		
 		[(UIControl *)self.navigationItem.titleView addTarget:self action:@selector(hashtagFieldTextChanged:) forControlEvents:UIControlEventEditingChanged];
@@ -308,10 +329,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		locationManager.distanceFilter = 100; /* don't update unless you've moved 100 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
-		[locationManager startUpdatingLocation];
-		
-		// set up state
-		updatingLocation = NO;
+		[locationManager startUpdatingLocation];		
     }
     return self;
 }
@@ -341,6 +359,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+	[self updateCurrentHashtag];
+	
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
     [super viewWillDisappear:animated];

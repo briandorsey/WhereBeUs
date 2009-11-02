@@ -10,6 +10,7 @@
 #import "TweetSpotState.h"
 #import "TwitterCredentialsViewController.h"
 #import "MapViewController.h"
+#import "TweetViewController.h"
 
 @implementation TweetSpotAppDelegate
 
@@ -20,6 +21,17 @@
 {
 	MapViewController *mapViewController = [[[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil] autorelease];
 	[navigationController pushViewController:mapViewController animated:animated];
+}
+
+- (void)showTweetViewController:(BOOL)animated
+{
+	TweetViewController *tweetViewController = [[[TweetViewController alloc] initWithNibName:@"TweetViewController" bundle:nil] autorelease];
+	[navigationController pushViewController:tweetViewController animated:animated];	
+}
+
+- (void)popViewController:(BOOL)animated
+{
+	[navigationController popViewControllerAnimated:YES];	
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 

@@ -67,7 +67,7 @@ static NSString *const kServiceBaseURL = @"http://ourtweetspot.appspot.com";
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:message, @"status", nil];
-	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.format" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
+	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
 + (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
