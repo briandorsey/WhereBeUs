@@ -1,18 +1,17 @@
 //
-//  NSDataAdditions.m
+//  NSData+Base64Encoding.m
 //  TweetSpot
 //
 //  Based on public domain code found at CocoaDev
 //  (I FIND THIS CODE VERY UGLY AND WANT TO FIX IT)
 //
 
-#import "NSDataAdditions.h"
-
+#import "NSData+Base64Encoding.h"
 
 static const char encodingTable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 
-@implementation NSData (NSDataBase64Additions)
+@implementation NSData (Base64Encoding)
 
 + (id)dataWithBase64EncodedString:(NSString *)string;
 {

@@ -1,5 +1,5 @@
 //
-//  NSDataAdditions.h
+//  NSData+Base64Encoding.h
 //  TweetSpot
 //
 //  Created by Dave Peck on 10/27/09.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSData (NSDataBase64Additions)
+@interface NSData (Base64Encoding)
 
 + (id)dataWithBase64EncodedString:(NSString *)string;     //  Padding '=' characters are optional. Whitespace is ignored.
 - (NSString *)base64Encoding;

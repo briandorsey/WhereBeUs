@@ -25,7 +25,7 @@
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
 		55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FA7109E875F00101F7F /* NSString+PostData.m */; };
 		55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */; };
-		55D1CC821098190500FD9606 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSDataAdditions.m */; };
+		55D1CC821098190500FD9606 /* NSData+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */; };
 		55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */; };
 		55D1CCC91098211A00FD9606 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CCC81098211A00FD9606 /* Utilities.m */; };
 		55D919A81098046F008CB1BF /* JsonConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919A51098046F008CB1BF /* JsonConnection.m */; };
@@ -68,8 +68,8 @@
 		55AC0FA7109E875F00101F7F /* NSString+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PostData.m"; sourceTree = "<group>"; };
 		55AC0FAD109E87DD00101F7F /* NSDictionary+PostData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PostData.h"; sourceTree = "<group>"; };
 		55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PostData.m"; sourceTree = "<group>"; };
-		55D1CC801098190500FD9606 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
-		55D1CC811098190500FD9606 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
+		55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Encoding.h"; sourceTree = "<group>"; };
+		55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Encoding.m"; sourceTree = "<group>"; };
 		55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionHelper.h; sourceTree = "<group>"; };
 		55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionHelper.m; sourceTree = "<group>"; };
 		55D1CCC71098211A00FD9606 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
@@ -114,32 +114,11 @@
 			isa = PBXGroup;
 			children = (
 				55D919CF109804BC008CB1BF /* JSON */,
-				55719182109904BF0059E40F /* AsyncImageView.h */,
-				55719183109904BF0059E40F /* AsyncImageView.m */,
-				55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */,
-				55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */,
-				55AC0F89109E841200101F7F /* NSString+URLEncode.h */,
-				55AC0F8A109E841200101F7F /* NSString+URLEncode.m */,
-				55AC0FA6109E875F00101F7F /* NSString+PostData.h */,
-				55AC0FA7109E875F00101F7F /* NSString+PostData.m */,
-				55AC0FAD109E87DD00101F7F /* NSDictionary+PostData.h */,
-				55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */,
-				55D919A41098046F008CB1BF /* JsonConnection.h */,
-				55D919A51098046F008CB1BF /* JsonConnection.m */,
-				55D919A61098046F008CB1BF /* JsonResponse.h */,
-				55D919A71098046F008CB1BF /* JsonResponse.m */,
+				55AC0FDF109E8CB400101F7F /* Utilities */,
+				55AC0FE0109E8CC800101F7F /* Networking */,
+				55AC0FE1109E8CDF00101F7F /* Interface */,
 				1D3623240D0F684500981E51 /* TweetSpotAppDelegate.h */,
 				1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */,
-				55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */,
-				55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */,
-				55D1CC801098190500FD9606 /* NSDataAdditions.h */,
-				55D1CC811098190500FD9606 /* NSDataAdditions.m */,
-				55D1CCC71098211A00FD9606 /* Utilities.h */,
-				55D1CCC81098211A00FD9606 /* Utilities.m */,
-				5571917B1098F5B60059E40F /* MapViewController.h */,
-				5571917C1098F5B60059E40F /* MapViewController.m */,
-				557192ED109A4EAC0059E40F /* TweetSpotWindow.h */,
-				557192EE109A4EAC0059E40F /* TweetSpotWindow.m */,
 				550721D9109B98BC0025B4FA /* TweetSpotState.h */,
 				550721DA109B98BC0025B4FA /* TweetSpotState.m */,
 			);
@@ -196,6 +175,51 @@
 				557191CB109913490059E40F /* CoreLocation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		55AC0FDF109E8CB400101F7F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				55AC0F89109E841200101F7F /* NSString+URLEncode.h */,
+				55AC0F8A109E841200101F7F /* NSString+URLEncode.m */,
+				55AC0FA6109E875F00101F7F /* NSString+PostData.h */,
+				55AC0FA7109E875F00101F7F /* NSString+PostData.m */,
+				55AC0FAD109E87DD00101F7F /* NSDictionary+PostData.h */,
+				55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */,
+				55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */,
+				55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */,
+				55D1CCC71098211A00FD9606 /* Utilities.h */,
+				55D1CCC81098211A00FD9606 /* Utilities.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
+		55AC0FE0109E8CC800101F7F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */,
+				55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */,
+				55D919A41098046F008CB1BF /* JsonConnection.h */,
+				55D919A51098046F008CB1BF /* JsonConnection.m */,
+				55D919A61098046F008CB1BF /* JsonResponse.h */,
+				55D919A71098046F008CB1BF /* JsonResponse.m */,
+			);
+			name = Networking;
+			sourceTree = "<group>";
+		};
+		55AC0FE1109E8CDF00101F7F /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				55719182109904BF0059E40F /* AsyncImageView.h */,
+				55719183109904BF0059E40F /* AsyncImageView.m */,
+				55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */,
+				55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */,
+				5571917B1098F5B60059E40F /* MapViewController.h */,
+				5571917C1098F5B60059E40F /* MapViewController.m */,
+				557192ED109A4EAC0059E40F /* TweetSpotWindow.h */,
+				557192EE109A4EAC0059E40F /* TweetSpotWindow.m */,
+			);
+			name = Interface;
 			sourceTree = "<group>";
 		};
 		55D919CF109804BC008CB1BF /* JSON */ = {
@@ -291,7 +315,7 @@
 				55D919E0109804C7008CB1BF /* SBJsonBase.m in Sources */,
 				55D919E1109804C7008CB1BF /* SBJsonParser.m in Sources */,
 				55D919E2109804C7008CB1BF /* SBJsonWriter.m in Sources */,
-				55D1CC821098190500FD9606 /* NSDataAdditions.m in Sources */,
+				55D1CC821098190500FD9606 /* NSData+Base64Encoding.m in Sources */,
 				55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */,
 				55D1CCC91098211A00FD9606 /* Utilities.m in Sources */,
 				5571917D1098F5B60059E40F /* MapViewController.m in Sources */,
