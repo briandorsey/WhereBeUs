@@ -14,10 +14,13 @@
 @interface AsyncImageView : UIView {
 	NSURLConnection* connection; 
 	NSMutableData* data; 
+	NSURL *loadingURL;
 	id<AsyncImageViewDelegate> delegate;
 }
 
 @property (nonatomic, assign) id<AsyncImageViewDelegate> delegate;
+
++ (void)clearImageCache;
 
 - (void)loadImageFromURL:(NSURL *)url;
 - (void)clearImage;

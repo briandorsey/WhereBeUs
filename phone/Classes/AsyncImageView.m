@@ -4,7 +4,7 @@
 //
 //  Created by markj on 2/18/09.
 //  Copyright 2009 Mark Johnson. You have permission to copy parts of this code into your own projects for any use.
-//  www.markj.net
+//  www.markj.net (with lots of changes by Dave Peck)
 //
 
 #import "AsyncImageView.h"
@@ -18,6 +18,46 @@
 
 @synthesize delegate;
 
+#pragma mark ImageCache
+
++ (NSMutableDictionary *)imageCache
+{
+	// NOTE davepeck:
+	// This cache should make repeated displays of the same profile image "fast"
+	// But at the same time, it is effectively a memory leak.
+	// I think in practice it won't be a big deal. But should we ever decide
+	// we need to control it, the "clearImageCache" static method is the outside
+	// hook into cache management.
+	
+	static NSMutableDictionary *_cache;
+	
+	@synchronized (self)
+	{
+		if (_cache == nil)
+		{
+			_cache = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
+		}		
+	}
+	
+	return _cache;
+}
+
++ (void)clearImageCache
+{
+	[[AsyncImageView imageCache] removeAllObjects];	
+}
+
++ (UIImage *)imageForURL:(NSURL *)url
+{
+	return (UIImage *) [[AsyncImageView imageCache] objectForKey:url];
+}
+
++ (void)setImage:(UIImage *)image forURL:(NSURL *)url 
+{
+	[[AsyncImageView imageCache] setObject:image forKey:url];
+}
+
+
 #pragma mark Private
 
 - (void)dealloc 
@@ -25,6 +65,7 @@
 	delegate = nil;
 	[connection cancel]; //in case the URL is still downloading
 	[connection release];	
+	[loadingURL release];
 	[data release]; 	
     [super dealloc];
 }
@@ -49,6 +90,13 @@
 
 - (void)loadImageFromURL:(NSURL *)url 
 {
+	UIImage *cachedImage = [AsyncImageView imageForURL:url];
+	if (cachedImage != nil)
+	{
+		[self addImageViewForImage:cachedImage];
+		return;
+	}
+	
 	if (connection != nil) 
 	{
 		//in case we are downloading a 2nd image		
@@ -61,6 +109,7 @@
 	}
 	
 	NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	loadingURL = [url retain];
 	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
 }
 
@@ -105,6 +154,11 @@
 	connection = nil;
 	
 	[self clearImage];
+	UIImage *newImage = [UIImage imageWithData:data];
+	[AsyncImageView setImage:newImage forURL:loadingURL];
+	[loadingURL release];
+	loadingURL = nil;
+	 
 	[self addImageViewForImage:[UIImage imageWithData:data]];
 	
 	[data release]; //don't need this any more, its in the UIImageView now

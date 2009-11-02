@@ -11,11 +11,7 @@
 #import "AsyncImageView.h"
 #import "TweetSpotWindow.h"
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate> {
-	// top area
-	IBOutlet UIBarButtonItem *broadcastButton;
-	IBOutlet UIActivityIndicatorView *activityIndicator;
-	
+@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate> {
 	// overlay area
 	IBOutlet UIView *overlayView;
 	IBOutlet UIButton *previousButton;
@@ -25,10 +21,14 @@
 	
 	// map area
 	IBOutlet MKMapView *mapView;
-}	
+	
+	// location management
+	CLLocationManager *locationManager;
+	BOOL updatingLocation;
+	BOOL gettingLocationUpdates;
+	NSTimer *updateWatchingTimer;
+}
 
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *broadcastButton;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) IBOutlet UIView *overlayView;
 @property (nonatomic, retain) IBOutlet UIButton *previousButton;
 @property (nonatomic, retain) IBOutlet UIButton *nextButton;
@@ -38,9 +38,8 @@
 
 
 // actions
-- (IBAction)broadcastButtonPushed:(id)sender;
 - (IBAction)tweetButtonPushed:(id)sender;
-- (IBAction)hashFieldTextChanged:(id)sender;
+- (IBAction)hashtagFieldTextChanged:(id)sender;
 - (IBAction)previousButtonPushed:(id)sender;
 - (IBAction)nextButtonPushed:(id)sender;
 
