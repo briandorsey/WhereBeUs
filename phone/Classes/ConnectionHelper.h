@@ -28,6 +28,8 @@
 
 + (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
 
++ (void)twitter_postTweetWithTarget:(id)target action:(SEL)action message:(NSString *)message username:(NSString *)username password:(NSString *)password;
+
 + (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag;
 
 + (void)ts_postUpdateWithTarget:(id)target 

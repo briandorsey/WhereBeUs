@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "NSString+URLEncode.h"
 
 enum
 {
@@ -30,9 +31,9 @@ enum
 + (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData;
 + (id)connectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword;
 
-+ (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSString *)postData;
++ (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSData *)postData;
 
-- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSString *)thePostData;
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSData *)thePostData;
 - (void)cancel;
 
 @end

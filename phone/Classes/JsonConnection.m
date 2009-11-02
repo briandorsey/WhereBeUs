@@ -26,12 +26,12 @@ static NSString *const kREFERER_HEADER = @"Referer";
 	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:theAuthUsername authPassword:theAuthPassword postData:nil] autorelease];
 }
 
-+ (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSString *)thePostData
++ (id)postConnectionWithURL:(NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData postData:(NSData *)postData
 {
-	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:nil authPassword:nil postData:thePostData] autorelease];
+	return [[[JsonConnection alloc] initWithURL:theURL delegate:theDelegate userData:theUserData authUsername:nil authPassword:nil postData:postData] autorelease];
 }
 
-- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSString *)postData
+- (id)initWithURL: (NSString *)theURL delegate:(id<JsonConnectionDelegate>)theDelegate userData:(id)theUserData authUsername:(NSString *)theAuthUsername authPassword:(NSString *)theAuthPassword postData:(NSData *)postData
 {
 	self = [super init];
 	if (self != nil) 
@@ -56,7 +56,7 @@ static NSString *const kREFERER_HEADER = @"Referer";
 		if (postData != nil)
 		{
 			[request setHTTPMethod:@"POST"];
-			[request setHTTPBody:[postData dataUsingEncoding:NSUTF8StringEncoding]];
+			[request setHTTPBody:postData];
 		}
 		
 		// Be sure to pre-flight all requests
