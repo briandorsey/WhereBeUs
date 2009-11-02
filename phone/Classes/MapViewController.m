@@ -36,10 +36,24 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)ts_finishedGetUpdatesForHashtag:(JsonResponse *)response
 {
+	NSLog(@"Got updates from service.");
 	if (response != nil)
 	{
 		NSDictionary *dictionary = [response dictionary];
-		[Utilities displayModalAlertWithTitle:@"Got updates" message:[dictionary objectForKey:@"message"] buttonTitle:@"FINE"];
+		BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
+		if (success)
+		{
+			NSArray *updates = [dictionary objectForKey:@"updates"];
+			NSMutableString *all_names_hack = [NSMutableString stringWithString:@"All names: "];
+			
+			for (NSDictionary *update in updates)
+			{
+				[all_names_hack appendFormat:@"%@, ", [update objectForKey:@"twitter_username"]];
+			}
+			
+			NSLog(@"Got updates: %@", all_names_hack);
+		}
+		
 	}
 	gettingLocationUpdates = NO;
 	// XXX TODO
@@ -47,6 +61,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)updateTimerFired:(NSTimer *)timer
 {
+	NSLog(@"Update watch timer fired.");
 	if (!gettingLocationUpdates)
 	{
 		gettingLocationUpdates = YES;
@@ -56,6 +71,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)startWatchingForUpdates
 {
+	NSLog(@"Start watching for updates.");
+	
 	// if we're already watching, we probably want to force a 'watch' right now
 	if (updateWatchingTimer != nil)
 	{
@@ -68,6 +85,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)stopWatchingForUpdates
 {
+	NSLog(@"Stop watching for updates.");
+	
 	if (updateWatchingTimer != nil)
 	{
 		[updateWatchingTimer invalidate];
@@ -179,20 +198,33 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Location Manager Delegate
 //------------------------------------------------------------------
 
-- (void)ts_finishedPostUpdate:(id)result
+- (void)ts_finishedPostUpdate:(JsonResponse *)response
 {
+	if (response == nil)
+	{
+		NSLog(@"Got location but failed to update service.");
+	}
+	else
+	{
+		NSDictionary *dictionary = [response dictionary];
+		NSLog(@"Got location, updated service, response was: %@", [dictionary objectForKey:@"message"]);																
+	}
+	
 	updatingLocation = NO;
 	// XXX TODO -- think we want to use a timer for post/get
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+	NSLog(@"Got location.");
 	if (!updatingLocation)
 	{
 		TweetSpotState *state = [TweetSpotState shared];
+		NSLog(@"Got location, thinking about updating service.");
 		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 		{
 			updatingLocation = YES;
+			NSLog(@"Got location, updating service!");
 			[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:newLocation.coordinate];		
 		}
 	}
