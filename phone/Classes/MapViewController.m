@@ -17,6 +17,11 @@
 static const NSTimeInterval kUpdateTimerSeconds = 15;
 #define kDefaultLatLonSpan 0.05
 
+@interface MapViewController (private)
+- (void)forceMapAnnotationsToUpdate;
+@end
+
+
 @implementation MapViewController
 
 
@@ -45,30 +50,38 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
 		if (success)
 		{
+			TweetSpotState *state = [TweetSpotState shared];
 			NSArray *updates = [dictionary objectForKey:@"updates"];
 			
 			for (NSDictionary *update in updates)
 			{
 				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
-				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
 				
-				// XXX TODO deal with annotations that go away
-				
-				if (annotation == nil)
+				// don't update the current user here -- current user annotation is updated through a separate bit of code
+				if (![updateUsername isEqualToString:state.twitterUsername])
 				{
-					annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
-					[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
-					[self.mapView addAnnotation:annotation];
-				}
-				else
-				{
-					[annotation updateWithDictionary:update];
+					UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
+					
+					// XXX TODO deal with annotations that go away
+					
+					if (annotation == nil)
+					{
+						annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
+						[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
+						[self.mapView addAnnotation:annotation];
+					}
+					else
+					{
+						[annotation updateWithDictionary:update];
+					}
 				}
 			}
 		}
 		
 	}
 	gettingLocationUpdates = NO;
+	
+	[self forceMapAnnotationsToUpdate];
 	// XXX TODO
 }
 
@@ -87,13 +100,13 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	NSLog(@"Start watching for updates.");
 	
 	// if we're already watching, we probably want to force a 'watch' right now
-	if (updateWatchingTimer != nil)
+	if (updateWatchingTimer == nil)
 	{
-		[updateWatchingTimer fire];
-		return;
+		updateWatchingTimer = [[NSTimer scheduledTimerWithTimeInterval:kUpdateTimerSeconds target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES] retain];
 	}
 	
-	updateWatchingTimer = [[NSTimer scheduledTimerWithTimeInterval:kUpdateTimerSeconds target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES] retain];
+	// force a call to the appengine service... always
+	[updateWatchingTimer fire];
 }
 
 - (void)stopWatchingForUpdates
@@ -232,6 +245,34 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[mapView setRegion:	[mapView regionThatFits:region]	animated:animated];
 }
 
+- (void)forceMapAnnotationsToUpdate
+{
+	// XXX TODO this is a hack! (or maybe not?)
+	[mapView setCenterCoordinate:mapView.region.center animated:NO];
+}
+
+- (void)updateUserAnnotation
+{
+	// don't update the current user here -- current user annotation is updated through a separate bit of code
+	UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:state.twitterUsername];
+	if (annotation != nil)
+	{
+		[self.mapView removeAnnotation:annotation];
+	}
+	
+	annotation = [[[UpdateAnnotation alloc] init] autorelease];
+	annotation.twitterUsername = state.twitterUsername;
+	annotation.twitterFullName = state.twitterFullName;
+	annotation.twitterProfileImageURL = [NSURL URLWithString:state.twitterProfileImageURL];
+	annotation.message = state.currentMessage;
+	annotation.lastUpdate = [NSDate date];
+	[annotation setCoordinate:currentCoordinate];		
+	[twitterUsernameToAnnotation setObject:annotation forKey:state.twitterUsername];
+	[self.mapView addAnnotation:annotation];	
+}
+
+
+
 
 //------------------------------------------------------------------
 // Location Manager Delegate
@@ -260,26 +301,29 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		TweetSpotState *state = [TweetSpotState shared];
 		updatingLocation = YES;
 		NSLog(@"Got location, updating service!");
-		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:currentCoordinate];
+		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:currentCoordinate];		
 	}
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
 	NSLog(@"Got location.");
-	if (!updatingLocation)
+	if (newLocation.horizontalAccuracy < kCLLocationAccuracyThreeKilometers)
 	{
-		TweetSpotState *state = [TweetSpotState shared];
-		NSLog(@"Got location, thinking about updating service.");
-		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
+		if (!updatingLocation)
 		{
-			currentCoordinate = newLocation.coordinate;
-			if (!hasCoordinate)
+			TweetSpotState *state = [TweetSpotState shared];
+			NSLog(@"Got location, thinking about updating service.");
+			if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 			{
-				hasCoordinate = YES;
-				[self centerAndZoomOnCoordinate:currentCoordinate animated:YES];
+				currentCoordinate = newLocation.coordinate;
+				if (!hasCoordinate)
+				{
+					hasCoordinate = YES;
+					[self centerAndZoomOnCoordinate:currentCoordinate animated:YES];
+				}
+				[self updateServiceWithLocation];
 			}
-			[self updateServiceWithLocation];
 		}
 	}
 }

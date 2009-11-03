@@ -54,7 +54,7 @@
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"longitude"] doubleValue];
 	
 	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
 	self.lastUpdate = [dateFormatter dateFromString:(NSString *)[dictionary objectForKey:@"update_datetime"]];	
 }
 
@@ -73,8 +73,14 @@
 	}
 	else
 	{
-		return [NSString stringWithFormat:@"(%d seconds ago)", interval];
+		return [NSString stringWithFormat:@"(%f seconds ago)", interval];
 	}
+}
+
+- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate
+{
+	coordinate.latitude = newCoordinate.latitude;
+	coordinate.longitude = newCoordinate.longitude;
 }
 
 @end

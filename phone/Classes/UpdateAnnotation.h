@@ -27,6 +27,7 @@
 
 - (NSString *)title;
 - (NSString *)subtitle;
+- (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
 
 @property (nonatomic, retain) NSString *twitterUsername;
 @property (nonatomic, retain) NSString *twitterFullName;

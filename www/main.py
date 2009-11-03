@@ -35,7 +35,7 @@ class HashTagHandler(webapp.RequestHandler):
         location_update.message = update.message
         location_update.latitude = update.latitude
         location_update.longitude = update.longitude
-        location_update.update_datetime = update.update_datetime.isoformat()
+        location_update.update_datetime = update.update_datetime.isoformat() + "Z"
         return location_update
 
     def get(self, hashtag):
