@@ -22,17 +22,10 @@
 	// map area
 	IBOutlet MKMapView *mapView;
 	
-	// location management
-	CLLocationManager *locationManager;
+	// state
 	BOOL updatingLocation;
 	BOOL gettingLocationUpdates;
-	NSTimer *updateWatchingTimer;
-	
-	CLLocationCoordinate2D currentCoordinate;
-	BOOL hasCoordinate;
-	
-	// keep this handy for performance
-	NSMutableDictionary *twitterUsernameToAnnotation;
+	NSTimer *updateWatchingTimer;	
 }
 
 @property (nonatomic, retain) IBOutlet UIView *overlayView;
@@ -48,7 +41,5 @@
 - (IBAction)hashtagFieldTextChanged:(id)sender;
 - (IBAction)previousButtonPushed:(id)sender;
 - (IBAction)nextButtonPushed:(id)sender;
-
-- (void)updateServiceWithLocation;
 
 @end

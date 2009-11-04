@@ -19,6 +19,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 @interface MapViewController (private)
 - (void)forceMapAnnotationsToUpdate;
+- (void)updateServiceWithLocation;
 @end
 
 
@@ -44,45 +45,33 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 - (void)ts_finishedGetUpdatesForHashtag:(JsonResponse *)response
 {
 	NSLog(@"Got updates from service.");
+	
 	if (response != nil)
 	{
 		NSDictionary *dictionary = [response dictionary];
 		BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
 		if (success)
 		{
-			TweetSpotState *state = [TweetSpotState shared];
 			NSArray *updates = [dictionary objectForKey:@"updates"];
 			
+			// clear all old annotations
+			[mapView removeAnnotations:[mapView annotations]];
+			
+			// create all new annotations
+			NSMutableArray *annotations = [NSMutableArray arrayWithCapacity:[updates count]];
 			for (NSDictionary *update in updates)
 			{
-				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
-				
-				// don't update the current user here -- current user annotation is updated through a separate bit of code
-				if (![updateUsername isEqualToString:state.twitterUsername])
-				{
-					UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
-					
-					// XXX TODO deal with annotations that go away
-					
-					if (annotation == nil)
-					{
-						annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
-						[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
-						[self.mapView addAnnotation:annotation];
-					}
-					else
-					{
-						[annotation updateWithDictionary:update];
-					}
-				}
+				[annotations addObject:[UpdateAnnotation updateAnnotationWithDictionary:update]];
 			}
-		}
-		
+			[mapView addAnnotations:annotations];
+				 
+			// force map redraw
+			[self forceMapAnnotationsToUpdate];
+		}		
 	}
-	gettingLocationUpdates = NO;
 	
-	[self forceMapAnnotationsToUpdate];
-	// XXX TODO
+	// XXX TODO	
+	gettingLocationUpdates = NO;
 }
 
 - (void)updateTimerFired:(NSTimer *)timer
@@ -141,11 +130,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	self.usernameLabel = nil;
 	self.userIconView = nil;
 	self.mapView = nil;
-	
-	[twitterUsernameToAnnotation release];
-	
-	[locationManager stopUpdatingLocation];
-	[locationManager release];
 	
 	[self stopWatchingForUpdates];
 	
@@ -247,35 +231,12 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)forceMapAnnotationsToUpdate
 {
-	// XXX TODO this is a hack! (or maybe not?)
 	[mapView setCenterCoordinate:mapView.region.center animated:NO];
 }
 
-- (void)updateUserAnnotation
-{
-	// don't update the current user here -- current user annotation is updated through a separate bit of code
-	UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:state.twitterUsername];
-	if (annotation != nil)
-	{
-		[self.mapView removeAnnotation:annotation];
-	}
-	
-	annotation = [[[UpdateAnnotation alloc] init] autorelease];
-	annotation.twitterUsername = state.twitterUsername;
-	annotation.twitterFullName = state.twitterFullName;
-	annotation.twitterProfileImageURL = [NSURL URLWithString:state.twitterProfileImageURL];
-	annotation.message = state.currentMessage;
-	annotation.lastUpdate = [NSDate date];
-	[annotation setCoordinate:currentCoordinate];		
-	[twitterUsernameToAnnotation setObject:annotation forKey:state.twitterUsername];
-	[self.mapView addAnnotation:annotation];	
-}
-
-
-
 
 //------------------------------------------------------------------
-// Location Manager Delegate
+// Location Management
 //------------------------------------------------------------------
 
 - (void)ts_finishedPostUpdate:(JsonResponse *)response
@@ -291,46 +252,17 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	}
 	
 	updatingLocation = NO;
-	// XXX TODO -- think we want to use a timer for post/get
 }
 
 - (void)updateServiceWithLocation
 {
-	if (hasCoordinate)
+	if (!updatingLocation)
 	{
 		TweetSpotState *state = [TweetSpotState shared];
 		updatingLocation = YES;
 		NSLog(@"Got location, updating service!");
-		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:currentCoordinate];		
+		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:mapView.userLocation.coordinate];		
 	}
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-	NSLog(@"Got location.");
-	if (newLocation.horizontalAccuracy < kCLLocationAccuracyThreeKilometers)
-	{
-		if (!updatingLocation)
-		{
-			TweetSpotState *state = [TweetSpotState shared];
-			NSLog(@"Got location, thinking about updating service.");
-			if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
-			{
-				currentCoordinate = newLocation.coordinate;
-				if (!hasCoordinate)
-				{
-					hasCoordinate = YES;
-					[self centerAndZoomOnCoordinate:currentCoordinate animated:YES];
-				}
-				[self updateServiceWithLocation];
-			}
-		}
-	}
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
-{
-	// XXX TODO
 }
 
 
@@ -373,8 +305,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		// set up basic state
 		updatingLocation = NO;
 		gettingLocationUpdates = NO;
-		hasCoordinate = NO;
-		twitterUsernameToAnnotation = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
+		
+		TweetSpotState *state = [TweetSpotState shared];
 
 		// Do some UI junk
 		TweetSpotAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -389,8 +321,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		hashtagView.autocorrectionType = UITextAutocorrectionTypeNo; /* it was bugging me -- not sure? */
 		hashtagView.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		hashtagView.returnKeyType = UIReturnKeyDone;
-		hashtagView.text = [TweetSpotState shared].currentHashtag;
-		if ([[TweetSpotState shared].currentHashtag length] > 0)
+		hashtagView.text = state.currentHashtag;
+		if ([state.currentHashtag length] > 0)
 		{
 			[self startWatchingForUpdates];
 		}			
@@ -400,14 +332,15 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		
 		// wire up the twitter button
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"tweet" style:UIBarButtonItemStylePlain target:self action:@selector(tweetButtonPushed:)];
+				
+		// set up our map to track the user
+		[mapView setShowsUserLocation:YES];
+		mapView.userLocation.title = state.twitterFullName;
+		[mapView.userLocation addObserver:self forKeyPath:@"location" options:0 context:NULL];
 		
-		// build our location manager
-		locationManager = [[CLLocationManager alloc] init];
-		locationManager.distanceFilter = 100; /* don't update unless you've moved 100 meters or more */
-		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
-		locationManager.delegate = self;
-		[locationManager startUpdatingLocation];
-    }
+		// watch for changes to tweet spot state
+		[state addObserver:self forKeyPath:@"twitterFullName" options:0 context:NULL];
+    }	
     return self;
 }
 
@@ -442,6 +375,22 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[delegate.window setWindowDelegate:nil];	
     [super viewWillDisappear:animated];
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (object == mapView.userLocation)
+	{		
+		[self updateServiceWithLocation];
+	}
+	else if (object == [TweetSpotState shared])
+	{
+		mapView.userLocation.title = [TweetSpotState shared].twitterFullName;
+		
+		[self forceMapAnnotationsToUpdate];
+	}
+}
+
+
 
 
 @end
