@@ -8,23 +8,16 @@ from google.appengine.ext import db
 from google.appengine.ext import webapp
 
 import sharedutil
-import copy
-from pytz import timezone, UTC
 
-pacific_timezone = timezone('America/Los_Angeles')
-
-def pacific(dt):
-    if dt.tzinfo is None:
-        dt = UTC.localize(dt)
-    return dt.astimezone(pacific_timezone)
-
-def clean_time(dt):
+def get_rid_of_miliseconds(dt):
     return datetime.datetime(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second)
     
-def clean_pacific_time_string(dt):
-    clean = clean_time(dt)
-    sorta_iso = clean.isoformat()
-    return sorta_iso + "+0000"
+def iso_utc_string(dt):
+    no_milis = get_rid_of_miliseconds(dt)
+    
+    # after digging around in datetime for too long, I gave up and 
+    # hacked the UTC mark in. 
+    return no_milis.isoformat() + "Z"
 
 def BREAKPOINT():
   import pdb
@@ -52,7 +45,7 @@ class HashTagHandler(webapp.RequestHandler):
         location_update.message = update.message
         location_update.latitude = update.latitude
         location_update.longitude = update.longitude
-        location_update.update_datetime = clean_utc_time_string(update.update_datetime)
+        location_update.update_datetime = iso_utc_string(update.update_datetime)        
         return location_update
 
     def get(self, hashtag):
@@ -73,8 +66,8 @@ class HashTagHandler(webapp.RequestHandler):
             self.response.out.write(data)
         else:
             self.response.out.write(simplejson.dumps(response))
-            sys.__stdout__.write(simplejson.dumps(response))
-            sys.__stdout__.flush()
+            #sys.__stdout__.write(simplejson.dumps(response))
+            #sys.__stdout__.flush()
 
 class UpdateHandler(webapp.RequestHandler):
     def post(self):
