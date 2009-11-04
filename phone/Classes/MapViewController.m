@@ -49,47 +49,67 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
 		if (success)
 		{
+			// Inside this loop, we walk through all the updates returned by
+			// the service. If the update corresponds to an annotation that is
+			// not on the map, we add it. If the update corresponds to an annotation
+			// that _is_ on the map, we update said annotation. Finally, after
+			// looking at all the updates we got back from the service, we check to see
+			// if we have any annotations left on the map that were _not_ part of the
+			// service update list. If so, we remove those annotations.
+			//
+			// The final trick to all this is that the iPhone user's own annotation is
+			// managed separately, so that it can update itself much more often. That said,
+			// the service will return the iPhone user's update information too. We want to 
+			// ignore that here.
 			NSArray *updates = [dictionary objectForKey:@"updates"];
+			TweetSpotState *state = [TweetSpotState shared];
 						
-			// mark as untouched
+			// STEP 1: mark all current annotations on the map as NOT VISITED
 			for (id key in twitterUsernameToAnnotation)
 			{
 				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
 				annotation.visited = NO;
 			}
 			
-			// walk through all received updates and perform an update, or create a new annotation
+			// STEP 2: walk through all update records returned by the service and create, 
+			// or update, the corresponding map annotation
 			for (NSDictionary *update in updates)
 			{				
 				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
-				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
 				
-				if (annotation == nil)
-				{
-					// an annotation for this username doesn't yet exist. Create it.
-					annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
-					annotation.visited = YES;
-					[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
-					[self.mapView addAnnotation:annotation];
-				}
-				else
-				{
-					// an annotation already exists. Just update it.
-					[annotation updateWithDictionary:update];
+				if (![state.twitterUsername isEqualToString:updateUsername])
+				{					
+					UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
+					
+					if (annotation == nil)
+					{
+						// an annotation for this username doesn't yet exist. Create it.
+						annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
+						annotation.visited = YES;
+						[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
+						[self.mapView addAnnotation:annotation];
+					}
+					else
+					{
+						// an annotation already exists. Just update it.
+						[annotation updateWithDictionary:update];
+					}
 				}
 			}
 			
-			// make sure we haven't "lost" any annotations
+			// STEP 3: see if there are any annotations on the map that should go away
 			for (id key in twitterUsernameToAnnotation)
 			{
 				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
-				if (!annotation.visited)
+				NSString *updateUsername = annotation.twitterUsername;
+				
+				if (![state.twitterUsername isEqualToString:updateUsername] && !annotation.visited)
 				{
 					[self.mapView removeAnnotation:annotation];
 				}
 			}
 
-			// Done updating! Draw that ish!
+			// Done updating! Make sure the map reflects our changes!
 			[self forceMapViewAnnotationsToUpdate];
 		}		
 	}
