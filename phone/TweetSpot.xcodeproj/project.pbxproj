@@ -15,6 +15,7 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		550721DB109B98BC0025B4FA /* TweetSpotState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* TweetSpotState.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
+		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
 		557191791098F5980059E40F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557191781098F5980059E40F /* MapViewController.xib */; };
 		5571917D1098F5B60059E40F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5571917C1098F5B60059E40F /* MapViewController.m */; };
 		55719184109904BF0059E40F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55719183109904BF0059E40F /* AsyncImageView.m */; };
@@ -55,6 +56,8 @@
 		550721DA109B98BC0025B4FA /* TweetSpotState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotState.m; sourceTree = "<group>"; };
 		550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotation.h; sourceTree = "<group>"; };
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
+		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
+		550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CleanObject.m"; sourceTree = "<group>"; };
 		557191781098F5980059E40F /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		5571917B1098F5B60059E40F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		5571917C1098F5B60059E40F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -199,6 +202,8 @@
 				55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */,
 				55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */,
 				55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */,
+				550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */,
+				550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */,
 				55D1CCC71098211A00FD9606 /* Utilities.h */,
 				55D1CCC81098211A00FD9606 /* Utilities.m */,
 				55719182109904BF0059E40F /* AsyncImageView.h */,
@@ -341,6 +346,7 @@
 				55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */,
 				55AC0FF3109E8D7B00101F7F /* TweetViewController.m in Sources */,
 				550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */,
+				550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

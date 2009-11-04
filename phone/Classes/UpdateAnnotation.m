@@ -7,7 +7,7 @@
 //
 
 #import "UpdateAnnotation.h"
-
+#import "NSDictionary+CleanObject.h"
 
 @implementation UpdateAnnotation
 
@@ -46,19 +46,17 @@
 
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
-	// XXX TODO error handling
-	self.twitterUsername = (NSString *)[dictionary objectForKey:@"twitter_username"];
-	self.twitterFullName = (NSString *)[dictionary objectForKey:@"twitter_full_name"];
-	self.twitterProfileImageURL = [NSURL URLWithString:(NSString *)[dictionary objectForKey:@"twitter_profile_image_url"]];
-	self.message = (NSString *)[dictionary objectForKey:@"message"];
-	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"latitude"] doubleValue];
-	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"longitude"] doubleValue];
+	self.twitterUsername = (NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_username"];
+	self.twitterFullName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_full_name"];
+	self.twitterProfileImageURL = [NSURL URLWithString:(NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_profile_image_url"]];
+	self.message = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message"];
+	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"latitude"] doubleValue];
+	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"longitude"] doubleValue];
 	
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-	NSTimeZone *zone = [NSTimeZone timeZoneWithName:@"UTC"];
-	[dateFormatter setTimeZone:zone];	
-	self.lastUpdate = [dateFormatter dateFromString:(NSString *)[dictionary objectForKey:@"update_datetime"]];	
+	[dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	self.lastUpdate = [dateFormatter dateFromString:(NSString *)[dictionary objectForKeyOrNilIfNull:@"update_datetime"]];	
 }
 
 - (NSString *)title
@@ -68,6 +66,7 @@
 
 - (NSString *)subtitle
 {
+	// TODO XXX pretty print this stuff
 	NSDate *now = [NSDate date];
 	NSTimeInterval interval = [now timeIntervalSinceDate:self.lastUpdate];
 	if (interval == 1)
@@ -76,7 +75,7 @@
 	}
 	else
 	{
-		return [NSString stringWithFormat:@"(%d seconds ago)", interval];
+		return [NSString stringWithFormat:@"(%f seconds ago)", interval];
 	}
 }
 

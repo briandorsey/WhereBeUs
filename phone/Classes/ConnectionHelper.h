@@ -36,8 +36,9 @@
 						 action:(SEL)action
 				twitterUsername:(NSString *)twitterUsername 
 				twitterFullName:(NSString *)twitterFullName 
-		 twitterProfileImageURL:(NSString *)twitterProfileImageURL 
+		 twitterProfileImageURL:(NSString *)twitterProfileImageURL
 						hashtag:(NSString *)hashtag 
+						message:(NSString *)message
 					 coordinate:(CLLocationCoordinate2D)coordinate;
 
 @end

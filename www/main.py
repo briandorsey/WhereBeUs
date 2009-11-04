@@ -80,6 +80,7 @@ class UpdateHandler(webapp.RequestHandler):
             update.hashtag = data['hashtag']
             update.latitude = data['latitude']
             update.longitude = data['longitude']
+            update.message = data['message']
             update.update_datetime = datetime.datetime.utcnow()
         except:
             response = {'success': False, 'message': 'Malformed POST request.'}

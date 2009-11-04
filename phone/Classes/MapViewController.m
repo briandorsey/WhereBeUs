@@ -289,7 +289,12 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		TweetSpotState *state = [TweetSpotState shared];
 		updatingLocation = YES;
 		NSLog(@"Got location, updating service!");
-		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag coordinate:currentCoordinate];
+		NSString *message = state.currentMessage;
+		if (message == nil) 
+		{
+			message = @"";
+		}
+		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];
 	}
 }
 

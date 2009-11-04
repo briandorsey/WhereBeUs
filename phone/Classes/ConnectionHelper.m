@@ -13,10 +13,10 @@
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
-static NSString *const kServiceBaseURL = @"http://ourtweetspot.appspot.com";
+// static NSString *const kServiceBaseURL = @"http://www.tweetthespot.com";
 
 // use this base URL instead for local testing (useful for debugging from simulator!)
-// static NSString *const kServiceBaseURL = @"http://localhost:8080";
+static NSString *const kServiceBaseURL = @"http://localhost:8080";
 
 
 @implementation ConnectionHelper
@@ -82,10 +82,11 @@ static NSString *const kServiceBaseURL = @"http://ourtweetspot.appspot.com";
 				twitterFullName:(NSString *)twitterFullName 
 		 twitterProfileImageURL:(NSString *)twitterProfileImageURL 
 						hashtag:(NSString *)hashtag 
+						message:(NSString *)message
 					 coordinate:(CLLocationCoordinate2D)coordinate
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", nil];
+	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", message, @"message", nil];
 	NSString *postJson = [postDictionary JSONRepresentation];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
 }
