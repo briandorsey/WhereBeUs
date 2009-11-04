@@ -17,6 +17,10 @@
 static const NSTimeInterval kUpdateTimerSeconds = 15;
 #define kDefaultLatLonSpan 0.05
 
+@interface MapViewController (Private)
+- (void)forceMapViewAnnotationsToUpdate;
+@end
+
 @implementation MapViewController
 
 
@@ -46,30 +50,51 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		if (success)
 		{
 			NSArray *updates = [dictionary objectForKey:@"updates"];
-			
-			for (NSDictionary *update in updates)
+						
+			// mark as untouched
+			for (id key in twitterUsernameToAnnotation)
 			{
+				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
+				annotation.visited = NO;
+			}
+			
+			// walk through all received updates and perform an update, or create a new annotation
+			for (NSDictionary *update in updates)
+			{				
 				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
 				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
 				
-				// XXX TODO deal with annotations that go away
-				
 				if (annotation == nil)
 				{
+					// an annotation for this username doesn't yet exist. Create it.
 					annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
+					annotation.visited = YES;
 					[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
 					[self.mapView addAnnotation:annotation];
 				}
 				else
 				{
+					// an annotation already exists. Just update it.
 					[annotation updateWithDictionary:update];
 				}
 			}
-		}
-		
+			
+			// make sure we haven't "lost" any annotations
+			for (id key in twitterUsernameToAnnotation)
+			{
+				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
+				if (!annotation.visited)
+				{
+					[self.mapView removeAnnotation:annotation];
+				}
+			}
+
+			// Done updating! Draw that ish!
+			[self forceMapViewAnnotationsToUpdate];
+		}		
 	}
+	
 	gettingLocationUpdates = NO;
-	// XXX TODO
 }
 
 - (void)updateTimerFired:(NSTimer *)timer
@@ -86,14 +111,13 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
 	NSLog(@"Start watching for updates.");
 	
-	// if we're already watching, we probably want to force a 'watch' right now
-	if (updateWatchingTimer != nil)
+	if (updateWatchingTimer == nil)
 	{
-		[updateWatchingTimer fire];
-		return;
+		updateWatchingTimer = [[NSTimer scheduledTimerWithTimeInterval:kUpdateTimerSeconds target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES] retain];
 	}
 	
-	updateWatchingTimer = [[NSTimer scheduledTimerWithTimeInterval:kUpdateTimerSeconds target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES] retain];
+	// force an immediate watch
+	[updateWatchingTimer fire];
 }
 
 - (void)stopWatchingForUpdates
@@ -230,6 +254,11 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	region.center = coordinate;
 	
 	[mapView setRegion:	[mapView regionThatFits:region]	animated:animated];
+}
+
+- (void)forceMapViewAnnotationsToUpdate
+{
+	[mapView setCenterCoordinate:[mapView centerCoordinate] animated:YES];
 }
 
 

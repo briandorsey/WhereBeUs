@@ -17,6 +17,7 @@
 @synthesize message;
 @synthesize lastUpdate;
 @synthesize coordinate;
+@synthesize visited;
 
 + (id)updateAnnotationWithDictionary:(NSDictionary *)dictionary
 {
@@ -53,8 +54,10 @@
 	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"latitude"] doubleValue];
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKey:@"longitude"] doubleValue];
 	
-	NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+	NSTimeZone *zone = [NSTimeZone timeZoneWithName:@"UTC"];
+	[dateFormatter setTimeZone:zone];	
 	self.lastUpdate = [dateFormatter dateFromString:(NSString *)[dictionary objectForKey:@"update_datetime"]];	
 }
 

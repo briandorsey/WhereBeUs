@@ -17,6 +17,8 @@
 	NSDate *lastUpdate;
 	CLLocationCoordinate2D coordinate;	
 	
+	BOOL visited;
+	
 	NSString *title;	
 }
 
@@ -34,5 +36,6 @@
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, retain) NSDate *lastUpdate;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
+@property BOOL visited;
 
 @end
