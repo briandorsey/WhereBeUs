@@ -9,15 +9,15 @@ from google.appengine.ext import webapp
 
 import sharedutil
 
-def get_rid_of_miliseconds(dt):
+def get_rid_of_microseconds(dt):
     return datetime.datetime(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second)
     
 def iso_utc_string(dt):
-    no_milis = get_rid_of_miliseconds(dt)
+    no_micros = get_rid_of_microseconds(dt)
     
     # after digging around in datetime for too long, I gave up and 
     # hacked the UTC mark in. 
-    return no_milis.isoformat() + "Z"
+    return no_micros.isoformat() + "Z"
 
 def BREAKPOINT():
   import pdb
