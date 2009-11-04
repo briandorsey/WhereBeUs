@@ -6,6 +6,7 @@ import httplib2
 import sharedutil
 
 base_url = "http://localhost:8082"
+#base_url = "http://ourtweetspot.appspot.com"
 
 def create_LocationUpdateJSON():
     update = sharedutil.LocationUpdateJSON()
@@ -16,7 +17,6 @@ def create_LocationUpdateJSON():
     update.latitude = 123.456
     update.longitude = 123.456
     update.message = "this is the message"
-    update.update_datetime = datetime.datetime.utcnow().isoformat()
     return update
 
 def check_json_response(response):
@@ -92,6 +92,7 @@ def test_post_update():
     for key in sharedutil.LocationUpdateJSON().__allowed_attributes__:
         print key
         assert key in update_data
+    assert update_data['update_datetime'].endswith('Z')
 
 
 # TODO: add a test for malformed update json - make sure it returns 400 or 500

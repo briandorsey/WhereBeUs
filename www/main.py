@@ -35,7 +35,9 @@ class HashTagHandler(webapp.RequestHandler):
         location_update.message = update.message
         location_update.latitude = update.latitude
         location_update.longitude = update.longitude
-        location_update.update_datetime = update.update_datetime.isoformat()
+        # after digging around in datetime for too long, I gave up and 
+        # hacked the UTC mark in. 
+        location_update.update_datetime = update.update_datetime.isoformat() + 'Z'
         return location_update
 
     def get(self, hashtag):
@@ -56,8 +58,8 @@ class HashTagHandler(webapp.RequestHandler):
             self.response.out.write(data)
         else:
             self.response.out.write(simplejson.dumps(response))
-            sys.__stdout__.write(simplejson.dumps(response))
-            sys.__stdout__.flush()
+            #sys.__stdout__.write(simplejson.dumps(response))
+            #sys.__stdout__.flush()
 
 class UpdateHandler(webapp.RequestHandler):
     def post(self):
