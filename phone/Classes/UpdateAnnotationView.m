@@ -13,6 +13,8 @@
 #define BUBBLE_PNG_WIDTH 53.0
 #define BUBBLE_PNG_HEIGHT 61.0
 
+#define kFadeTimerSeconds 0.025
+#define kFadeIncrement 0.1
 
 @implementation UpdateAnnotationView
 
@@ -51,28 +53,39 @@
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	if (self != nil)
 	{
+		initializing = YES;		
 		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_PNG_HEIGHT);
 		self.opaque = NO;
 		twitterUserIcon = nil;
+		twitterIconPercent = 0.0;
 		
-		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *) self.annotation;		
+		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *) self.annotation;
 		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.twitterProfileImageURL delegate:self];		
 		
-		// TODO XXX build our own callout (it is strange to have callout-on-callout this way)
-		self.canShowCallout = YES;
+		self.canShowCallout = YES; /* todo build our own callout */
+		initializing = NO;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[fadeTimer invalidate];
+	[fadeTimer release];
+	fadeTimer = nil;
+	
 	[twitterUserIcon release];
+	twitterUserIcon = nil;
+	
 	[super dealloc];
 }
 
 - (void)prepareForReuse
 {
 	[super prepareForReuse];
+	[fadeTimer invalidate];
+	[fadeTimer release];
+	fadeTimer = nil;
 
 	[twitterUserIcon release];
 	twitterUserIcon = nil;
@@ -90,8 +103,50 @@
 	}
 	else
 	{
-		[twitterUserIcon drawInRect:CGRectMake(8.0, 5.0, 37.0, 37.0)];
+		if (twitterIconPercent >= 1.0)
+		{
+			[twitterUserIcon drawInRect:CGRectMake(8.0, 5.0, 37.0, 37.0)];
+		}
+		else
+		{
+			[twitterUserIcon drawInRect:CGRectMake(8.0, 5.0, 37.0, 37.0) blendMode:kCGBlendModeNormal alpha:twitterIconPercent];
+			[[UpdateAnnotationView defaultUserIcon] drawAtPoint:CGPointMake(8.0, 5.0) blendMode:kCGBlendModeNormal alpha:1.0 - twitterIconPercent];
+		}
 	}
+}
+
+- (void)fadeTimerFired:(NSTimer *)timer
+{
+	twitterIconPercent += kFadeIncrement;
+	if (twitterIconPercent >= 1.0)
+	{
+		twitterIconPercent = 1.0;
+		[fadeTimer invalidate];
+		[fadeTimer release];
+		fadeTimer = nil;
+	}
+	[self setNeedsDisplay];
+}
+
+- (void)fadeInNewUserIcon
+{
+	if (initializing)
+	{
+		// if we're just setting up and we have the icon,
+		// don't do the fade in -- that's just a waste.
+		twitterIconPercent = 1.0;
+		return;
+	}
+	
+	if (fadeTimer != nil)
+	{
+		[fadeTimer invalidate];
+		[fadeTimer release];
+		fadeTimer = nil;
+	}
+	
+	twitterIconPercent = 0.0;
+	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:kFadeTimerSeconds target:self selector:@selector(fadeTimerFired:) userInfo:nil repeats:YES] retain];
 }
 
 - (void)asyncImageCacheLoadedImage:(UIImage *)image forURL:(NSString *)url
@@ -107,6 +162,7 @@
 	if (image != nil && [url isEqualToString:updateAnnotation.twitterProfileImageURL])
 	{
 		twitterUserIcon = [image retain];
+		[self fadeInNewUserIcon];
 	}
 
 	// force full redraw

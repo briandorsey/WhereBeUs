@@ -12,6 +12,9 @@
 
 @interface UpdateAnnotationView : MKAnnotationView<AsyncImageCacheDelegate> {
 	UIImage *twitterUserIcon;
+	CGFloat twitterIconPercent; /* for when we're fading between the default icon and the twitter user icon */
+	BOOL initializing;
+	NSTimer *fadeTimer;
 }
 
 @end
