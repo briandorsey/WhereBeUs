@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "AsyncImageCache.h"
 
-@interface UpdateAnnotationView : MKAnnotationView {
+@interface UpdateAnnotationView : MKAnnotationView<AsyncImageCacheDelegate> {
+	UIImage *twitterUserIcon;
 }
 
 @end

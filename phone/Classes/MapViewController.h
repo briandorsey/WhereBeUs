@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "AsyncImageView.h"
 #import "TweetSpotWindow.h"
 #import "TweetSpotAppDelegate.h"
 
@@ -18,7 +17,7 @@
 	IBOutlet UIButton *previousButton;
 	IBOutlet UIButton *nextButton;	
 	IBOutlet UILabel *usernameLabel;
-	IBOutlet AsyncImageView *userIconView;
+	IBOutlet UIImageView *userIconView;
 	
 	// map area
 	IBOutlet MKMapView *mapView;
@@ -41,7 +40,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *previousButton;
 @property (nonatomic, retain) IBOutlet UIButton *nextButton;
 @property (nonatomic, retain) IBOutlet UILabel *usernameLabel;
-@property (nonatomic, retain) IBOutlet AsyncImageView *userIconView;
+@property (nonatomic, retain) IBOutlet UIImageView *userIconView;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 
 
