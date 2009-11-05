@@ -413,6 +413,17 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 
 //------------------------------------------------------------------
+// Tweet Spot Hashtag Changed Delegate (off app delegate)
+//------------------------------------------------------------------
+
+- (void)gotNewHashtag:(NSString *)newHashtag
+{
+	[self.hashtagField setText:newHashtag];
+	[self updateCurrentHashtag];	
+}
+
+
+//------------------------------------------------------------------
 // UIViewController overrides
 //------------------------------------------------------------------
 
@@ -421,6 +432,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
+		// Work with the TweetSpotState!
+		TweetSpotState *state = [TweetSpotState shared];
+				
 		// set up basic state
 		updatingLocation = NO;
 		gettingLocationUpdates = NO;
@@ -440,8 +454,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		hashtagView.autocorrectionType = UITextAutocorrectionTypeNo; /* it was bugging me -- not sure? */
 		hashtagView.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		hashtagView.returnKeyType = UIReturnKeyDone;
-		hashtagView.text = [TweetSpotState shared].currentHashtag;
-		if ([[TweetSpotState shared].currentHashtag length] > 0)
+		hashtagView.text = state.currentHashtag;
+		if ([state.currentHashtag length] > 0)
 		{
 			[self startWatchingForUpdates];
 		}			
@@ -458,6 +472,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
 		[locationManager startUpdatingLocation];
+		
+		// let our application know we'll listen
+		[appDelegate setHashtagDelegate:self];
     }
     return self;
 }

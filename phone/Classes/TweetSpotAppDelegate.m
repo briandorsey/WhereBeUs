@@ -36,6 +36,8 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
+	hashtagDelegate = nil;
+	
 	// Load our application state (potentially from a file)
 	TweetSpotState *state = [TweetSpotState shared];
 
@@ -58,6 +60,24 @@
 }
 
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	// XXX TODO check validity of URL	
+	// tweetthespotone://hashtag/
+	
+	if (hashtagDelegate != nil)
+	{
+		[hashtagDelegate gotNewHashtag:[url host]];
+	}
+	else
+	{
+		TweetSpotState *state = [TweetSpotState shared];
+		state.currentHashtag = [url host];	
+	}
+	
+	return YES;
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
 	TweetSpotState *state = [TweetSpotState shared];
@@ -68,8 +88,14 @@
 	}
 }
 
+- (void)setHashtagDelegate:(id<TweetSpotHashtagChangedDelegate>)newHashtagDelegate
+{
+	hashtagDelegate = newHashtagDelegate;
+}
+
 - (void)dealloc 
 {
+	hashtagDelegate = nil;
 	[navigationController release];
 	[window release];
 	[super dealloc];

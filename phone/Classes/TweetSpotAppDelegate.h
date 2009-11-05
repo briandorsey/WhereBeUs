@@ -8,10 +8,12 @@
 
 #import "TweetSpotWindow.h"
 
-@interface TweetSpotAppDelegate : NSObject <UIApplicationDelegate> {
-    
+@protocol TweetSpotHashtagChangedDelegate;
+
+@interface TweetSpotAppDelegate : NSObject <UIApplicationDelegate> {    
     TweetSpotWindow *window;
     UINavigationController *navigationController;
+	id<TweetSpotHashtagChangedDelegate> hashtagDelegate;
 }
 
 @property (nonatomic, retain) IBOutlet TweetSpotWindow *window;
@@ -20,6 +22,10 @@
 - (void)showMapViewController:(BOOL)animated;
 - (void)showTweetViewController:(BOOL)animated;
 - (void)popViewController:(BOOL)animated;
+- (void)setHashtagDelegate:(id<TweetSpotHashtagChangedDelegate>)newHashtagDelegate;
 
 @end
 
+@protocol TweetSpotHashtagChangedDelegate<NSObject>
+- (void)gotNewHashtag:(NSString *)newHashtag;
+@end

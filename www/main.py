@@ -96,14 +96,20 @@ class UpdateHandler(webapp.RequestHandler):
             self.response.out.write(simplejson.dumps(response))
 
 class MainHandler(webapp.RequestHandler):
-  def get(self):
-    self.response.out.write('Hello world!')
+    def get(self):
+        self.response.out.write('Hello world!')
 
+class ViewHandler(webapp.RequestHandler):
+    def get(self, hashtag):
+        self.response.headers['Content-Type'] = 'text/html'
+        # XXX TODO something real
+        self.response.out.write('<html><head><title>[View Tag %s]</title></head><body><a style="font-size: 18pt; font-family:Helvetica Neue" href="tweetthespotone://%s/">Open TweetTheSpot with "%s"</a><br/></body></html>\n' % (hashtag, hashtag, hashtag))
 
 def main():
   application = webapp.WSGIApplication([('/', MainHandler),
                                        ('/api/1/hashtag/(.*)/', HashTagHandler),
                                        ('/api/1/update/', UpdateHandler),
+                                       ('/v/(.*)/', ViewHandler),
                                        ]
                                        )
   wsgiref.handlers.CGIHandler().run(application)

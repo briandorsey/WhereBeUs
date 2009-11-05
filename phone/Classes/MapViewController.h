@@ -10,8 +10,9 @@
 #import <MapKit/MapKit.h>
 #import "AsyncImageView.h"
 #import "TweetSpotWindow.h"
+#import "TweetSpotAppDelegate.h"
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {
 	// overlay area
 	IBOutlet UIView *overlayView;
 	IBOutlet UIButton *previousButton;
