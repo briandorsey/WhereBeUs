@@ -28,6 +28,7 @@
 	BOOL gettingLocationUpdates;
 	NSTimer *updateWatchingTimer;
 	
+	CLLocationAccuracy bestHorizontalAccuracy;
 	CLLocationCoordinate2D currentCoordinate;
 	BOOL hasCoordinate;
 	

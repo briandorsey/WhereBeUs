@@ -12,7 +12,7 @@
 @interface UpdateAnnotation : NSObject<MKAnnotation> {
 	NSString *twitterUsername;
 	NSString *twitterFullName;
-	NSURL *twitterProfileImageURL;
+	NSString *twitterProfileImageURL;
 	NSString *message;
 	NSDate *lastUpdate;
 	CLLocationCoordinate2D coordinate;	
@@ -29,10 +29,11 @@
 
 - (NSString *)title;
 - (NSString *)subtitle;
+- (void)setLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
 
 @property (nonatomic, retain) NSString *twitterUsername;
 @property (nonatomic, retain) NSString *twitterFullName;
-@property (nonatomic, retain) NSURL *twitterProfileImageURL;
+@property (nonatomic, retain) NSString *twitterProfileImageURL;
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, retain) NSDate *lastUpdate;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;

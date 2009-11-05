@@ -37,89 +37,93 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 
 //------------------------------------------------------------------
-// Update Watching/Timer
+// Code To Poll For Updates From Server & Manage Annotations
 //------------------------------------------------------------------
 
 - (void)ts_finishedGetUpdatesForHashtag:(JsonResponse *)response
 {
-	NSLog(@"Got updates from service.");
-	if (response != nil)
-	{
-		NSDictionary *dictionary = [response dictionary];
-		BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
-		if (success)
-		{
-			// Inside this loop, we walk through all the updates returned by
-			// the service. If the update corresponds to an annotation that is
-			// not on the map, we add it. If the update corresponds to an annotation
-			// that _is_ on the map, we update said annotation. Finally, after
-			// looking at all the updates we got back from the service, we check to see
-			// if we have any annotations left on the map that were _not_ part of the
-			// service update list. If so, we remove those annotations.
-			//
-			// The final trick to all this is that the iPhone user's own annotation is
-			// managed separately, so that it can update itself much more often. That said,
-			// the service will return the iPhone user's update information too. We want to 
-			// ignore that here.
-			NSArray *updates = [dictionary objectForKey:@"updates"];
-			TweetSpotState *state = [TweetSpotState shared];
-						
-			// STEP 1: mark all current annotations on the map as NOT VISITED
-			for (id key in twitterUsernameToAnnotation)
-			{
-				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
-				annotation.visited = NO;
-			}
-			
-			// STEP 2: walk through all update records returned by the service and create, 
-			// or update, the corresponding map annotation
-			for (NSDictionary *update in updates)
-			{				
-				NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
-				
-				if (![state.twitterUsername isEqualToString:updateUsername])
-				{					
-					UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
-					
-					if (annotation == nil)
-					{
-						// an annotation for this username doesn't yet exist. Create it.
-						annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
-						annotation.visited = YES;
-						[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
-						[self.mapView addAnnotation:annotation];
-					}
-					else
-					{
-						// an annotation already exists. Just update it.
-						[annotation updateWithDictionary:update];
-					}
-				}
-			}
-			
-			// STEP 3: see if there are any annotations on the map that should go away
-			for (id key in twitterUsernameToAnnotation)
-			{
-				UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
-				NSString *updateUsername = annotation.twitterUsername;
-				
-				if (![state.twitterUsername isEqualToString:updateUsername] && !annotation.visited)
-				{
-					[self.mapView removeAnnotation:annotation];
-				}
-			}
+	if (response == nil) { return; }
 
-			// Done updating! Make sure the map reflects our changes!
-			[self forceMapViewAnnotationsToUpdate];
-		}		
+	NSDictionary *dictionary = [response dictionary];
+	BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
+	if (!success) { return; }
+	
+	// Inside this loop, we walk through all the updates returned by
+	// the service. If the update corresponds to an annotation that is
+	// not on the map, we add it. If the update corresponds to an annotation
+	// that _is_ on the map, we update said annotation. Finally, after
+	// looking at all the updates we got back from the service, we check to see
+	// if we have any annotations left on the map that were _not_ part of the
+	// service update list. If so, we remove those annotations.
+	//
+	// The final trick to all this is that the iPhone user's own annotation is
+	// managed separately, so that it can update itself much more often. That said,
+	// the service will return the iPhone user's update information too. We want to 
+	// ignore that here.
+	NSArray *updates = [dictionary objectForKey:@"updates"];
+	TweetSpotState *state = [TweetSpotState shared];
+				
+	// STEP 1: mark all current annotations on the map as NOT VISITED
+	for (id key in twitterUsernameToAnnotation)
+	{
+		UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
+		annotation.visited = NO;
 	}
 	
+	// STEP 2: walk through all update records returned by the service and create, 
+	// or update, the corresponding map annotation
+	for (NSDictionary *update in updates)
+	{				
+		NSString *updateUsername = (NSString *)[update objectForKey:@"twitter_username"];
+		
+		if (![state.twitterUsername isEqualToString:updateUsername])
+		{					
+			UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:updateUsername];
+			
+			if (annotation == nil)
+			{
+				// an annotation for this username doesn't yet exist. Create it.
+				annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
+				annotation.visited = YES;
+				[twitterUsernameToAnnotation setObject:annotation forKey:updateUsername];
+				[self.mapView addAnnotation:annotation];
+			}
+			else
+			{
+				// an annotation already exists. Just update it.
+				[annotation updateWithDictionary:update];
+				annotation.visited = YES;
+			}
+		}
+	}
+	
+	// STEP 3: see if there are any annotations on the map that should go away
+	NSMutableArray *usernamesThatWentAway = [NSMutableArray arrayWithCapacity:1];
+	
+	for (id key in twitterUsernameToAnnotation)
+	{
+		UpdateAnnotation *annotation = (UpdateAnnotation *)[twitterUsernameToAnnotation objectForKey:key];
+		
+		if (![state.twitterUsername isEqualToString:annotation.twitterUsername] && !annotation.visited)
+		{
+			[self.mapView removeAnnotation:annotation];
+			[usernamesThatWentAway addObject:annotation.twitterUsername];
+		}
+	}
+	
+	// (can't remove stuff from twitterUserNameToAnnotation while enumerating it!)
+	for (id key in usernamesThatWentAway)
+	{
+		[twitterUsernameToAnnotation removeObjectForKey:key];
+	}
+
+	// Done updating! Make sure the map reflects our changes!
+	[self forceMapViewAnnotationsToUpdate];	
 	gettingLocationUpdates = NO;
 }
 
 - (void)updateTimerFired:(NSTimer *)timer
 {
-	NSLog(@"Update watch timer fired.");
 	if (!gettingLocationUpdates)
 	{
 		gettingLocationUpdates = YES;
@@ -129,8 +133,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)startWatchingForUpdates
 {
-	NSLog(@"Start watching for updates.");
-	
 	if (updateWatchingTimer == nil)
 	{
 		updateWatchingTimer = [[NSTimer scheduledTimerWithTimeInterval:kUpdateTimerSeconds target:self selector:@selector(updateTimerFired:) userInfo:nil repeats:YES] retain];
@@ -142,8 +144,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)stopWatchingForUpdates
 {
-	NSLog(@"Stop watching for updates.");
-	
 	if (updateWatchingTimer != nil)
 	{
 		[updateWatchingTimer invalidate];
@@ -154,7 +154,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 
 //------------------------------------------------------------------
-// Private implementation
+// Random Utilities For The View
 //------------------------------------------------------------------
 
 - (void)hideOverlay
@@ -257,6 +257,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	return YES;
 }
 
+
 //------------------------------------------------------------------
 // Map View Management
 //------------------------------------------------------------------
@@ -278,64 +279,104 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)forceMapViewAnnotationsToUpdate
 {
-	[mapView setCenterCoordinate:[mapView centerCoordinate] animated:YES];
+	// This _actually_ works, which is all the more shocking because
+	// if you send animated:YES, it doesn't do anything at all!
+	[mapView setCenterCoordinate:mapView.region.center animated:NO];
 }
 
 
 //------------------------------------------------------------------
-// Location Manager Delegate
+// Location Management for the current user, including annotations
 //------------------------------------------------------------------
 
 - (void)ts_finishedPostUpdate:(JsonResponse *)response
 {
-	if (response == nil)
-	{
-		NSLog(@"Got location but failed to update service.");
-	}
-	else
-	{
-		NSDictionary *dictionary = [response dictionary];
-		NSLog(@"Got location, updated service, response was: %@", [dictionary objectForKey:@"message"]);																
-	}
-	
 	updatingLocation = NO;
-	// XXX TODO -- think we want to use a timer for post/get
 }
 
 - (void)updateServiceWithLocation
 {
-	if (hasCoordinate)
+	// update only if all the conditions are right to do so
+	if (hasCoordinate && !updatingLocation)
 	{
 		TweetSpotState *state = [TweetSpotState shared];
-		updatingLocation = YES;
-		NSLog(@"Got location, updating service!");
-		NSString *message = state.currentMessage;
-		if (message == nil) 
+		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 		{
-			message = @"";
-		}
-		[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];
+			updatingLocation = YES;
+			NSString *message = state.currentMessage;			
+			if (message == nil) { message = @""; }			
+			[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];			
+		}				
 	}
+}
+
+- (void)updateUserAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
+{
+	TweetSpotState *state = [TweetSpotState shared];
+	UpdateAnnotation *annotationFromDictionary = (UpdateAnnotation *) [twitterUsernameToAnnotation objectForKey:state.twitterUsername];
+	UpdateAnnotation *annotation = annotationFromDictionary;
+	
+	if (annotationFromDictionary == nil)
+	{
+		// an annotation for this username doesn't yet exist. Create it.
+		annotation = [UpdateAnnotation updateAnnotationWithDictionary:[NSDictionary dictionary]];
+	}
+	
+	annotation.twitterUsername = state.twitterUsername;
+	annotation.twitterFullName = state.twitterFullName;
+	annotation.twitterProfileImageURL = state.twitterProfileImageURL;
+	annotation.message = state.currentMessage;
+	[annotation setLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude];
+	annotation.lastUpdate = [NSDate date];
+	annotation.visited = NO;
+	
+	if (annotationFromDictionary == nil)
+	{
+		[twitterUsernameToAnnotation setObject:annotation forKey:state.twitterUsername];
+		[self.mapView addAnnotation:annotation];
+	}
+	
+	// force the map to redraw!
+	[self forceMapViewAnnotationsToUpdate];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-	NSLog(@"Got location.");
-	if (!updatingLocation)
+	// STEP 0: reject any coordinates older than, say, three minutes
+	if (fabs([newLocation.timestamp timeIntervalSinceNow]) > (3.0 * 60.0))
 	{
-		TweetSpotState *state = [TweetSpotState shared];
-		NSLog(@"Got location, thinking about updating service.");
-		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
-		{
-			currentCoordinate = newLocation.coordinate;
-			if (!hasCoordinate)
-			{
-				hasCoordinate = YES;
-				[self centerAndZoomOnCoordinate:currentCoordinate animated:YES];
-			}
-			[self updateServiceWithLocation];
-		}
+		return;
 	}
+			
+	// STEP 1: if we have yet to see a valid coordinate, 
+	// zoom in to that location on the map
+	if (!hasCoordinate)
+	{
+		hasCoordinate = YES;
+		bestHorizontalAccuracy = newLocation.horizontalAccuracy;
+		[self centerAndZoomOnCoordinate:newLocation.coordinate animated:YES];
+	}
+	
+	// STEP 2: if the accuracy of this coordinate is more than 200% of 
+	// the previously best seen accuracy, reject the coordinate.
+	if (newLocation.horizontalAccuracy > (bestHorizontalAccuracy * 2.0))
+	{
+		return;
+	}
+	
+	// (and remember the best accuracy, if it has changed)
+	if (newLocation.horizontalAccuracy < bestHorizontalAccuracy)
+	{
+		bestHorizontalAccuracy = newLocation.horizontalAccuracy;
+	}
+	
+	// STEP 3: update our internal notion of where the user is
+	currentCoordinate = newLocation.coordinate;
+	[self updateUserAnnotationWithCoordinate:currentCoordinate];
+	
+	// STEP 4: if it's a good time, let the service know
+	// about our new location.
+	[self updateServiceWithLocation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -413,7 +454,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		
 		// build our location manager
 		locationManager = [[CLLocationManager alloc] init];
-		locationManager.distanceFilter = 100; /* don't update unless you've moved 100 meters or more */
+		locationManager.distanceFilter = 20.0; /* don't update unless you've moved 20 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
 		[locationManager startUpdatingLocation];

@@ -11,7 +11,7 @@
 #import "JSON.h"
 #import "NSData+Base64Encoding.h"
 
-static NSString *const kREFERER_URL = @"http://ourtweetspot.appspot.com/iphone/";
+static NSString *const kREFERER_URL = @"http://www.tweetthespot.com/iphone/";
 static NSString *const kREFERER_HEADER = @"Referer";
 
 @implementation JsonConnection

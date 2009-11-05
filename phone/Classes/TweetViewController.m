@@ -38,7 +38,7 @@
 	}
 	else if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 	{
-		[self.messageText setText:[NSString stringWithFormat:@"Follow me with Tweet The Spot: #%@. http://tweetthespot.com/TODO/", state.currentHashtag]];
+		[self.messageText setText:[NSString stringWithFormat:@"Follow my location with Tweet The Spot: #%@. http://www.tweetthespot.com/v/%@", state.currentHashtag, state.currentHashtag]];
 	}
 	else
 	{
