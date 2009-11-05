@@ -22,6 +22,9 @@
 		557191CC109913490059E40F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191CB109913490059E40F /* CoreLocation.framework */; };
 		557191EE1099137C0059E40F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191ED1099137C0059E40F /* MapKit.framework */; };
 		557192EF109A4EAC0059E40F /* TweetSpotWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 557192EE109A4EAC0059E40F /* TweetSpotWindow.m */; };
+		559A0B6710A3621E005921E7 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6510A3621E005921E7 /* bubble.png */; };
+		559A0B6810A3621E005921E7 /* default37.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6610A3621E005921E7 /* default37.png */; };
+		559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */; };
 		55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */; };
 		55A127CF1097F53200B79AB5 /* TwitterCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */; };
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
@@ -67,6 +70,10 @@
 		557191ED1099137C0059E40F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		557192ED109A4EAC0059E40F /* TweetSpotWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpotWindow.h; sourceTree = "<group>"; };
 		557192EE109A4EAC0059E40F /* TweetSpotWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotWindow.m; sourceTree = "<group>"; };
+		559A0B6510A3621E005921E7 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble.png; path = images/bubble.png; sourceTree = "<group>"; };
+		559A0B6610A3621E005921E7 /* default37.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default37.png; path = images/default37.png; sourceTree = "<group>"; };
+		559A0B6910A3624D005921E7 /* UpdateAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotationView.h; sourceTree = "<group>"; };
+		559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotationView.m; sourceTree = "<group>"; };
 		55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwitterCredentialsViewController.xib; sourceTree = "<group>"; };
 		55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCredentialsViewController.h; sourceTree = "<group>"; };
 		55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCredentialsViewController.m; sourceTree = "<group>"; };
@@ -170,6 +177,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				559A0B6410A3620F005921E7 /* Images */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* TweetSpot-Info.plist */,
 				55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */,
@@ -189,6 +197,15 @@
 				557191CB109913490059E40F /* CoreLocation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		559A0B6410A3620F005921E7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				559A0B6510A3621E005921E7 /* bubble.png */,
+				559A0B6610A3621E005921E7 /* default37.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		55AC0FDF109E8CB400101F7F /* Utilities */ = {
@@ -236,6 +253,8 @@
 				5571917C1098F5B60059E40F /* MapViewController.m */,
 				55AC0FF1109E8D7B00101F7F /* TweetViewController.h */,
 				55AC0FF2109E8D7B00101F7F /* TweetViewController.m */,
+				559A0B6910A3624D005921E7 /* UpdateAnnotationView.h */,
+				559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -313,6 +332,8 @@
 				55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */,
 				557191791098F5980059E40F /* MapViewController.xib in Resources */,
 				55AC0FEF109E8D4400101F7F /* TweetViewController.xib in Resources */,
+				559A0B6710A3621E005921E7 /* bubble.png in Resources */,
+				559A0B6810A3621E005921E7 /* default37.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +368,7 @@
 				55AC0FF3109E8D7B00101F7F /* TweetViewController.m in Sources */,
 				550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */,
 				550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */,
+				559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

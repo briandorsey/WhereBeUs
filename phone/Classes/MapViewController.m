@@ -13,6 +13,7 @@
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
 #import "UpdateAnnotation.h"
+#import "UpdateAnnotationView.h"
 
 static const NSTimeInterval kUpdateTimerSeconds = 15;
 #define kDefaultLatLonSpan 0.05
@@ -284,6 +285,34 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[mapView setCenterCoordinate:mapView.region.center animated:NO];
 }
 
+- (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+	// sanity check input
+	if (annotation == nil)
+	{
+		return nil;
+	}
+	
+	// we don't provide custom views for anything but UpdateAnnotations...
+	if (![annotation isKindOfClass:[UpdateAnnotation class]])
+	{
+		return nil;
+	}
+
+	// Create, or reuse, an update annotation view
+	UpdateAnnotationView *annotationView = (UpdateAnnotationView *) [theMapView dequeueReusableAnnotationViewWithIdentifier:@"UpdateAnnotation"];
+	if (annotationView == nil)
+	{
+		annotationView = [[[UpdateAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UpdateAnnotation"] autorelease];
+	}
+	else
+	{
+		annotationView.annotation = annotation;
+	}
+	
+	return annotationView;
+}
+
 
 //------------------------------------------------------------------
 // Location Management for the current user, including annotations
@@ -483,6 +512,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
     [super viewDidLoad];
 	[self hideOverlay];
+	mapView.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning 
