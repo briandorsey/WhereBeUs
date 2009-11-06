@@ -15,6 +15,8 @@
 	CGFloat twitterIconPercent; /* for when we're fading between the default icon and the twitter user icon */
 	BOOL initializing;
 	NSTimer *fadeTimer;
+	
+	BOOL expanded;
 }
 
 @end
