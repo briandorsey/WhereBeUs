@@ -10,8 +10,12 @@
 #import "UpdateAnnotation.h"
 #import "AsyncImageCache.h"
 
-#define BUBBLE_PNG_WIDTH 53.0
-#define BUBBLE_PNG_HEIGHT 61.0
+#define BUBBLE_PNG_WIDTH 55.0
+#define BUBBLE_PNG_HEIGHT 68.0
+#define IMAGE_LEFT 9.0
+#define IMAGE_TOP 5.0
+#define IMAGE_WIDTH 37.0
+#define IMAGE_HEIGHT 37.0
 
 #define kFadeTimerSeconds 0.025
 #define kFadeIncrement 0.1
@@ -99,18 +103,18 @@
 	
 	if (twitterUserIcon == nil)
 	{
-		[[UpdateAnnotationView defaultUserIcon] drawAtPoint:CGPointMake(8.0, 5.0)];
+		[[UpdateAnnotationView defaultUserIcon] drawAtPoint:CGPointMake(IMAGE_LEFT, IMAGE_TOP)];
 	}
 	else
 	{
 		if (twitterIconPercent >= 1.0)
 		{
-			[twitterUserIcon drawInRect:CGRectMake(8.0, 5.0, 37.0, 37.0)];
+			[twitterUserIcon drawInRect:CGRectMake(IMAGE_LEFT, IMAGE_TOP, IMAGE_WIDTH, IMAGE_HEIGHT)];
 		}
 		else
 		{
-			[twitterUserIcon drawInRect:CGRectMake(8.0, 5.0, 37.0, 37.0) blendMode:kCGBlendModeNormal alpha:twitterIconPercent];
-			[[UpdateAnnotationView defaultUserIcon] drawAtPoint:CGPointMake(8.0, 5.0) blendMode:kCGBlendModeNormal alpha:1.0 - twitterIconPercent];
+			[twitterUserIcon drawInRect:CGRectMake(IMAGE_LEFT, IMAGE_TOP, IMAGE_WIDTH, IMAGE_HEIGHT) blendMode:kCGBlendModeNormal alpha:twitterIconPercent];
+			[[UpdateAnnotationView defaultUserIcon] drawInRect:CGRectMake(IMAGE_LEFT, IMAGE_TOP, IMAGE_WIDTH, IMAGE_HEIGHT) blendMode:kCGBlendModeNormal alpha:1.0 - twitterIconPercent];
 		}
 	}
 }
