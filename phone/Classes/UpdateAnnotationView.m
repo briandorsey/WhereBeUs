@@ -28,6 +28,7 @@
 
 #define FIXED_EXPANDED_WIDTH 270.0
 #define FIXED_EXPANDED_HEIGHT 70.0
+#define FIXED_EXPANDED_HOTSPOT_Y 58.0
 
 #define FILL_WIDTH 1.0
 #define FILL_HEIGHT 57.0
@@ -139,13 +140,13 @@
 	if (self != nil)
 	{
 		initializing = YES;		
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
-		// self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, FIXED_EXPANDED_WIDTH, FIXED_EXPANDED_HEIGHT);
+		// self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, FIXED_EXPANDED_WIDTH, FIXED_EXPANDED_HOTSPOT_Y * 2);
 
 		self.opaque = NO;
 		twitterUserIcon = nil;
 		twitterIconPercent = 0.0;
-		expanded = NO;
+		expanded = YES;
 		
 		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *) self.annotation;
 		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.twitterProfileImageURL delegate:self];		
