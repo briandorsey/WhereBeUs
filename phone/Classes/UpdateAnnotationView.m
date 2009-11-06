@@ -12,6 +12,8 @@
 
 #define BUBBLE_PNG_WIDTH 55.0
 #define BUBBLE_PNG_HEIGHT 68.0
+#define BUBBLE_Y_CENTER_ADJUST 9.0
+
 #define IMAGE_LEFT 9.0
 #define IMAGE_TOP 5.0
 #define IMAGE_WIDTH 37.0
@@ -58,7 +60,7 @@
 	if (self != nil)
 	{
 		initializing = YES;		
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_PNG_HEIGHT);
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y - BUBBLE_PNG_HEIGHT + BUBBLE_Y_CENTER_ADJUST, BUBBLE_PNG_WIDTH, (BUBBLE_PNG_HEIGHT * 2) - BUBBLE_Y_CENTER_ADJUST);
 		self.opaque = NO;
 		twitterUserIcon = nil;
 		twitterIconPercent = 0.0;
