@@ -11,7 +11,11 @@
 #import "TweetSpotWindow.h"
 #import "TweetSpotAppDelegate.h"
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {
+@protocol TweetSpotAnnotationManager
+- (void)forceAnnotationsToUpdate;
+@end
+
+@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotAnnotationManager, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {
 	// overlay area
 	IBOutlet UIView *overlayView;
 	IBOutlet UIButton *previousButton;

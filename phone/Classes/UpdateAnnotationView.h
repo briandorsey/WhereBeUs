@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import "AsyncImageCache.h"
+#import "MapViewController.h"
 
 @interface UpdateAnnotationView : MKAnnotationView<AsyncImageCacheDelegate> {
 	UIImage *twitterUserIcon;
@@ -16,8 +17,15 @@
 	BOOL initializing;
 	NSTimer *fadeTimer;
 	
+	id<TweetSpotAnnotationManager> annotationManager;
+	
 	BOOL expanded;
 }
+
++ (UpdateAnnotationView *)uniqueExpandedView;
++ (void)setUniqueExpandedView:(UpdateAnnotationView *)newUniqueExpandedView;
+
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<TweetSpotAnnotationManager>)theAnnotationManager;
 
 - (BOOL)expanded;
 - (void)setExpanded:(BOOL)newExpanded animated:(BOOL)animated;

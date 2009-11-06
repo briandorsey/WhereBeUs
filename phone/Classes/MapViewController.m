@@ -19,7 +19,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 #define kDefaultLatLonSpan 0.05
 
 @interface MapViewController (Private)
-- (void)forceMapViewAnnotationsToUpdate;
 @end
 
 @implementation MapViewController
@@ -119,7 +118,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	}
 
 	// Done updating! Make sure the map reflects our changes!
-	[self forceMapViewAnnotationsToUpdate];	
+	[self forceAnnotationsToUpdate];	
 	gettingLocationUpdates = NO;
 }
 
@@ -278,7 +277,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[mapView setRegion:	[mapView regionThatFits:region]	animated:animated];
 }
 
-- (void)forceMapViewAnnotationsToUpdate
+- (void)forceAnnotationsToUpdate
 {
 	// This _actually_ works, which is all the more shocking because
 	// if you send animated:YES, it doesn't do anything at all!
@@ -303,18 +302,11 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	UpdateAnnotationView *annotationView = (UpdateAnnotationView *) [theMapView dequeueReusableAnnotationViewWithIdentifier:@"UpdateAnnotation"];
 	if (annotationView == nil)
 	{
-		annotationView = [[[UpdateAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UpdateAnnotation"] autorelease];
+		annotationView = [[[UpdateAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"UpdateAnnotation" annotationManager:self] autorelease];
 	}
 	else
 	{
 		annotationView.annotation = annotation;
-	}
-	
-	UpdateAnnotation *ua = (UpdateAnnotation *)annotation;
-	TweetSpotState *state = [TweetSpotState shared];
-	if ([ua.twitterUsername isEqualToString:state.twitterUsername])
-	{
-		[annotationView setExpanded:YES animated:NO];
 	}
 	
 	return annotationView;
@@ -373,7 +365,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	}
 	
 	// force the map to redraw!
-	[self forceMapViewAnnotationsToUpdate];
+	[self forceAnnotationsToUpdate];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
@@ -383,7 +375,15 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	{
 		return;
 	}
-			
+
+	#if TARGET_IPHONE_SIMULATOR
+	CLLocationCoordinate2D university_zoka_coffee_seattle_wa;
+	university_zoka_coffee_seattle_wa.latitude = 47.665916;
+	university_zoka_coffee_seattle_wa.longitude = -122.297361;	
+	newLocation = [[[CLLocation alloc] initWithCoordinate:university_zoka_coffee_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
+	#endif
+	
+	
 	// STEP 1: if we have yet to see a valid coordinate, 
 	// zoom in to that location on the map
 	if (!hasCoordinate)

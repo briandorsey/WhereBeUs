@@ -46,6 +46,26 @@
 
 @implementation UpdateAnnotationView
 
+
+//---------------------------------------------------------------------
+// Static methods for managing the "one true" expanded annotation
+//---------------------------------------------------------------------
+
+static UpdateAnnotationView *_uniqueExpandedView = nil;
+
++ (UpdateAnnotationView *)uniqueExpandedView
+{
+	// WARNING: not even kind of thread-safe
+	return _uniqueExpandedView;
+}
+
++ (void)setUniqueExpandedView:(UpdateAnnotationView *)newUniqueExpandedView
+{
+	// WARNING: not even kind of thread-safe
+	_uniqueExpandedView = newUniqueExpandedView;
+}
+
+
 //---------------------------------------------------------------------
 // Static methods for accessing frequently-used images
 //---------------------------------------------------------------------
@@ -145,16 +165,18 @@
 // Initialization & Destruction
 //---------------------------------------------------------------------
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<TweetSpotAnnotationManager>)theAnnotationManager
 {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	if (self != nil)
 	{
 		initializing = YES;		
-
 		self.opaque = NO;
+		annotationManager = theAnnotationManager;		
 		twitterUserIcon = nil;
-		twitterIconPercent = 0.0;		
+		twitterIconPercent = 0.0;
+		expanded = NO;
+		
 		[self transitionToCollapsed:NO];
 		
 		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
@@ -168,6 +190,8 @@
 
 - (void)dealloc
 {
+	annotationManager = nil;
+	
 	[fadeTimer invalidate];
 	[fadeTimer release];
 	fadeTimer = nil;
@@ -392,8 +416,6 @@ CGFloat GetRectRight(CGRect rect)
 
 - (void)asyncImageCacheLoadedImage:(UIImage *)image forURL:(NSString *)url
 {
-	NSLog(@"Got async image for url %@: %@", url, image);
-	
 	// just in case
 	[twitterUserIcon release];
 	twitterUserIcon = nil;
@@ -417,25 +439,17 @@ CGFloat GetRectRight(CGRect rect)
 
 - (void)transitionToExpanded:(BOOL)animated
 {
-	expanded = YES;
-	
 	UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)self.annotation;
 	CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
 	CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
 	CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
 	CGFloat totalWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;	
 	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, totalWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);	
-	[self setNeedsDisplay];
-	[self.superview setNeedsLayout];
 }
 
 - (void)transitionToCollapsed:(BOOL)animated
 {
-	expanded = NO;
-	
-	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
-	[self setNeedsDisplay];	
-	[self.superview setNeedsLayout];
+	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);	
 }
 
 - (BOOL)expanded
@@ -449,12 +463,31 @@ CGFloat GetRectRight(CGRect rect)
 	{
 		if (newExpanded)
 		{
+			// if there is a currently expanded annotation, shut it down.
+			// order of operations is important so that the collaping 
+			// annotation doesn't try to do the same.
+			UpdateAnnotationView *currentlyExpanded = [UpdateAnnotationView uniqueExpandedView];
+			[UpdateAnnotationView setUniqueExpandedView:self];
+			[currentlyExpanded setExpanded:NO animated:animated];
+
 			[self transitionToExpanded:animated];
 		}
 		else
 		{
+			// if _I_ am the currently expanded annotation, then,
+			// because of the order of operations in (newExpanded) above,
+			// this means the user tapped _on me_. 
+			if ([UpdateAnnotationView uniqueExpandedView] == self)
+			{
+				[UpdateAnnotationView setUniqueExpandedView:nil];
+			}
+			
 			[self transitionToCollapsed:animated];
 		}
+		
+		expanded = newExpanded;	
+		[self setNeedsDisplay];		
+		[annotationManager forceAnnotationsToUpdate];			
 	}	
 }
 
@@ -463,6 +496,48 @@ CGFloat GetRectRight(CGRect rect)
 // Touch Interception
 //---------------------------------------------------------------------
 
-// XXX TODO
+// The map behavior is interesting: you only have to hold on top of
+// an annotation for maybe 1/4 second and it will show its callout.
+// If you don't let go and drag your finger around, other annotations
+// that you drag over will actually show _their_ callouts.
+//
+// I'm not sure if that's the behavior we want here, but I'll try it
+// until we have reason to try something else...
+
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+	if (expanded)
+	{
+		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, CENTER_HEIGHT), point);
+	}
+	else
+	{
+		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, BUBBLE_PNG_HEIGHT - (BUBBLE_PNG_HEIGHT - BUBBLE_HOTSPOT_Y)), point);
+	}
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	UITouch *touch = [touches anyObject];
+	if ([self pointInside:[touch locationInView:self] withEvent:event])
+	{
+		if ([touch tapCount] == 1)
+		{
+			[self setExpanded:!expanded animated:YES];
+		}
+	}	
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+}
 
 @end
