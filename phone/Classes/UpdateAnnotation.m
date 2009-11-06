@@ -112,7 +112,7 @@
 	}
 	else
 	{
-		return @"a very long time ago";
+		return @"more than a month ago";
 	}
 }
 
@@ -121,7 +121,7 @@
 	// TODO XXX pretty print this stuff
 	NSDate *now = [NSDate date];
 	NSTimeInterval interval = [now timeIntervalSinceDate:self.lastUpdate];
-	return [NSString stringWithFormat:@"(last updated %@)", [UpdateAnnotation prettyPrintInterval:interval]];
+	return [NSString stringWithFormat:@"(updated %@)", [UpdateAnnotation prettyPrintInterval:interval]];
 }
 
 - (void)setLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude

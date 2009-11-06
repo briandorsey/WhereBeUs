@@ -214,7 +214,7 @@ CGFloat GetRectRight(CGRect rect)
 	CGSize frameSize = self.frame.size;
 	CGRect leftCapRect = CGRectMake(0.0, 0.0, LEFT_WIDTH, LEFT_HEIGHT);
 	CGRect rightCapRect = CGRectMake(frameSize.width - RIGHT_WIDTH, 0.0, RIGHT_WIDTH, RIGHT_HEIGHT);
-	CGRect centerRect = CGRectMake((frameSize.width / 2.0) - (CENTER_WIDTH / 2.0), 0.0, CENTER_WIDTH, CENTER_HEIGHT);
+	CGRect centerRect = CGRectMake(round(frameSize.width / 2.0) - (CENTER_WIDTH / 2.0), 0.0, CENTER_WIDTH, CENTER_HEIGHT);
 	
 	CGFloat leftCapRect_right = GetRectRight(leftCapRect);
 	CGFloat centerRect_left = GetRectLeft(centerRect);
