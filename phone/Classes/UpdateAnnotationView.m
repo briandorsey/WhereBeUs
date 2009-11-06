@@ -141,14 +141,20 @@
 	{
 		initializing = YES;		
 		// self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, FIXED_EXPANDED_WIDTH, FIXED_EXPANDED_HOTSPOT_Y * 2);
+		
+		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
+		CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
+		CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
+		CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
+		CGFloat totalWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
+				
+		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, totalWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);
 
 		self.opaque = NO;
 		twitterUserIcon = nil;
 		twitterIconPercent = 0.0;
 		expanded = YES;
 		
-		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *) self.annotation;
 		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.twitterProfileImageURL delegate:self];		
 		
 		self.canShowCallout = NO; /* we are the callout! */
