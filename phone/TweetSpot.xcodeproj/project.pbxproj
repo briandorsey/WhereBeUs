@@ -25,6 +25,10 @@
 		559A0B6810A3621E005921E7 /* default37.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6610A3621E005921E7 /* default37.png */; };
 		559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */; };
 		559A0BD810A37B2F005921E7 /* AsyncImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A0BD710A37B2F005921E7 /* AsyncImageCache.m */; };
+		559A0CD110A3A6C5005921E7 /* center.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0CCD10A3A6C5005921E7 /* center.png */; };
+		559A0CD210A3A6C5005921E7 /* fill.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0CCE10A3A6C5005921E7 /* fill.png */; };
+		559A0CD310A3A6C5005921E7 /* left.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0CCF10A3A6C5005921E7 /* left.png */; };
+		559A0CD410A3A6C5005921E7 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0CD010A3A6C5005921E7 /* right.png */; };
 		55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */; };
 		55A127CF1097F53200B79AB5 /* TwitterCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */; };
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
@@ -74,6 +78,10 @@
 		559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotationView.m; sourceTree = "<group>"; };
 		559A0BD610A37B2F005921E7 /* AsyncImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageCache.h; sourceTree = "<group>"; };
 		559A0BD710A37B2F005921E7 /* AsyncImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageCache.m; sourceTree = "<group>"; };
+		559A0CCD10A3A6C5005921E7 /* center.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = center.png; path = images/center.png; sourceTree = "<group>"; };
+		559A0CCE10A3A6C5005921E7 /* fill.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fill.png; path = images/fill.png; sourceTree = "<group>"; };
+		559A0CCF10A3A6C5005921E7 /* left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = left.png; path = images/left.png; sourceTree = "<group>"; };
+		559A0CD010A3A6C5005921E7 /* right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = right.png; path = images/right.png; sourceTree = "<group>"; };
 		55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwitterCredentialsViewController.xib; sourceTree = "<group>"; };
 		55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCredentialsViewController.h; sourceTree = "<group>"; };
 		55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCredentialsViewController.m; sourceTree = "<group>"; };
@@ -202,6 +210,10 @@
 		559A0B6410A3620F005921E7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				559A0CCD10A3A6C5005921E7 /* center.png */,
+				559A0CCE10A3A6C5005921E7 /* fill.png */,
+				559A0CCF10A3A6C5005921E7 /* left.png */,
+				559A0CD010A3A6C5005921E7 /* right.png */,
 				559A0B6510A3621E005921E7 /* bubble.png */,
 				559A0B6610A3621E005921E7 /* default37.png */,
 			);
@@ -334,6 +346,10 @@
 				55AC0FEF109E8D4400101F7F /* TweetViewController.xib in Resources */,
 				559A0B6710A3621E005921E7 /* bubble.png in Resources */,
 				559A0B6810A3621E005921E7 /* default37.png in Resources */,
+				559A0CD110A3A6C5005921E7 /* center.png in Resources */,
+				559A0CD210A3A6C5005921E7 /* fill.png in Resources */,
+				559A0CD310A3A6C5005921E7 /* left.png in Resources */,
+				559A0CD410A3A6C5005921E7 /* right.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
