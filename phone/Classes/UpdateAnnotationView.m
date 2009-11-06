@@ -10,9 +10,6 @@
 #import "UpdateAnnotation.h"
 #import "AsyncImageCache.h"
 
-// NOTE WELL: THIS CODE IS VERY MUCH IN PROGRESS... 
-// ...IT IS CURRENTLY "LOCKED" TO THE "EXPANDED" STATE.
-
 #define BUBBLE_PNG_WIDTH 55.0
 #define BUBBLE_PNG_HEIGHT 68.0
 #define BUBBLE_HOTSPOT_Y 58.0
@@ -42,7 +39,16 @@
 #define kFadeTimerSeconds 0.025
 #define kFadeIncrement 0.1
 
+@interface UpdateAnnotationView (Private)
+- (void)transitionToExpanded:(BOOL)animated;
+- (void)transitionToCollapsed:(BOOL)animated;
+@end
+
 @implementation UpdateAnnotationView
+
+//---------------------------------------------------------------------
+// Static methods for accessing frequently-used images
+//---------------------------------------------------------------------
 
 + (UIImage *)bubbleImage
 {
@@ -134,27 +140,24 @@
 	return _fillImage;
 }
 
+
+//---------------------------------------------------------------------
+// Initialization & Destruction
+//---------------------------------------------------------------------
+
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier
 {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	if (self != nil)
 	{
 		initializing = YES;		
-		// self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
-		
-		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
-		CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
-		CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
-		CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
-		CGFloat totalWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
-				
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, totalWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);
 
 		self.opaque = NO;
 		twitterUserIcon = nil;
-		twitterIconPercent = 0.0;
-		expanded = YES;
+		twitterIconPercent = 0.0;		
+		[self transitionToCollapsed:NO];
 		
+		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
 		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.twitterProfileImageURL delegate:self];		
 		
 		self.canShowCallout = NO; /* we are the callout! */
@@ -175,6 +178,11 @@
 	[super dealloc];
 }
 
+
+//---------------------------------------------------------------------
+// MKAnnotationView overrides
+//---------------------------------------------------------------------
+
 - (void)prepareForReuse
 {
 	[super prepareForReuse];
@@ -184,7 +192,15 @@
 
 	[twitterUserIcon release];
 	twitterUserIcon = nil;
+	
+	twitterIconPercent = 0.0;		
+	[self transitionToCollapsed:NO];	
 }
+
+
+//---------------------------------------------------------------------
+// Geometry Helpers
+//---------------------------------------------------------------------
 
 CGFloat GetRectTop(CGRect rect)
 {
@@ -205,6 +221,11 @@ CGFloat GetRectRight(CGRect rect)
 {
 	return rect.origin.x + rect.size.width;
 }
+
+
+//---------------------------------------------------------------------
+// Custom View Drawing
+//---------------------------------------------------------------------
 
 - (void)drawExpandedRect:(CGRect)rect
 {
@@ -325,6 +346,11 @@ CGFloat GetRectRight(CGRect rect)
 	}
 }
 
+
+//---------------------------------------------------------------------
+// Fade Management For User Icon
+//---------------------------------------------------------------------
+
 - (void)fadeTimerFired:(NSTimer *)timer
 {
 	twitterIconPercent += kFadeIncrement;
@@ -359,6 +385,11 @@ CGFloat GetRectRight(CGRect rect)
 	fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:kFadeTimerSeconds target:self selector:@selector(fadeTimerFired:) userInfo:nil repeats:YES] retain];
 }
 
+
+//---------------------------------------------------------------------
+// AsyncImageCache Delegate
+//---------------------------------------------------------------------
+
 - (void)asyncImageCacheLoadedImage:(UIImage *)image forURL:(NSString *)url
 {
 	NSLog(@"Got async image for url %@: %@", url, image);
@@ -379,5 +410,59 @@ CGFloat GetRectRight(CGRect rect)
 	[self setNeedsDisplay];
 }
 
+
+//---------------------------------------------------------------------
+// Expand/Collapse
+//---------------------------------------------------------------------
+
+- (void)transitionToExpanded:(BOOL)animated
+{
+	expanded = YES;
+	
+	UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)self.annotation;
+	CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
+	CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
+	CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
+	CGFloat totalWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;	
+	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, totalWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);	
+	[self setNeedsDisplay];
+	[self.superview setNeedsLayout];
+}
+
+- (void)transitionToCollapsed:(BOOL)animated
+{
+	expanded = NO;
+	
+	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);
+	[self setNeedsDisplay];	
+	[self.superview setNeedsLayout];
+}
+
+- (BOOL)expanded
+{
+	return expanded;
+}
+
+- (void)setExpanded:(BOOL)newExpanded animated:(BOOL)animated
+{
+	if (newExpanded != expanded)
+	{
+		if (newExpanded)
+		{
+			[self transitionToExpanded:animated];
+		}
+		else
+		{
+			[self transitionToCollapsed:animated];
+		}
+	}	
+}
+
+
+//---------------------------------------------------------------------
+// Touch Interception
+//---------------------------------------------------------------------
+
+// XXX TODO
 
 @end

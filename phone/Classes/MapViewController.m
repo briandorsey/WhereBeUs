@@ -310,6 +310,13 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 		annotationView.annotation = annotation;
 	}
 	
+	UpdateAnnotation *ua = (UpdateAnnotation *)annotation;
+	TweetSpotState *state = [TweetSpotState shared];
+	if ([ua.twitterUsername isEqualToString:state.twitterUsername])
+	{
+		[annotationView setExpanded:YES animated:NO];
+	}
+	
 	return annotationView;
 }
 

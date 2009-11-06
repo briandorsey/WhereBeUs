@@ -19,4 +19,7 @@
 	BOOL expanded;
 }
 
+- (BOOL)expanded;
+- (void)setExpanded:(BOOL)newExpanded animated:(BOOL)animated;
+
 @end
