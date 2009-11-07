@@ -475,21 +475,56 @@ CGFloat GetRectRight(CGRect rect)
 	// to wherever we start drawing actual content in the view
 	expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
 	
+	// let's be careful, though. If we have to adjust too far, our left cap
+	// (or right cap) image will overlap with the center/down-arrow image.
+	// This calls for: moving the map itself! We want to move the map
+	// exactly as many pixels as there is overlap, plus one pixel so that
+	// we get a line of "fill" everywhere.
+	CGFloat mapMoveX = 0.0;
+	CGFloat overlapLeft = (expansion_downArrowX - round(CENTER_WIDTH / 2.0)) - (LEFT_WIDTH + 1.0);
+	CGFloat overlapRight = (expansion_downArrowX + round(CENTER_WIDTH / 2.0)) - (expansion_contentWidth - RIGHT_WIDTH + 1.0);
+		
+	// the down arrow location is affected by our overlap adjustment, if any
+	if (overlapLeft <= 0.0)
+	{
+		mapMoveX = overlapLeft;
+		adjustX += overlapLeft;
+		expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+	}
+	else if (overlapRight >= 0.0)
+	{
+		mapMoveX = overlapRight;
+		adjustX += overlapRight;
+		expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+	}
+	
 	// compute the overall width of the view so that the down arrow is centered
 	expansion_viewWidth = expansion_contentWidth + (2.0 * fabs(adjustX));
 	
 	// compute where to start drawing the view's actual content
 	expansion_contentOriginX = (adjustX > 0.0) ? (expansion_viewWidth - expansion_contentWidth) : 0.0;
 	
-	// TODO: (1) decide when it is appropriate to move the map itself, and (2) restrict annotation sizes to a maximum width (eg 300 wide)
+	// TODO: (1) restrict annotation sizes to a maximum width (eg 300 wide)
 	
-	// set up our size
-	self.bounds = CGRectMake(0.0, 0.0, expansion_viewWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);	
+	// force a redraw of us.
+	self.bounds = CGRectMake(0.0, 0.0, expansion_viewWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);
+	[self setNeedsDisplay];		
+
+	if (mapMoveX != 0.0)
+	{
+		[annotationManager moveMapByDeltaX:mapMoveX deltaY:0.0 forView:self];
+	}
+	else 
+	{
+		[annotationManager forceAnnotationsToUpdate];
+	}
 }
 
 - (void)transitionToCollapsed:(BOOL)animated
 {
 	self.bounds = CGRectMake(0.0, 0.0, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);	
+	[self setNeedsDisplay];		
+	[annotationManager forceAnnotationsToUpdate];			
 }
 
 - (BOOL)expanded
@@ -526,8 +561,6 @@ CGFloat GetRectRight(CGRect rect)
 		}
 		
 		expanded = newExpanded;	
-		[self setNeedsDisplay];		
-		[annotationManager forceAnnotationsToUpdate];			
 	}	
 }
 
@@ -548,7 +581,7 @@ CGFloat GetRectRight(CGRect rect)
 {
 	if (expanded)
 	{
-		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, CENTER_HEIGHT), point);
+		return CGRectContainsPoint(CGRectMake(expansion_contentOriginX, 0.0, expansion_contentWidth, CENTER_HEIGHT), point);
 	}
 	else
 	{

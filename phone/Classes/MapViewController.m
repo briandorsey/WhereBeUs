@@ -277,20 +277,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[mapView setRegion:	[mapView regionThatFits:region]	animated:animated];
 }
 
-- (void)forceAnnotationsToUpdate
-{
-	// This _actually_ works, which is all the more shocking because
-	// if you send animated:YES, it doesn't do anything at all!
-	[mapView setCenterCoordinate:mapView.region.center animated:NO];
-}
-
-- (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view
-{
-	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
-	UIWindow *window = (UIWindow *)appDelegate.window;
-	return [window convertRect:rect fromView:view];
-}
-
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
 	// sanity check input
@@ -317,6 +303,58 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	}
 	
 	return annotationView;
+}
+
+
+//
+// TweetSpotAnnotationManager delegate -- basically just a clean way for
+// annotation views to comunicate back to the map view controller...
+//
+
+- (void)forceAnnotationsToUpdate
+{
+	// This _actually_ works, which is all the more shocking because
+	// if you send animated:YES, it doesn't do anything at all!
+	[mapView setCenterCoordinate:mapView.region.center animated:NO];
+}
+
+- (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view
+{
+	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
+	UIWindow *window = (UIWindow *)appDelegate.window;
+	return [window convertRect:rect fromView:view];
+}
+
+CGFloat fsign(CGFloat f)
+{
+	if (f < 0.0)
+	{
+		return -1.0;
+	}
+	else if (f > 0.0)
+	{
+		return 1.0;
+	}
+	
+	return 0.0;
+}
+
+- (void)moveMapByDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY forView:(UIView *)view
+{
+	// how much do we want to move, _in the coordinate system of the requesting view_?
+	// (the rectangle's origin isn't so interesting; the _size_ is key)
+	CGRect deltaRect = CGRectMake(view.center.x, view.center.y, fabs(deltaX), fabs(deltaY));
+	
+	// how much motion does this imply in latitude/longitude space?
+	MKCoordinateRegion deltaRegion = [mapView convertRect:deltaRect toRegionFromView:view];
+	
+	// where are we moving to?
+	CLLocationCoordinate2D destination;
+	destination.latitude = mapView.region.center.latitude + (fsign(deltaY) * deltaRegion.span.latitudeDelta);
+	destination.longitude = mapView.region.center.longitude + (fsign(deltaX) * deltaRegion.span.longitudeDelta);
+	
+	// move!
+	[mapView setCenterCoordinate:destination animated:YES];
 }
 
 
