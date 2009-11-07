@@ -262,18 +262,19 @@ CGFloat GetRectRight(CGRect rect)
 	//------------------------------------------------
 	
 	// compute areas	
-	CGSize frameSize = self.frame.size;
-	CGRect leftCapRect = CGRectMake(0.0, 0.0, LEFT_WIDTH, LEFT_HEIGHT);
-	CGRect rightCapRect = CGRectMake(frameSize.width - RIGHT_WIDTH, 0.0, RIGHT_WIDTH, RIGHT_HEIGHT);
-	CGRect centerRect = CGRectMake(round(frameSize.width / 2.0) - (CENTER_WIDTH / 2.0), 0.0, CENTER_WIDTH, CENTER_HEIGHT);
+	CGRect leftCapRect = CGRectMake(expansion_contentOriginX, 0.0, LEFT_WIDTH, LEFT_HEIGHT);
+	CGRect rightCapRect = CGRectMake(expansion_contentWidth + expansion_contentOriginX - RIGHT_WIDTH, 0.0, RIGHT_WIDTH, RIGHT_HEIGHT);
+	CGFloat centerImageCenterX = expansion_downArrowX + expansion_contentOriginX;
+	CGFloat centerImageX = centerImageCenterX - round(CENTER_WIDTH / 2.0);
+	CGRect centerRect = CGRectMake(centerImageX, 0.0, CENTER_WIDTH, CENTER_HEIGHT);
 	
 	CGFloat leftCapRect_right = GetRectRight(leftCapRect);
 	CGFloat centerRect_left = GetRectLeft(centerRect);
-	CGRect leftFillRect = CGRectMake(leftCapRect_right, 0.0, centerRect_left - leftCapRect_right - 1, FILL_HEIGHT);
+	CGRect leftFillRect = CGRectMake(leftCapRect_right, 0.0, centerRect_left - leftCapRect_right, FILL_HEIGHT);
 	
 	CGFloat rightCapRect_left = GetRectLeft(rightCapRect);
 	CGFloat centerRect_right = GetRectRight(centerRect);
-	CGRect rightFillRect = CGRectMake(centerRect_right + 1, 0.0, rightCapRect_left - centerRect_right - 1, FILL_HEIGHT);
+	CGRect rightFillRect = CGRectMake(centerRect_right, 0.0, rightCapRect_left - centerRect_right, FILL_HEIGHT);
 	
 	// draw areas
 	[[UpdateAnnotationView leftCapImage] drawInRect:leftCapRect];
@@ -439,17 +440,56 @@ CGFloat GetRectRight(CGRect rect)
 
 - (void)transitionToExpanded:(BOOL)animated
 {
+	// figure out how big our expanded view's visible content will be
 	UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)self.annotation;
 	CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
 	CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
 	CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
-	CGFloat totalWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;	
-	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, totalWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);	
+	expansion_contentWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
+	
+	// where are we currently displayed on screen?
+	CGRect currentScreenBounds = [annotationManager getScreenBoundsForRect:self.bounds fromView:self];
+	CGFloat currentScreenCenterX = currentScreenBounds.origin.x + (currentScreenBounds.size.width / 2.0);
+	
+	// where will our horizontal extents be, on screen,
+	// if we fully expand and put our down-arrow dead center?
+	CGFloat futureScreenLeftX = currentScreenCenterX - (expansion_contentWidth / 2.0);
+	CGFloat futureScreenRightX = currentScreenCenterX + (expansion_contentWidth / 2.0);
+	CGFloat maxScreenRight = [[UIScreen mainScreen] bounds].size.width;
+
+	// do we need to modify our position so we fit on the screen?
+	CGFloat adjustX = 0.0;
+	if ((futureScreenLeftX < 0) ^ (futureScreenRightX > maxScreenRight))
+	{
+		if (futureScreenLeftX < 0)
+		{
+			adjustX = -futureScreenLeftX; /* will be a positive value, aka move to the right */
+		}
+		else
+		{
+			adjustX = maxScreenRight - futureScreenRightX; /* will be a negative value, aka move to the left */
+		}
+	}
+	
+	// compute where the center of the down arrow should be, relative
+	// to wherever we start drawing actual content in the view
+	expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+	
+	// compute the overall width of the view so that the down arrow is centered
+	expansion_viewWidth = expansion_contentWidth + (2.0 * fabs(adjustX));
+	
+	// compute where to start drawing the view's actual content
+	expansion_contentOriginX = (adjustX > 0.0) ? (expansion_viewWidth - expansion_contentWidth) : 0.0;
+	
+	// TODO: (1) decide when it is appropriate to move the map itself, and (2) restrict annotation sizes to a maximum width (eg 300 wide)
+	
+	// set up our size
+	self.bounds = CGRectMake(0.0, 0.0, expansion_viewWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);	
 }
 
 - (void)transitionToCollapsed:(BOOL)animated
 {
-	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);	
+	self.bounds = CGRectMake(0.0, 0.0, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);	
 }
 
 - (BOOL)expanded
@@ -525,19 +565,20 @@ CGFloat GetRectRight(CGRect rect)
 		{
 			[self setExpanded:!expanded animated:YES];
 		}
-	}	
+	}
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-}
-
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-}
+//
+//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//}
+//
+//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//}
+//
+//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//}
 
 @end

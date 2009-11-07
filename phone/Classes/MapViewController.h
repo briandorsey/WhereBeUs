@@ -13,6 +13,7 @@
 
 @protocol TweetSpotAnnotationManager
 - (void)forceAnnotationsToUpdate;
+- (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view;
 @end
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotAnnotationManager, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {

@@ -20,6 +20,15 @@
 	id<TweetSpotAnnotationManager> annotationManager;
 	
 	BOOL expanded;
+
+	// state necessary for drawing the expanded annotation view
+	// in such a way that it fits cleanly on the screen, regardless
+	// of where the underlying map coordinate is located -- a bit
+	// tricky, yes, but I'm pretty convinced this is as easy as it gets
+	CGFloat expansion_viewWidth;
+	CGFloat expansion_contentWidth;
+	CGFloat expansion_contentOriginX;
+	CGFloat expansion_downArrowX;
 }
 
 + (UpdateAnnotationView *)uniqueExpandedView;

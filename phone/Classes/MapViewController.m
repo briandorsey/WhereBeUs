@@ -284,6 +284,13 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	[mapView setCenterCoordinate:mapView.region.center animated:NO];
 }
 
+- (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view
+{
+	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
+	UIWindow *window = (UIWindow *)appDelegate.window;
+	return [window convertRect:rect fromView:view];
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id<MKAnnotation>)annotation
 {
 	// sanity check input
