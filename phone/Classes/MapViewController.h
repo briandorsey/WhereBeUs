@@ -15,6 +15,7 @@
 - (void)forceAnnotationsToUpdate;
 - (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view;
 - (void)moveMapByDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY forView:(UIView *)view;
+- (void)deselectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
 @end
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotAnnotationManager, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {

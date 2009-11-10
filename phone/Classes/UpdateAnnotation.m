@@ -129,5 +129,4 @@
 	coordinate.latitude = latitude;
 	coordinate.longitude = longitude;
 }
-
 @end

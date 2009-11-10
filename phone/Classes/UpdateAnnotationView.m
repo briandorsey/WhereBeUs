@@ -48,25 +48,6 @@
 
 
 //---------------------------------------------------------------------
-// Static methods for managing the "one true" expanded annotation
-//---------------------------------------------------------------------
-
-static UpdateAnnotationView *_uniqueExpandedView = nil;
-
-+ (UpdateAnnotationView *)uniqueExpandedView
-{
-	// WARNING: not even kind of thread-safe
-	return _uniqueExpandedView;
-}
-
-+ (void)setUniqueExpandedView:(UpdateAnnotationView *)newUniqueExpandedView
-{
-	// WARNING: not even kind of thread-safe
-	_uniqueExpandedView = newUniqueExpandedView;
-}
-
-
-//---------------------------------------------------------------------
 // Static methods for accessing frequently-used images
 //---------------------------------------------------------------------
 
@@ -175,7 +156,6 @@ static UpdateAnnotationView *_uniqueExpandedView = nil;
 		annotationManager = theAnnotationManager;		
 		twitterUserIcon = nil;
 		twitterIconPercent = 0.0;
-		expanded = NO;
 		
 		[self transitionToCollapsed:NO];
 		
@@ -362,7 +342,7 @@ CGFloat GetRectRight(CGRect rect)
 
 - (void)drawRect:(CGRect)rect
 {
-	if (expanded)
+	if (self.selected)
 	{
 		[self drawExpandedRect:rect];
 	}
@@ -528,43 +508,6 @@ CGFloat GetRectRight(CGRect rect)
 	[annotationManager forceAnnotationsToUpdate];			
 }
 
-- (BOOL)expanded
-{
-	return expanded;
-}
-
-- (void)setExpanded:(BOOL)newExpanded animated:(BOOL)animated
-{
-	if (newExpanded != expanded)
-	{
-		if (newExpanded)
-		{
-			// if there is a currently expanded annotation, shut it down.
-			// order of operations is important so that the collaping 
-			// annotation doesn't try to do the same.
-			UpdateAnnotationView *currentlyExpanded = [UpdateAnnotationView uniqueExpandedView];
-			[UpdateAnnotationView setUniqueExpandedView:self];
-			[currentlyExpanded setExpanded:NO animated:animated];
-
-			[self transitionToExpanded:animated];
-		}
-		else
-		{
-			// if _I_ am the currently expanded annotation, then,
-			// because of the order of operations in (newExpanded) above,
-			// this means the user tapped _on me_. 
-			if ([UpdateAnnotationView uniqueExpandedView] == self)
-			{
-				[UpdateAnnotationView setUniqueExpandedView:nil];
-			}
-			
-			[self transitionToCollapsed:animated];
-		}
-		
-		expanded = newExpanded;	
-	}	
-}
-
 
 //---------------------------------------------------------------------
 // Touch Interception
@@ -580,7 +523,7 @@ CGFloat GetRectRight(CGRect rect)
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
-	if (expanded)
+	if (self.selected)
 	{
 		return CGRectContainsPoint(CGRectMake(expansion_contentOriginX, 0.0, expansion_contentWidth, CENTER_HEIGHT), point);
 	}
@@ -590,6 +533,40 @@ CGFloat GetRectRight(CGRect rect)
 	}
 }
 
+- (void)setSelected:(BOOL)newSelected
+{
+	if (newSelected != self.selected)
+	{
+		if (newSelected)
+		{
+			[self transitionToExpanded:NO];
+		}
+		else
+		{
+			[self transitionToCollapsed:NO];
+		}		
+	}
+
+	[super setSelected:newSelected];
+}
+
+- (void)setSelected:(BOOL)newSelected animated:(BOOL)animated
+{
+	if (newSelected != self.selected)
+	{
+		if (newSelected)
+		{
+			[self transitionToExpanded:animated];
+		}
+		else
+		{
+			[self transitionToCollapsed:animated];
+		}		
+	}
+	
+	[super setSelected:newSelected animated:animated];
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	UITouch *touch = [touches anyObject];
@@ -597,22 +574,12 @@ CGFloat GetRectRight(CGRect rect)
 	{
 		if ([touch tapCount] == 1)
 		{
-			[self setExpanded:!expanded animated:YES];
+			if (self.selected)
+			{
+				[annotationManager deselectAnnotation:self.annotation animated:YES];
+			}
 		}
 	}
 }
-
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//}
-//
-//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//}
-//
-//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//}
 
 @end

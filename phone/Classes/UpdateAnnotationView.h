@@ -19,8 +19,6 @@
 	
 	id<TweetSpotAnnotationManager> annotationManager;
 	
-	BOOL expanded;
-
 	// state necessary for drawing the expanded annotation view
 	// in such a way that it fits cleanly on the screen, regardless
 	// of where the underlying map coordinate is located -- a bit
@@ -31,12 +29,6 @@
 	CGFloat expansion_downArrowX;
 }
 
-+ (UpdateAnnotationView *)uniqueExpandedView;
-+ (void)setUniqueExpandedView:(UpdateAnnotationView *)newUniqueExpandedView;
-
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<TweetSpotAnnotationManager>)theAnnotationManager;
-
-- (BOOL)expanded;
-- (void)setExpanded:(BOOL)newExpanded animated:(BOOL)animated;
 
 @end

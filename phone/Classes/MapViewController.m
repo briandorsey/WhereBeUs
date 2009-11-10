@@ -357,6 +357,11 @@ CGFloat fsign(CGFloat f)
 	[mapView setCenterCoordinate:destination animated:YES];
 }
 
+- (void)deselectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated
+{
+	[mapView deselectAnnotation:annotation animated:animated];
+}
+
 
 //------------------------------------------------------------------
 // Location Management for the current user, including annotations
@@ -472,33 +477,32 @@ CGFloat fsign(CGFloat f)
 
 - (void)gotWindowEvent:(UIEvent *)event
 {
-	// if the text field has focus and the user clicks outside of it, drop the focus
-	if ([self.hashtagField isFirstResponder])
+
+	// did the user click in the map view?
+	UITouch *touch = [event.allTouches anyObject];
+	CGPoint touchInMap = [touch locationInView:mapView];
+	if ([mapView pointInside:touchInMap withEvent:event])
 	{
-		if ([event type] == UIEventTypeTouches)
+		// if they're editing the hashtag field, go ahead and blur() it -- they're done for now
+		if ([self.hashtagField isFirstResponder])
 		{
-			NSSet *set = [event allTouches];
-			for (UITouch *touch in set)
-			{
-				CGPoint location = [touch locationInView:self.view];
-				if (location.y >= 42)
-				{
-						[self.hashtagField resignFirstResponder];
-						[self updateCurrentHashtag];
-				}
-					
-				break;
-			}
+			[self.hashtagField resignFirstResponder];
+			[self updateCurrentHashtag];			
 		}
-	}
-	
-	if ([[event allTouches] count] == 1)
-	{
-		UITouch *touch = [[event allTouches] anyObject];
-		if (touch.tapCount == 1 && touch.phase == UITouchPhaseEnded)
-		{
-			[[UpdateAnnotationView uniqueExpandedView] setExpanded:NO animated:YES];
-		}
+
+		// did they touch up?
+//		if (touch.phase == UITouchPhaseEnded)
+//		{
+//			// did they touch up in the map view, but _not_ in any annotation views?
+//			UIView *potentialAnnotationView = [mapView hitTest:touchInMap withEvent:event];
+//			NSLog(@"TOUCH UP IN MAP");
+//			if (![potentialAnnotationView isKindOfClass:[UpdateAnnotationView class]])
+//			{
+//				NSLog(@"TOUCH UP IN MAP, NOT AN ANNOTATION VIEW: %@", potentialAnnotationView);
+//				// yes, so go ahead and collapse the expanded annotation view (if any)
+//				[[UpdateAnnotationView uniqueExpandedView] setExpanded:NO animated:YES];
+//			}			
+//		}
 	}
 }
 
