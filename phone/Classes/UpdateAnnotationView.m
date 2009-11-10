@@ -484,11 +484,12 @@ CGFloat GetRectRight(CGRect rect)
 		
 	// TODO: (1) restrict annotation sizes to a maximum width (eg 300 wide)
 	
-	// force a redraw of us.
+	// redraw the annotation!
 	self.bounds = CGRectMake(0.0, 0.0, contentWidth, FIXED_EXPANDED_HEIGHT);
 	self.centerOffset = CGPointMake(adjustX, FIXED_EXPANDED_CENTEROFFSET_Y);
 	[self setNeedsDisplay];		
 
+	// move the map if desired
 	if (mapMoveX != 0.0)
 	{
 		[annotationManager moveMapByDeltaX:mapMoveX deltaY:0.0 forView:self];
@@ -497,6 +498,7 @@ CGFloat GetRectRight(CGRect rect)
 	{
 		[annotationManager forceAnnotationsToUpdate];
 	}
+	
 }
 
 - (void)transitionToCollapsed:(BOOL)animated
@@ -511,26 +513,6 @@ CGFloat GetRectRight(CGRect rect)
 //---------------------------------------------------------------------
 // Touch Interception
 //---------------------------------------------------------------------
-
-// The map behavior is interesting: you only have to hold on top of
-// an annotation for maybe 1/4 second and it will show its callout.
-// If you don't let go and drag your finger around, other annotations
-// that you drag over will actually show _their_ callouts.
-//
-// I'm not sure if that's the behavior we want here, but I'll try it
-// until we have reason to try something else...
-
-//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-//{
-//	if (self.selected)
-//	{
-//		return CGRectContainsPoint(CGRectMake(expansion_contentOriginX, 0.0, expansion_contentWidth, CENTER_HEIGHT), point);
-//	}
-//	else
-//	{
-//		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, BUBBLE_PNG_HEIGHT - (BUBBLE_PNG_HEIGHT - BUBBLE_HOTSPOT_Y)), point);
-//	}
-//}
 
 - (void)setSelected:(BOOL)newSelected animated:(BOOL)animated
 {
