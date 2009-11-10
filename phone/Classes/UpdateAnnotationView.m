@@ -531,19 +531,22 @@ CGFloat GetRectRight(CGRect rect)
 	[super setSelected:newSelected animated:animated];
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	UITouch *touch = [touches anyObject];
-	if ([self pointInside:[touch locationInView:self] withEvent:event])
-	{
-		if ([touch tapCount] == 1)
-		{
-			if (self.selected)
-			{
-				[annotationManager deselectAnnotation:self.annotation animated:YES];
-			}
-		}
-	}
-}
+// For now, we require that you touch outside _all_ annotations
+// to collapse the currently expanded annotation.
+
+//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+//{
+//	UITouch *touch = [touches anyObject];
+//	if ([self pointInside:[touch locationInView:self] withEvent:event])
+//	{
+//		if ([touch tapCount] == 1)
+//		{
+//			if (self.selected)
+//			{
+//				[annotationManager deselectAnnotation:self.annotation animated:YES];
+//			}
+//		}
+//	}
+//}
 
 @end
