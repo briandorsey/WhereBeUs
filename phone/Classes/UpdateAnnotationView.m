@@ -497,8 +497,7 @@ CGFloat GetRectRight(CGRect rect)
 	else 
 	{
 		[annotationManager forceAnnotationsToUpdate];
-	}
-	
+	}	
 }
 
 - (void)transitionToCollapsed:(BOOL)animated
