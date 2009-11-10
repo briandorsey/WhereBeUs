@@ -184,6 +184,7 @@ static UpdateAnnotationView *_uniqueExpandedView = nil;
 		
 		self.canShowCallout = NO; /* we are the callout! */
 		initializing = NO;
+		self.exclusiveTouch = YES; /* we are the only ones who get our touches, darnit */
 	}
 	return self;
 }

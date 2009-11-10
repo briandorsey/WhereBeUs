@@ -483,11 +483,21 @@ CGFloat fsign(CGFloat f)
 				CGPoint location = [touch locationInView:self.view];
 				if (location.y >= 42)
 				{
-					[self.hashtagField resignFirstResponder];
-					[self updateCurrentHashtag];
-					break;
+						[self.hashtagField resignFirstResponder];
+						[self updateCurrentHashtag];
 				}
+					
+				break;
 			}
+		}
+	}
+	
+	if ([[event allTouches] count] == 1)
+	{
+		UITouch *touch = [[event allTouches] anyObject];
+		if (touch.tapCount == 1 && touch.phase == UITouchPhaseEnded)
+		{
+			[[UpdateAnnotationView uniqueExpandedView] setExpanded:NO animated:YES];
 		}
 	}
 }

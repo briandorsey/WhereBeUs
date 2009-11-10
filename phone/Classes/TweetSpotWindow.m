@@ -18,12 +18,12 @@
 
 - (void)sendEvent:(UIEvent *)event
 {
-	[super sendEvent:event];
-	
 	if (windowDelegate != nil)
 	{
 		[windowDelegate gotWindowEvent:event];
 	}
+
+	[super sendEvent:event];
 }
 
 - (void)dealloc
