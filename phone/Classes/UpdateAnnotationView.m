@@ -538,6 +538,7 @@ CGFloat GetRectRight(CGRect rect)
 	{
 		if (newSelected)
 		{
+			[self.superview bringSubviewToFront:self];			
 			[self transitionToExpanded:animated];
 		}
 		else
