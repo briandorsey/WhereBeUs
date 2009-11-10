@@ -19,13 +19,11 @@
 	
 	id<TweetSpotAnnotationManager> annotationManager;
 	
-	// state necessary for drawing the expanded annotation view
-	// in such a way that it fits cleanly on the screen, regardless
-	// of where the underlying map coordinate is located -- a bit
-	// tricky, yes, but I'm pretty convinced this is as easy as it gets
-	CGFloat expansion_viewWidth;
-	CGFloat expansion_contentWidth;
-	CGFloat expansion_contentOriginX;
+	// where should the "down arrow" be located in our expanded
+	// annotation? by default, we want to center it, but if the
+	// expanded annotation doesn't fit on the map when centered,
+	// then we'll draw the downArrow somewhere else (and set
+	// our annotation view's centerOffset accordingly, too)
 	CGFloat expansion_downArrowX;
 }
 

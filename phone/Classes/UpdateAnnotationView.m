@@ -12,6 +12,8 @@
 
 #define BUBBLE_PNG_WIDTH 55.0
 #define BUBBLE_PNG_HEIGHT 68.0
+#define BUBBLE_PNG_CENTEROFFSET_Y -23.0
+
 #define BUBBLE_HOTSPOT_Y 58.0
 
 #define IMAGE_LEFT 9.0
@@ -25,7 +27,7 @@
 
 #define FIXED_EXPANDED_WIDTH 270.0
 #define FIXED_EXPANDED_HEIGHT 70.0
-#define FIXED_EXPANDED_HOTSPOT_Y 58.0
+#define FIXED_EXPANDED_CENTEROFFSET_Y -22.0
 
 #define FILL_WIDTH 1.0
 #define FILL_HEIGHT 57.0
@@ -243,9 +245,10 @@ CGFloat GetRectRight(CGRect rect)
 	//------------------------------------------------
 	
 	// compute areas	
-	CGRect leftCapRect = CGRectMake(expansion_contentOriginX, 0.0, LEFT_WIDTH, LEFT_HEIGHT);
-	CGRect rightCapRect = CGRectMake(expansion_contentWidth + expansion_contentOriginX - RIGHT_WIDTH, 0.0, RIGHT_WIDTH, RIGHT_HEIGHT);
-	CGFloat centerImageCenterX = expansion_downArrowX + expansion_contentOriginX;
+	CGSize frameSize = self.frame.size;
+	CGRect leftCapRect = CGRectMake(0.0, 0.0, LEFT_WIDTH, LEFT_HEIGHT);
+	CGRect rightCapRect = CGRectMake(frameSize.width - RIGHT_WIDTH, 0.0, RIGHT_WIDTH, RIGHT_HEIGHT);
+	CGFloat centerImageCenterX = expansion_downArrowX;
 	CGFloat centerImageX = centerImageCenterX - round(CENTER_WIDTH / 2.0);
 	CGRect centerRect = CGRectMake(centerImageX, 0.0, CENTER_WIDTH, CENTER_HEIGHT);
 	
@@ -426,7 +429,7 @@ CGFloat GetRectRight(CGRect rect)
 	CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
 	CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
 	CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
-	expansion_contentWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
+	CGFloat contentWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
 	
 	// where are we currently displayed on screen?
 	CGRect currentScreenBounds = [annotationManager getScreenBoundsForRect:self.bounds fromView:self];
@@ -434,8 +437,8 @@ CGFloat GetRectRight(CGRect rect)
 	
 	// where will our horizontal extents be, on screen,
 	// if we fully expand and put our down-arrow dead center?
-	CGFloat futureScreenLeftX = currentScreenCenterX - (expansion_contentWidth / 2.0);
-	CGFloat futureScreenRightX = currentScreenCenterX + (expansion_contentWidth / 2.0);
+	CGFloat futureScreenLeftX = currentScreenCenterX - (contentWidth / 2.0);
+	CGFloat futureScreenRightX = currentScreenCenterX + (contentWidth / 2.0);
 	CGFloat maxScreenRight = [[UIScreen mainScreen] bounds].size.width;
 
 	// do we need to modify our position so we fit on the screen?
@@ -454,7 +457,7 @@ CGFloat GetRectRight(CGRect rect)
 	
 	// compute where the center of the down arrow should be, relative
 	// to wherever we start drawing actual content in the view
-	expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+	expansion_downArrowX = round((contentWidth / 2.0) - adjustX);
 	
 	// let's be careful, though. If we have to adjust too far, our left cap
 	// (or right cap) image will overlap with the center/down-arrow image.
@@ -463,32 +466,27 @@ CGFloat GetRectRight(CGRect rect)
 	// we get a line of "fill" everywhere.
 	CGFloat mapMoveX = 0.0;
 	CGFloat overlapLeft = (expansion_downArrowX - round(CENTER_WIDTH / 2.0)) - (LEFT_WIDTH + 1.0);
-	CGFloat overlapRight = (expansion_downArrowX + round(CENTER_WIDTH / 2.0)) - (expansion_contentWidth - RIGHT_WIDTH + 1.0);
+	CGFloat overlapRight = (expansion_downArrowX + round(CENTER_WIDTH / 2.0)) - (contentWidth - RIGHT_WIDTH + 1.0);
 		
 	// the down arrow location is affected by our overlap adjustment, if any
 	if (overlapLeft <= 0.0)
 	{
 		mapMoveX = overlapLeft;
 		adjustX += overlapLeft;
-		expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+		expansion_downArrowX = round((contentWidth / 2.0) - adjustX);
 	}
 	else if (overlapRight >= 0.0)
 	{
 		mapMoveX = overlapRight;
 		adjustX += overlapRight;
-		expansion_downArrowX = round((expansion_contentWidth / 2.0) - adjustX);
+		expansion_downArrowX = round((contentWidth / 2.0) - adjustX);
 	}
-	
-	// compute the overall width of the view so that the down arrow is centered
-	expansion_viewWidth = expansion_contentWidth + (2.0 * fabs(adjustX));
-	
-	// compute where to start drawing the view's actual content
-	expansion_contentOriginX = (adjustX > 0.0) ? (expansion_viewWidth - expansion_contentWidth) : 0.0;
-	
+		
 	// TODO: (1) restrict annotation sizes to a maximum width (eg 300 wide)
 	
 	// force a redraw of us.
-	self.bounds = CGRectMake(0.0, 0.0, expansion_viewWidth, FIXED_EXPANDED_HOTSPOT_Y * 2);
+	self.bounds = CGRectMake(0.0, 0.0, contentWidth, FIXED_EXPANDED_HEIGHT);
+	self.centerOffset = CGPointMake(adjustX, FIXED_EXPANDED_CENTEROFFSET_Y);
 	[self setNeedsDisplay];		
 
 	if (mapMoveX != 0.0)
@@ -503,7 +501,8 @@ CGFloat GetRectRight(CGRect rect)
 
 - (void)transitionToCollapsed:(BOOL)animated
 {
-	self.bounds = CGRectMake(0.0, 0.0, BUBBLE_PNG_WIDTH, BUBBLE_HOTSPOT_Y * 2);	
+	self.bounds = CGRectMake(0.0, 0.0, BUBBLE_PNG_WIDTH, BUBBLE_PNG_HEIGHT);
+	self.centerOffset = CGPointMake(0.0, BUBBLE_PNG_CENTEROFFSET_Y);
 	[self setNeedsDisplay];		
 	[annotationManager forceAnnotationsToUpdate];			
 }
@@ -521,34 +520,17 @@ CGFloat GetRectRight(CGRect rect)
 // I'm not sure if that's the behavior we want here, but I'll try it
 // until we have reason to try something else...
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-{
-	if (self.selected)
-	{
-		return CGRectContainsPoint(CGRectMake(expansion_contentOriginX, 0.0, expansion_contentWidth, CENTER_HEIGHT), point);
-	}
-	else
-	{
-		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, BUBBLE_PNG_HEIGHT - (BUBBLE_PNG_HEIGHT - BUBBLE_HOTSPOT_Y)), point);
-	}
-}
-
-- (void)setSelected:(BOOL)newSelected
-{
-	if (newSelected != self.selected)
-	{
-		if (newSelected)
-		{
-			[self transitionToExpanded:NO];
-		}
-		else
-		{
-			[self transitionToCollapsed:NO];
-		}		
-	}
-
-	[super setSelected:newSelected];
-}
+//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+//{
+//	if (self.selected)
+//	{
+//		return CGRectContainsPoint(CGRectMake(expansion_contentOriginX, 0.0, expansion_contentWidth, CENTER_HEIGHT), point);
+//	}
+//	else
+//	{
+//		return CGRectContainsPoint(CGRectMake(0.0, 0.0, self.frame.size.width, BUBBLE_PNG_HEIGHT - (BUBBLE_PNG_HEIGHT - BUBBLE_HOTSPOT_Y)), point);
+//	}
+//}
 
 - (void)setSelected:(BOOL)newSelected animated:(BOOL)animated
 {
