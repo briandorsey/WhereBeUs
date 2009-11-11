@@ -39,21 +39,9 @@
 	hashtagDelegate = nil;
 	
 	// Load our application state (potentially from a file)
-	TweetSpotState *state = [TweetSpotState shared];
+	/* ignore return value */ [TweetSpotState shared];
 
-	// create the twitter login view controller
-	TwitterCredentialsViewController *tcvc = [[[TwitterCredentialsViewController alloc] initWithNibName:@"TwitterCredentialsViewController" bundle:nil] autorelease];
-	[navigationController pushViewController:tcvc animated:NO];
-	
-	// because of the way MainWindow.xib is set up, our navigation controller
-	// already has the twitter credentials view pushed onto it
-	
-	if (state.hasTwitterCredentials)
-	{
-		// but we already have valid credentials, so manually
-		// inflate the Map xib and push it onto the navigation hierarchy
-		[self showMapViewController:NO];
-	}
+	[self showMapViewController:NO];
 
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];

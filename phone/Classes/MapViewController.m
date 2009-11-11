@@ -159,9 +159,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)hideOverlay
 {	
-	CGRect rect = self.view.frame;	
-	overlayView.frame = CGRectMake(rect.origin.x, rect.origin.y - rect.size.height, rect.size.width, rect.size.height);
-	overlayView.hidden = YES;
+//	CGRect rect = self.view.frame;	
+//	overlayView.frame = CGRectMake(rect.origin.x, rect.origin.y - rect.size.height, rect.size.width, rect.size.height);
+//	overlayView.hidden = YES;
 }
 
 - (void)dealloc
@@ -595,6 +595,7 @@ CGFloat fsign(CGFloat f)
 {
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:self];
+	[delegate.navigationController setNavigationBarHidden:YES animated:NO];
     [super viewWillAppear:animated];
 }
 
@@ -604,6 +605,7 @@ CGFloat fsign(CGFloat f)
 	
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
+	[delegate.navigationController setNavigationBarHidden:NO animated:NO];
     [super viewWillDisappear:animated];
 }
 
