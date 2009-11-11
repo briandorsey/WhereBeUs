@@ -127,14 +127,14 @@
 									<string key="NSResourceName">bird-noselect-full.png</string>
 								</object>
 							</object>
-							<object class="IBUITextField" id="682671174">
+							<object class="IBUITextField" id="289424333">
 								<reference key="NSNextResponder" ref="898129410"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{44, 6}, {216, 31}}</string>
 								<reference key="NSSuperview" ref="898129410"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
-								<float key="IBUIAlpha">0.75</float>
+								<float key="IBUIAlpha">0.85000002384185791</float>
 								<int key="IBUIContentVerticalAlignment">0</int>
 								<string key="IBUIText"/>
 								<int key="IBUIBorderStyle">3</int>
@@ -241,7 +241,7 @@
 							<reference ref="519205526"/>
 							<reference ref="5868346"/>
 							<reference ref="82860657"/>
-							<reference ref="682671174"/>
+							<reference ref="289424333"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -267,7 +267,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">64</int>
-						<reference key="object" ref="682671174"/>
+						<reference key="object" ref="289424333"/>
 						<reference key="parent" ref="898129410"/>
 					</object>
 				</object>
