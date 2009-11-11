@@ -42,6 +42,8 @@
 	/* ignore return value */ [TweetSpotState shared];
 
 	[self showMapViewController:NO];
+	[navigationController setNavigationBarHidden:YES animated:NO];
+	
 
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];

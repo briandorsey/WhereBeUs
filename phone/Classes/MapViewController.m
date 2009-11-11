@@ -545,7 +545,10 @@ CGFloat fsign(CGFloat f)
 {
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:self];
-	[delegate.navigationController setNavigationBarHidden:YES animated:NO];
+	if (!delegate.navigationController.navigationBar.isHidden)
+	{
+		[delegate.navigationController setNavigationBarHidden:YES animated:YES];
+	}
     [super viewWillAppear:animated];
 }
 
@@ -555,7 +558,7 @@ CGFloat fsign(CGFloat f)
 	
 	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
-	[delegate.navigationController setNavigationBarHidden:NO animated:NO];
+	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillDisappear:animated];
 }
 
