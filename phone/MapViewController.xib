@@ -127,7 +127,7 @@
 									<string key="NSResourceName">bird-noselect-full.png</string>
 								</object>
 							</object>
-							<object class="IBUITextField" id="289424333">
+							<object class="IBUITextField" id="1016401929">
 								<reference key="NSNextResponder" ref="898129410"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{44, 6}, {216, 31}}</string>
@@ -151,7 +151,6 @@
 									<double key="NSSize">19</double>
 									<int key="NSfFlags">16</int>
 								</object>
-								<bool key="IBUIClearsOnBeginEditing">YES</bool>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">17</float>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits"/>
@@ -196,11 +195,44 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">overlayView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="898129410"/>
+						<string key="label">delegate</string>
+						<reference key="source" ref="246815210"/>
+						<reference key="destination" ref="372490531"/>
 					</object>
-					<int key="connectionID">40</int>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="1016401929"/>
+						<reference key="destination" ref="372490531"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">hashtagField</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1016401929"/>
+					</object>
+					<int key="connectionID">67</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tweetButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="5868346"/>
+					</object>
+					<int key="connectionID">68</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">tweetButtonPushed:</string>
+						<reference key="source" ref="5868346"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">8</int>
+					</object>
+					<int key="connectionID">69</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -241,7 +273,7 @@
 							<reference ref="519205526"/>
 							<reference ref="5868346"/>
 							<reference ref="82860657"/>
-							<reference ref="289424333"/>
+							<reference ref="1016401929"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
 					</object>
@@ -267,7 +299,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">64</int>
-						<reference key="object" ref="289424333"/>
+						<reference key="object" ref="1016401929"/>
 						<reference key="parent" ref="898129410"/>
 					</object>
 				</object>
@@ -317,7 +349,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">69</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -330,14 +362,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>hashtagFieldTextChanged:</string>
-							<string>nextButtonPushed:</string>
-							<string>previousButtonPushed:</string>
 							<string>tweetButtonPushed:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -346,21 +374,15 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>hashtagField</string>
 							<string>mapView</string>
-							<string>nextButton</string>
-							<string>overlayView</string>
-							<string>previousButton</string>
-							<string>userIconView</string>
-							<string>usernameLabel</string>
+							<string>tweetButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UITextField</string>
 							<string>MKMapView</string>
 							<string>UIButton</string>
-							<string>UIView</string>
-							<string>UIButton</string>
-							<string>UIImageView</string>
-							<string>UILabel</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -542,14 +564,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">UIKit.framework/Headers/UIImageView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UILabel</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UILabel.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

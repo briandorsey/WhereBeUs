@@ -19,12 +19,9 @@
 @end
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotAnnotationManager, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {
-	// overlay area
-	IBOutlet UIView *overlayView;
-	IBOutlet UIButton *previousButton;
-	IBOutlet UIButton *nextButton;	
-	IBOutlet UILabel *usernameLabel;
-	IBOutlet UIImageView *userIconView;
+	// hashtag
+	IBOutlet UITextField *hashtagField;
+	IBOutlet UIButton *tweetButton;
 	
 	// map area
 	IBOutlet MKMapView *mapView;
@@ -43,19 +40,13 @@
 	NSMutableDictionary *twitterUsernameToAnnotation;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *overlayView;
-@property (nonatomic, retain) IBOutlet UIButton *previousButton;
-@property (nonatomic, retain) IBOutlet UIButton *nextButton;
-@property (nonatomic, retain) IBOutlet UILabel *usernameLabel;
-@property (nonatomic, retain) IBOutlet UIImageView *userIconView;
+@property (nonatomic, retain) IBOutlet UITextField *hashtagField;
+@property (nonatomic, retain) IBOutlet UIButton *tweetButton;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
-
 
 // actions
 - (IBAction)tweetButtonPushed:(id)sender;
 - (IBAction)hashtagFieldTextChanged:(id)sender;
-- (IBAction)previousButtonPushed:(id)sender;
-- (IBAction)nextButtonPushed:(id)sender;
 
 - (void)updateServiceWithLocation;
 

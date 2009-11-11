@@ -28,11 +28,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Properties
 //------------------------------------------------------------------
 
-@synthesize overlayView;
-@synthesize previousButton;
-@synthesize nextButton;
-@synthesize usernameLabel;
-@synthesize userIconView;
+@synthesize hashtagField;
+@synthesize tweetButton;
 @synthesize mapView;
 
 
@@ -157,20 +154,10 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Random Utilities For The View
 //------------------------------------------------------------------
 
-- (void)hideOverlay
-{	
-//	CGRect rect = self.view.frame;	
-//	overlayView.frame = CGRectMake(rect.origin.x, rect.origin.y - rect.size.height, rect.size.width, rect.size.height);
-//	overlayView.hidden = YES;
-}
-
 - (void)dealloc
 {
-	self.overlayView = nil;
-	self.previousButton = nil;
-	self.nextButton = nil;
-	self.usernameLabel = nil;
-	self.userIconView = nil;
+	self.hashtagField = nil;
+	self.tweetButton = nil;
 	self.mapView = nil;
 	
 	[twitterUsernameToAnnotation release];
@@ -210,11 +197,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 //------------------------------------------------------------------
 // Hash Tag Field Management (UITextField delegate, etc.)
 //------------------------------------------------------------------
-
-- (UITextField *)hashtagField
-{
-	return (UITextField *) self.navigationItem.titleView;
-}
 
 - (void)updateCurrentHashtag
 {
@@ -489,20 +471,6 @@ CGFloat fsign(CGFloat f)
 			[self.hashtagField resignFirstResponder];
 			[self updateCurrentHashtag];			
 		}
-
-		// did they touch up?
-//		if (touch.phase == UITouchPhaseEnded)
-//		{
-//			// did they touch up in the map view, but _not_ in any annotation views?
-//			UIView *potentialAnnotationView = [mapView hitTest:touchInMap withEvent:event];
-//			NSLog(@"TOUCH UP IN MAP");
-//			if (![potentialAnnotationView isKindOfClass:[UpdateAnnotationView class]])
-//			{
-//				NSLog(@"TOUCH UP IN MAP, NOT AN ANNOTATION VIEW: %@", potentialAnnotationView);
-//				// yes, so go ahead and collapse the expanded annotation view (if any)
-//				[[UpdateAnnotationView uniqueExpandedView] setExpanded:NO animated:YES];
-//			}			
-//		}
 	}
 }
 
@@ -527,40 +495,12 @@ CGFloat fsign(CGFloat f)
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
-		// Work with the TweetSpotState!
-		TweetSpotState *state = [TweetSpotState shared];
-				
 		// set up basic state
 		updatingLocation = NO;
 		gettingLocationUpdates = NO;
 		hasCoordinate = NO;
 		twitterUsernameToAnnotation = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
 
-		// Do some UI junk
-		TweetSpotAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-		UINavigationController *navigationController = appDelegate.navigationController;
-		CGRect navigationFrame = navigationController.navigationBar.frame;
-		
-		// wire up the hash textfield -- it is (currently) the title of the navigation item, which is a little odd?
-		UITextField *hashtagView = [[UITextField alloc] initWithFrame:CGRectMake(0, navigationFrame.origin.y + 5, 150.0, navigationFrame.size.height - 8)];
-		hashtagView.borderStyle = UITextBorderStyleBezel;
-		hashtagView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5];
-		hashtagView.placeholder = @"hash tag";
-		hashtagView.autocorrectionType = UITextAutocorrectionTypeNo; /* it was bugging me -- not sure? */
-		hashtagView.autocapitalizationType = UITextAutocapitalizationTypeNone;
-		hashtagView.returnKeyType = UIReturnKeyDone;
-		hashtagView.text = state.currentHashtag;
-		if ([state.currentHashtag length] > 0)
-		{
-			[self startWatchingForUpdates];
-		}			
-		hashtagView.delegate = self;		
-		self.navigationItem.titleView = hashtagView;		
-		[(UIControl *)self.navigationItem.titleView addTarget:self action:@selector(hashtagFieldTextChanged:) forControlEvents:UIControlEventEditingChanged];
-		
-		// wire up the twitter button
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"tweet" style:UIBarButtonItemStylePlain target:self action:@selector(tweetButtonPushed:)];
-		
 		// build our location manager
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.distanceFilter = 20.0; /* don't update unless you've moved 20 meters or more */
@@ -569,6 +509,7 @@ CGFloat fsign(CGFloat f)
 		[locationManager startUpdatingLocation];
 		
 		// let our application know we'll listen
+		TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
 		[appDelegate setHashtagDelegate:self];
     }
     return self;
@@ -577,8 +518,17 @@ CGFloat fsign(CGFloat f)
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	[self hideOverlay];
-	mapView.delegate = self;
+	
+	self.hashtagField.autocorrectionType = UITextAutocorrectionTypeNo;
+	self.hashtagField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+	self.hashtagField.returnKeyType = UIReturnKeyDone;
+	
+	TweetSpotState *state = [TweetSpotState shared];
+	if (state.currentHashtag != nil && ([state.currentHashtag length] > 0))
+	{
+		self.hashtagField.text = state.currentHashtag;
+		[self startWatchingForUpdates];		
+	}
 }
 
 - (void)didReceiveMemoryWarning 
