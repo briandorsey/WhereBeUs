@@ -1,8 +1,8 @@
 //
 //  main.m
-//  wherebeus
+//  TweetSpot
 //
-//  Created by Dave Peck on 11/12/09.
+//  Created by Dave Peck on 10/27/09.
 //  Copyright Code Orange 2009. All rights reserved.
 //
 
