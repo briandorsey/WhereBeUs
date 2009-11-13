@@ -164,7 +164,7 @@
 					<string>UIApplication</string>
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>TweetSpotWindow</string>
+					<string>WhereBeUsWindow</string>
 					<object class="NSMutableDictionary">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<reference key="dict.sortedKeys" ref="0"/>
@@ -174,7 +174,7 @@
 					</object>
 					<string>{{477, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>TweetSpotAppDelegate</string>
+					<string>WhereBeUsAppDelegate</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{454, 343}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -216,7 +216,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">TweetSpotAppDelegate</string>
+					<string key="className">WhereBeUsAppDelegate</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -228,16 +228,16 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UINavigationController</string>
-							<string>TweetSpotWindow</string>
+							<string>WhereBeUsWindow</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/TweetSpotAppDelegate.h</string>
+						<string key="minorKey">Classes/WhereBeUsAppDelegate.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">TweetSpotWindow</string>
+					<string key="className">WhereBeUsWindow</string>
 					<string key="superclassName">UIWindow</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">windowDelegate</string>
@@ -245,7 +245,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Classes/TweetSpotWindow.h</string>
+						<string key="minorKey">Classes/WhereBeUsWindow.h</string>
 					</object>
 				</object>
 			</object>
@@ -469,7 +469,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">TweetSpot.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">WhereBeUs.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<string key="IBCocoaTouchPluginVersion">3.0</string>
 	</data>

@@ -1,6 +1,6 @@
 //
 //  JsonConnection.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright Code Orange 2009. All rights reserved.
@@ -11,7 +11,7 @@
 #import "JSON.h"
 #import "NSData+Base64Encoding.h"
 
-static NSString *const kREFERER_URL = @"http://www.tweetthespot.com/iphone/";
+static NSString *const kREFERER_URL = @"http://www.wherebe.us/iphone/";
 static NSString *const kREFERER_HEADER = @"Referer";
 
 @implementation JsonConnection

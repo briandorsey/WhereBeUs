@@ -1,6 +1,6 @@
 //
 //  UpdateAnnotationView.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 11/5/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -148,7 +148,7 @@
 // Initialization & Destruction
 //---------------------------------------------------------------------
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<TweetSpotAnnotationManager>)theAnnotationManager
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager
 {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	if (self != nil)

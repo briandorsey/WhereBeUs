@@ -1,6 +1,6 @@
 //
 //  MapController.h
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/28/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "TweetSpotWindow.h"
-#import "TweetSpotAppDelegate.h"
+#import "WhereBeUsWindow.h"
+#import "WhereBeUsAppDelegate.h"
 
-@protocol TweetSpotAnnotationManager
+@protocol WhereBeUsAnnotationManager
 - (void)forceAnnotationsToUpdate;
 - (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view;
 - (void)moveMapByDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY forView:(UIView *)view;
 - (void)deselectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
 @end
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, TweetSpotAnnotationManager, TweetSpotWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, TweetSpotHashtagChangedDelegate> {
+@interface MapViewController : UIViewController<MKMapViewDelegate, WhereBeUsAnnotationManager, WhereBeUsWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, WhereBeUsHashtagChangedDelegate> {
 	// hashtag
 	IBOutlet UITextField *hashtagField;
 	IBOutlet UIButton *tweetButton;

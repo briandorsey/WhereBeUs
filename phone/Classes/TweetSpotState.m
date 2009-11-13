@@ -1,14 +1,14 @@
 //
-//  TweetSpotState.m
-//  TweetSpot
+//  WhereBeUsState.m
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/30/09.
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "TweetSpotState.h"
+#import "WhereBeUsState.h"
 
-static NSString *const kTweetSpotStateFileName = @"tweetspot.state";
+static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
 
 static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
@@ -18,7 +18,7 @@ static NSString *const kCurrentHashtagKey = @"current_hashtag";
 static NSString *const kCurrentMessageKey = @"current_message";
 
 
-@implementation TweetSpotState
+@implementation WhereBeUsState
 
 #pragma mark Read/Write State File
 
@@ -26,16 +26,16 @@ static NSString *const kCurrentMessageKey = @"current_message";
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths objectAtIndex:0];	
-	return [documentsDirectory stringByAppendingPathComponent:kTweetSpotStateFileName];
+	return [documentsDirectory stringByAppendingPathComponent:kWhereBeUsStateFileName];
 }
 
-+ (TweetSpotState *)attemptToReadStateFile
++ (WhereBeUsState *)attemptToReadStateFile
 {
 	id state_id = nil;
 	
 	@try
 	{
-		state_id = [NSKeyedUnarchiver unarchiveObjectWithFile:[TweetSpotState filePath]];
+		state_id = [NSKeyedUnarchiver unarchiveObjectWithFile:[WhereBeUsState filePath]];
 	}
 	@catch (id exception)
 	{
@@ -52,32 +52,32 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	}
 	
 	// Did we get back an expected type?
-	if (![state_id isKindOfClass:[TweetSpotState class]])
+	if (![state_id isKindOfClass:[WhereBeUsState class]])
 	{
 		return nil;
 	}
 	
 	// Success!
-	return [((TweetSpotState *)state_id) retain];
+	return [((WhereBeUsState *)state_id) retain];
 }
 
-+ (TweetSpotState *)getDefaultState
++ (WhereBeUsState *)getDefaultState
 {
-	return [[TweetSpotState alloc] init];
+	return [[WhereBeUsState alloc] init];
 }
 
 + (id)shared
 {
-	static TweetSpotState *_shared;
+	static WhereBeUsState *_shared;
 	
 	@synchronized (self)
 	{
 		if (_shared == nil)
 		{
-			_shared = [TweetSpotState attemptToReadStateFile];
+			_shared = [WhereBeUsState attemptToReadStateFile];
 			if (_shared == nil)
 			{
-				_shared = [TweetSpotState getDefaultState];
+				_shared = [WhereBeUsState getDefaultState];
 			}
 		}		
 	}
@@ -91,7 +91,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	{
 		@try
 		{
-			[NSKeyedArchiver archiveRootObject:self toFile:[TweetSpotState filePath]];
+			[NSKeyedArchiver archiveRootObject:self toFile:[WhereBeUsState filePath]];
 			isDirty = NO;
 		}
 		@catch (id exception)
@@ -273,7 +273,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 
 - (id)copyWithZone:(NSZone *)zone 
 {
-	TweetSpotState *copy = [[[self class] allocWithZone:zone] init];
+	WhereBeUsState *copy = [[[self class] allocWithZone:zone] init];
 	
 	copy.twitterUsername = [[twitterUsername copy] autorelease];
 	copy.twitterPassword = [[twitterPassword copy] autorelease];

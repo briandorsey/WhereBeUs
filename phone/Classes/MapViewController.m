@@ -1,14 +1,14 @@
 //
 //  MapController.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/28/09.
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
 #import "MapViewController.h"
-#import "TweetSpotAppDelegate.h"
-#import "TweetSpotState.h"
+#import "WhereBeUsAppDelegate.h"
+#import "WhereBeUsState.h"
 #import "Utilities.h"
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
@@ -37,7 +37,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Code To Poll For Updates From Server & Manage Annotations
 //------------------------------------------------------------------
 
-- (void)ts_finishedGetUpdatesForHashtag:(JsonResponse *)response
+- (void)wbu_finishedGetUpdatesForHashtag:(JsonResponse *)response
 {
 	if (response == nil) { return; }
 
@@ -58,7 +58,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	// the service will return the iPhone user's update information too. We want to 
 	// ignore that here.
 	NSArray *updates = [dictionary objectForKey:@"updates"];
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 				
 	// STEP 1: mark all current annotations on the map as NOT VISITED
 	for (id key in twitterUsernameToAnnotation)
@@ -124,7 +124,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	if (!gettingLocationUpdates)
 	{
 		gettingLocationUpdates = YES;
-		[ConnectionHelper ts_getUpdatesForHashtagWithTarget:self action:@selector(ts_finishedGetUpdatesForHashtag:) hashtag:[TweetSpotState shared].currentHashtag];
+		[ConnectionHelper wbu_getUpdatesForHashtagWithTarget:self action:@selector(wbu_finishedGetUpdatesForHashtag:) hashtag:[WhereBeUsState shared].currentHashtag];
 	}
 }
 
@@ -177,7 +177,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (IBAction)tweetButtonPushed:(id)sender
 {
-	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *)[[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showTweetViewController:YES]; 
 }
 
@@ -200,7 +200,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)updateCurrentHashtag
 {
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	
 	if (![self.hashtagField.text isEqualToString:state.currentHashtag])
 	{
@@ -289,7 +289,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 
 //
-// TweetSpotAnnotationManager delegate -- basically just a clean way for
+// WhereBeUsAnnotationManager delegate -- basically just a clean way for
 // annotation views to comunicate back to the map view controller...
 //
 
@@ -302,7 +302,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (CGRect)getScreenBoundsForRect:(CGRect)rect fromView:(UIView *)view
 {
-	TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 	UIWindow *window = (UIWindow *)appDelegate.window;
 	return [window convertRect:rect fromView:view];
 }
@@ -349,7 +349,7 @@ CGFloat fsign(CGFloat f)
 // Location Management for the current user, including annotations
 //------------------------------------------------------------------
 
-- (void)ts_finishedPostUpdate:(JsonResponse *)response
+- (void)wbu_finishedPostUpdate:(JsonResponse *)response
 {
 	updatingLocation = NO;
 }
@@ -359,20 +359,20 @@ CGFloat fsign(CGFloat f)
 	// update only if all the conditions are right to do so
 	if (hasCoordinate && !updatingLocation)
 	{
-		TweetSpotState *state = [TweetSpotState shared];
+		WhereBeUsState *state = [WhereBeUsState shared];
 		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 		{
 			updatingLocation = YES;
 			NSString *message = state.currentMessage;			
 			if (message == nil) { message = @""; }			
-			[ConnectionHelper ts_postUpdateWithTarget:self action:@selector(ts_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];			
+			[ConnectionHelper wbu_postUpdateWithTarget:self action:@selector(wbu_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];			
 		}				
 	}
 }
 
 - (void)updateUserAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
 {
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	UpdateAnnotation *annotationFromDictionary = (UpdateAnnotation *) [twitterUsernameToAnnotation objectForKey:state.twitterUsername];
 	UpdateAnnotation *annotation = annotationFromDictionary;
 	
@@ -509,7 +509,7 @@ CGFloat fsign(CGFloat f)
 		[locationManager startUpdatingLocation];
 		
 		// let our application know we'll listen
-		TweetSpotAppDelegate *appDelegate = (TweetSpotAppDelegate *) [[UIApplication sharedApplication] delegate];
+		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 		[appDelegate setHashtagDelegate:self];
     }
     return self;
@@ -523,7 +523,7 @@ CGFloat fsign(CGFloat f)
 	self.hashtagField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 	self.hashtagField.returnKeyType = UIReturnKeyDone;
 	
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	if (state.currentHashtag != nil && ([state.currentHashtag length] > 0))
 	{
 		self.hashtagField.text = state.currentHashtag;
@@ -543,7 +543,7 @@ CGFloat fsign(CGFloat f)
 
 - (void)viewWillAppear:(BOOL)animated 
 {
-	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:self];
 	if (!delegate.navigationController.navigationBar.isHidden)
 	{
@@ -556,7 +556,7 @@ CGFloat fsign(CGFloat f)
 {
 	[self updateCurrentHashtag];
 	
-	TweetSpotAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
 	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillDisappear:animated];

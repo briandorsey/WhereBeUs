@@ -1,6 +1,6 @@
 //
 //  TwitterCredentialsController.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -10,8 +10,8 @@
 #import "ConnectionHelper.h"
 #import "Utilities.h"
 #import "JsonResponse.h"
-#import "TweetSpotState.h"
-#import "TweetSpotAppDelegate.h"
+#import "WhereBeUsState.h"
+#import "WhereBeUsAppDelegate.h"
 
 @implementation TwitterCredentialsViewController
 
@@ -81,7 +81,7 @@
 	}
 	
 	// Success! Remember the twitter account information.
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	state.twitterUsername = [[[self.usernameField text] copy] autorelease];
 	state.twitterPassword = [[[self.passwordField text] copy] autorelease];
 	state.twitterFullName = [dictionary valueForKey:TWITTER_FULL_NAME];
@@ -89,7 +89,7 @@
 	[state save];
 	
 	// Now go to the map.
-	TweetSpotAppDelegate *app = [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *app = [[UIApplication sharedApplication] delegate];
 	[app showMapViewController:YES];	
 }
 
@@ -142,7 +142,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	if (state.hasTwitterCredentials)
 	{
 		[self.usernameField setText:state.twitterUsername];

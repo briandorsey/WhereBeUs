@@ -1,31 +1,31 @@
 //
-//  TweetSpotAppDelegate.h
-//  TweetSpot
+//  WhereBeUsAppDelegate.h
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright Code Orange 2009. All rights reserved.
 //
 
-#import "TweetSpotWindow.h"
+#import "WhereBeUsWindow.h"
 
-@protocol TweetSpotHashtagChangedDelegate;
+@protocol WhereBeUsHashtagChangedDelegate;
 
-@interface TweetSpotAppDelegate : NSObject <UIApplicationDelegate> {    
-    TweetSpotWindow *window;
+@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate> {    
+    WhereBeUsWindow *window;
     UINavigationController *navigationController;
-	id<TweetSpotHashtagChangedDelegate> hashtagDelegate;
+	id<WhereBeUsHashtagChangedDelegate> hashtagDelegate;
 }
 
-@property (nonatomic, retain) IBOutlet TweetSpotWindow *window;
+@property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 - (void)showMapViewController:(BOOL)animated;
 - (void)showTweetViewController:(BOOL)animated;
 - (void)popViewController:(BOOL)animated;
-- (void)setHashtagDelegate:(id<TweetSpotHashtagChangedDelegate>)newHashtagDelegate;
+- (void)setHashtagDelegate:(id<WhereBeUsHashtagChangedDelegate>)newHashtagDelegate;
 
 @end
 
-@protocol TweetSpotHashtagChangedDelegate<NSObject>
+@protocol WhereBeUsHashtagChangedDelegate<NSObject>
 - (void)gotNewHashtag:(NSString *)newHashtag;
 @end

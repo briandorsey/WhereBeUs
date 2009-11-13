@@ -1,6 +1,6 @@
 //
-//  TweetSpotState.h
-//  TweetSpot
+//  WhereBeUsState.h
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/30/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -13,7 +13,7 @@
 // between runs of the application -- would normally break this
 // into several model objects but this is HACK NIGHT Y'ALL!
 
-@interface TweetSpotState : NSObject<NSCoding, NSCopying> {
+@interface WhereBeUsState : NSObject<NSCoding, NSCopying> {
 	NSString *twitterUsername;
 	NSString *twitterPassword;
 	NSString *twitterFullName;
@@ -24,7 +24,7 @@
 	BOOL isDirty;
 }
 
-+ (TweetSpotState *)shared;
++ (WhereBeUsState *)shared;
 
 - (BOOL)isDirty;
 - (void)save;

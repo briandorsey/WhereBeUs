@@ -1,18 +1,18 @@
 //
-//  TweetSpotAppDelegate.m
-//  TweetSpot
+//  WhereBeUsAppDelegate.m
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright Code Orange 2009. All rights reserved.
 //
 
-#import "TweetSpotAppDelegate.h"
-#import "TweetSpotState.h"
+#import "WhereBeUsAppDelegate.h"
+#import "WhereBeUsState.h"
 #import "TwitterCredentialsViewController.h"
 #import "MapViewController.h"
 #import "TweetViewController.h"
 
-@implementation TweetSpotAppDelegate
+@implementation WhereBeUsAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
@@ -39,7 +39,7 @@
 	hashtagDelegate = nil;
 	
 	// Load our application state (potentially from a file)
-	/* ignore return value */ [TweetSpotState shared];
+	/* ignore return value */ [WhereBeUsState shared];
 
 	[self showMapViewController:NO];
 	[navigationController setNavigationBarHidden:YES animated:NO];
@@ -53,7 +53,7 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
 	// XXX TODO check validity of URL	
-	// tweetthespotone://hashtag/
+	// wherebeus://hashtag/
 	
 	if (hashtagDelegate != nil)
 	{
@@ -61,7 +61,7 @@
 	}
 	else
 	{
-		TweetSpotState *state = [TweetSpotState shared];
+		WhereBeUsState *state = [WhereBeUsState shared];
 		state.currentHashtag = [url host];	
 	}
 	
@@ -70,7 +70,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application 
 {
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	
 	if (state.isDirty)
 	{
@@ -78,7 +78,7 @@
 	}
 }
 
-- (void)setHashtagDelegate:(id<TweetSpotHashtagChangedDelegate>)newHashtagDelegate
+- (void)setHashtagDelegate:(id<WhereBeUsHashtagChangedDelegate>)newHashtagDelegate
 {
 	hashtagDelegate = newHashtagDelegate;
 }

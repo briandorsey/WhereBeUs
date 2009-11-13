@@ -1,6 +1,6 @@
 //
 //  Utilities.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright 2009 Code Orange. All rights reserved.

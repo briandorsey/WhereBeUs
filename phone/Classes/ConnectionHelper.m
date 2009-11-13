@@ -1,6 +1,6 @@
 //
 //  TwitterService.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -13,7 +13,7 @@
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
-static NSString *const kServiceBaseURL = @"http://www.tweetthespot.com";
+static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 // use this base URL instead for local testing (useful for debugging from simulator!)
 // static NSString *const kServiceBaseURL = @"http://localhost:8080";
@@ -70,13 +70,13 @@ static NSString *const kServiceBaseURL = @"http://www.tweetthespot.com";
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
-+ (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
++ (void)wbu_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/hashtag/%@/", kServiceBaseURL, hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
 }
 
-+ (void)ts_postUpdateWithTarget:(id)target 
++ (void)wbu_postUpdateWithTarget:(id)target 
 						 action:(SEL)action
 				twitterUsername:(NSString *)twitterUsername 
 				twitterFullName:(NSString *)twitterFullName 

@@ -1,6 +1,6 @@
 //
 //  UpdateAnnotationView.h
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 11/5/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -17,7 +17,7 @@
 	BOOL initializing;
 	NSTimer *fadeTimer;
 	
-	id<TweetSpotAnnotationManager> annotationManager;
+	id<WhereBeUsAnnotationManager> annotationManager;
 	
 	// where should the "down arrow" be located in our expanded
 	// annotation? by default, we want to center it, but if the
@@ -27,6 +27,6 @@
 	CGFloat expansion_downArrowX;
 }
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<TweetSpotAnnotationManager>)theAnnotationManager;
+- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager;
 
 @end

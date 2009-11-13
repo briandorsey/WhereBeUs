@@ -1,6 +1,6 @@
 //
 //  TwitterService.h
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/27/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -30,9 +30,9 @@
 
 + (void)twitter_postTweetWithTarget:(id)target action:(SEL)action message:(NSString *)message username:(NSString *)username password:(NSString *)password;
 
-+ (void)ts_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag;
++ (void)wbu_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag;
 
-+ (void)ts_postUpdateWithTarget:(id)target 
++ (void)wbu_postUpdateWithTarget:(id)target 
 						 action:(SEL)action
 				twitterUsername:(NSString *)twitterUsername 
 				twitterFullName:(NSString *)twitterFullName 

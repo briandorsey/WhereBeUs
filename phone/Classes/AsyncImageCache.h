@@ -1,6 +1,6 @@
 //
 //  AsyncImageCache.h
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 11/5/09.
 //  Copyright 2009 Code Orange. All rights reserved.

@@ -1,15 +1,15 @@
 //
 //  TweetViewController.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 11/1/09.
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
 #import "TweetViewController.h"
-#import "TweetSpotState.h"
+#import "WhereBeUsState.h"
 #import "Utilities.h"
-#import "TweetSpotAppDelegate.h"
+#import "WhereBeUsAppDelegate.h"
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
 
@@ -30,7 +30,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	
 	if (state.currentMessage != nil && [state.currentMessage length] > 0)
 	{
@@ -38,7 +38,7 @@
 	}
 	else if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
 	{
-		[self.messageText setText:[NSString stringWithFormat:@"Follow my location with Tweet The Spot: #%@. http://www.tweetthespot.com/v/%@/", state.currentHashtag, state.currentHashtag]];
+		[self.messageText setText:[NSString stringWithFormat:@"Follow my location with Tweet The Spot: #%@. http://www.wherebe.us/v/%@/", state.currentHashtag, state.currentHashtag]];
 	}
 	else
 	{
@@ -64,7 +64,7 @@
 - (void)postTweet
 {
 	// set the message
-	TweetSpotState *state = [TweetSpotState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
 	state.currentMessage = [self.messageText text];
 	[state save];
 	
@@ -72,7 +72,7 @@
 	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.currentMessage username:state.twitterUsername password:state.twitterPassword];
 	
 	// done; back to the map.
-	[(TweetSpotAppDelegate *)[[UIApplication sharedApplication] delegate] popViewController:YES];
+	[(WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate] popViewController:YES];
 }
 
 - (void)twitter_donePostTweet:(JsonResponse *)response

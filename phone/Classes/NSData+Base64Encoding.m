@@ -1,6 +1,6 @@
 //
 //  NSData+Base64Encoding.m
-//  TweetSpot
+//  WhereBeUs
 //
 //  Based on public domain code found at CocoaDev
 //  (I FIND THIS CODE VERY UGLY AND WANT TO FIX IT)

@@ -1,6 +1,6 @@
 //
-//  TweetSpotWindow.h
-//  TweetSpot
+//  WhereBeUsWindow.h
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/29/09.
 //  Copyright 2009 Code Orange. All rights reserved.
@@ -8,18 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol TweetSpotWindowDelegate;
+@protocol WhereBeUsWindowDelegate;
 
-@interface TweetSpotWindow : UIWindow {
-	id<TweetSpotWindowDelegate> windowDelegate;
+@interface WhereBeUsWindow : UIWindow {
+	id<WhereBeUsWindowDelegate> windowDelegate;
 }
 
-- (void)setWindowDelegate:(id<TweetSpotWindowDelegate>)theWindowDelegate;
+- (void)setWindowDelegate:(id<WhereBeUsWindowDelegate>)theWindowDelegate;
 
 @end
 
 
-@protocol TweetSpotWindowDelegate<NSObject>
+@protocol WhereBeUsWindowDelegate<NSObject>
 - (void)gotWindowEvent:(UIEvent *)event;
 @end
 

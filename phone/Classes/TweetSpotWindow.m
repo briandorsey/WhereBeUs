@@ -1,17 +1,17 @@
 //
-//  TweetSpotWindow.m
-//  TweetSpot
+//  WhereBeUsWindow.m
+//  WhereBeUs
 //
 //  Created by Dave Peck on 10/29/09.
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "TweetSpotWindow.h"
+#import "WhereBeUsWindow.h"
 
 
-@implementation TweetSpotWindow
+@implementation WhereBeUsWindow
 
-- (void)setWindowDelegate:(id<TweetSpotWindowDelegate>)theWindowDelegate
+- (void)setWindowDelegate:(id<WhereBeUsWindowDelegate>)theWindowDelegate
 {
 	windowDelegate = theWindowDelegate;
 }

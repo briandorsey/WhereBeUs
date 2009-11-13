@@ -1,6 +1,6 @@
 //
 //  NSDictionary+PostData.h
-//  TweetSpot
+//  WhereBeUs
 //
 //  Created by Dave Peck on 11/1/09.
 //  Copyright 2009 Code Orange. All rights reserved.
