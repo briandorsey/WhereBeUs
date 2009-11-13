@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* TweetSpotAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */; };
+		1D3623260D0F684500981E51 /* WhereBeUsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* WhereBeUsAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
-		550721DB109B98BC0025B4FA /* TweetSpotState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* TweetSpotState.m */; };
+		550721DB109B98BC0025B4FA /* WhereBeUsState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* WhereBeUsState.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
 		5523366F10AA3B0300CEBB6B /* map-marker-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5523366E10AA3B0300CEBB6B /* map-marker-white.png */; };
@@ -21,7 +21,7 @@
 		5571917D1098F5B60059E40F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5571917C1098F5B60059E40F /* MapViewController.m */; };
 		557191CC109913490059E40F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191CB109913490059E40F /* CoreLocation.framework */; };
 		557191EE1099137C0059E40F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191ED1099137C0059E40F /* MapKit.framework */; };
-		557192EF109A4EAC0059E40F /* TweetSpotWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 557192EE109A4EAC0059E40F /* TweetSpotWindow.m */; };
+		557192EF109A4EAC0059E40F /* WhereBeUsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 557192EE109A4EAC0059E40F /* WhereBeUsWindow.m */; };
 		558DDCD410AA4AE400C27E66 /* bird-noselect-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 558DDCD210AA4AE400C27E66 /* bird-noselect-full.png */; };
 		558DDCD510AA4AE400C27E66 /* bird-selected-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 558DDCD310AA4AE400C27E66 /* bird-selected-full.png */; };
 		559A0B6710A3621E005921E7 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6510A3621E005921E7 /* bubble.png */; };
@@ -54,16 +54,16 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* TweetSpotAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpotAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* tweetthespot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tweetthespot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D3623240D0F684500981E51 /* WhereBeUsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUsAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* WhereBeUsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereBeUsAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* WhereBeUs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhereBeUs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28A0AAE50D9B0CCF005BE974 /* TweetSpot_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpot_Prefix.pch; sourceTree = "<group>"; };
+		28A0AAE50D9B0CCF005BE974 /* WhereBeUs_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUs_Prefix.pch; sourceTree = "<group>"; };
 		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		550721D9109B98BC0025B4FA /* TweetSpotState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpotState.h; sourceTree = "<group>"; };
-		550721DA109B98BC0025B4FA /* TweetSpotState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotState.m; sourceTree = "<group>"; };
+		550721D9109B98BC0025B4FA /* WhereBeUsState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUsState.h; sourceTree = "<group>"; };
+		550721DA109B98BC0025B4FA /* WhereBeUsState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereBeUsState.m; sourceTree = "<group>"; };
 		550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotation.h; sourceTree = "<group>"; };
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
@@ -74,8 +74,8 @@
 		5571917C1098F5B60059E40F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		557191CB109913490059E40F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = /System/Library/Frameworks/CoreLocation.framework; sourceTree = "<absolute>"; };
 		557191ED1099137C0059E40F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		557192ED109A4EAC0059E40F /* TweetSpotWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetSpotWindow.h; sourceTree = "<group>"; };
-		557192EE109A4EAC0059E40F /* TweetSpotWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetSpotWindow.m; sourceTree = "<group>"; };
+		557192ED109A4EAC0059E40F /* WhereBeUsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUsWindow.h; sourceTree = "<group>"; };
+		557192EE109A4EAC0059E40F /* WhereBeUsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereBeUsWindow.m; sourceTree = "<group>"; };
 		558DDCD210AA4AE400C27E66 /* bird-noselect-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bird-noselect-full.png"; path = "images/bird-noselect-full.png"; sourceTree = "<group>"; };
 		558DDCD310AA4AE400C27E66 /* bird-selected-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bird-selected-full.png"; path = "images/bird-selected-full.png"; sourceTree = "<group>"; };
 		559A0B6510A3621E005921E7 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble.png; path = images/bubble.png; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		55D919DA109804C7008CB1BF /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = JSON/SBJsonParser.m; sourceTree = "<group>"; };
 		55D919DB109804C7008CB1BF /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = JSON/SBJsonWriter.h; sourceTree = "<group>"; };
 		55D919DC109804C7008CB1BF /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = JSON/SBJsonWriter.m; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* TweetSpot-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "TweetSpot-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,10 +151,10 @@
 				55AC0FE1109E8CDF00101F7F /* Interface */,
 				550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */,
 				550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */,
-				1D3623240D0F684500981E51 /* TweetSpotAppDelegate.h */,
-				1D3623250D0F684500981E51 /* TweetSpotAppDelegate.m */,
-				550721D9109B98BC0025B4FA /* TweetSpotState.h */,
-				550721DA109B98BC0025B4FA /* TweetSpotState.m */,
+				1D3623240D0F684500981E51 /* WhereBeUsAppDelegate.h */,
+				1D3623250D0F684500981E51 /* WhereBeUsAppDelegate.m */,
+				550721D9109B98BC0025B4FA /* WhereBeUsState.h */,
+				550721DA109B98BC0025B4FA /* WhereBeUsState.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -162,7 +162,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* tweetthespot.app */,
+				1D6058910D05DD3D006BFB54 /* WhereBeUs.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -182,7 +182,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				28A0AAE50D9B0CCF005BE974 /* TweetSpot_Prefix.pch */,
+				28A0AAE50D9B0CCF005BE974 /* WhereBeUs_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
@@ -193,7 +193,7 @@
 			children = (
 				559A0B6410A3620F005921E7 /* Images */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
-				8D1107310486CEB800E47090 /* TweetSpot-Info.plist */,
+				8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */,
 				55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */,
 				557191781098F5980059E40F /* MapViewController.xib */,
 				55AC0FEE109E8D4400101F7F /* TweetViewController.xib */,
@@ -244,8 +244,8 @@
 				550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */,
 				55D1CCC71098211A00FD9606 /* Utilities.h */,
 				55D1CCC81098211A00FD9606 /* Utilities.m */,
-				557192ED109A4EAC0059E40F /* TweetSpotWindow.h */,
-				557192EE109A4EAC0059E40F /* TweetSpotWindow.m */,
+				557192ED109A4EAC0059E40F /* WhereBeUsWindow.h */,
+				557192EE109A4EAC0059E40F /* WhereBeUsWindow.m */,
 				559A0BD610A37B2F005921E7 /* AsyncImageCache.h */,
 				559A0BD710A37B2F005921E7 /* AsyncImageCache.m */,
 			);
@@ -303,9 +303,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* tweetthespot */ = {
+		1D6058900D05DD3D006BFB54 /* WhereBeUs */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tweetthespot" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WhereBeUs" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -315,9 +315,9 @@
 			);
 			dependencies = (
 			);
-			name = tweetthespot;
-			productName = TweetSpot;
-			productReference = 1D6058910D05DD3D006BFB54 /* tweetthespot.app */;
+			name = WhereBeUs;
+			productName = WhereBeUs;
+			productReference = 1D6058910D05DD3D006BFB54 /* WhereBeUs.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -325,7 +325,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TweetSpot" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WhereBeUs" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -339,7 +339,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* tweetthespot */,
+				1D6058900D05DD3D006BFB54 /* WhereBeUs */,
 			);
 		};
 /* End PBXProject section */
@@ -373,7 +373,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* TweetSpotAppDelegate.m in Sources */,
+				1D3623260D0F684500981E51 /* WhereBeUsAppDelegate.m in Sources */,
 				55A127CF1097F53200B79AB5 /* TwitterCredentialsViewController.m in Sources */,
 				55D919A81098046F008CB1BF /* JsonConnection.m in Sources */,
 				55D919A91098046F008CB1BF /* JsonResponse.m in Sources */,
@@ -387,8 +387,8 @@
 				55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */,
 				55D1CCC91098211A00FD9606 /* Utilities.m in Sources */,
 				5571917D1098F5B60059E40F /* MapViewController.m in Sources */,
-				557192EF109A4EAC0059E40F /* TweetSpotWindow.m in Sources */,
-				550721DB109B98BC0025B4FA /* TweetSpotState.m in Sources */,
+				557192EF109A4EAC0059E40F /* WhereBeUsWindow.m in Sources */,
+				550721DB109B98BC0025B4FA /* WhereBeUsState.m in Sources */,
 				55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */,
 				55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */,
 				55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */,
@@ -411,9 +411,9 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = TweetSpot_Prefix.pch;
-				INFOPLIST_FILE = "TweetSpot-Info.plist";
-				PRODUCT_NAME = tweetthespot;
+				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
+				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				PRODUCT_NAME = WhereBeUs;
 			};
 			name = Debug;
 		};
@@ -423,9 +423,9 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = TweetSpot_Prefix.pch;
-				INFOPLIST_FILE = "TweetSpot-Info.plist";
-				PRODUCT_NAME = TweetSpot;
+				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
+				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				PRODUCT_NAME = WhereBeUs;
 			};
 			name = Release;
 		};
@@ -458,7 +458,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "tweetthespot" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "WhereBeUs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -467,7 +467,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TweetSpot" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "WhereBeUs" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
