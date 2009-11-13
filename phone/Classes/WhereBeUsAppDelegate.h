@@ -8,12 +8,9 @@
 
 #import "WhereBeUsWindow.h"
 
-@protocol WhereBeUsHashtagChangedDelegate;
-
 @interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate> {    
     WhereBeUsWindow *window;
     UINavigationController *navigationController;
-	id<WhereBeUsHashtagChangedDelegate> hashtagDelegate;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
@@ -22,10 +19,6 @@
 - (void)showMapViewController:(BOOL)animated;
 - (void)showTweetViewController:(BOOL)animated;
 - (void)popViewController:(BOOL)animated;
-- (void)setHashtagDelegate:(id<WhereBeUsHashtagChangedDelegate>)newHashtagDelegate;
 
 @end
 
-@protocol WhereBeUsHashtagChangedDelegate<NSObject>
-- (void)gotNewHashtag:(NSString *)newHashtag;
-@end

@@ -28,7 +28,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Properties
 //------------------------------------------------------------------
 
-@synthesize hashtagField;
 @synthesize tweetButton;
 @synthesize mapView;
 
@@ -156,7 +155,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)dealloc
 {
-	self.hashtagField = nil;
 	self.tweetButton = nil;
 	self.mapView = nil;
 	
@@ -179,64 +177,6 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate showTweetViewController:YES]; 
-}
-
-- (IBAction)hashtagFieldTextChanged:(id)sender
-{
-	/* for now this is a no-op -- we only start a new search when you blur the hashtag text field */
-}
-
-- (IBAction)previousButtonPushed:(id)sender
-{
-}
-
-- (IBAction)nextButtonPushed:(id)sender
-{
-}
-
-//------------------------------------------------------------------
-// Hash Tag Field Management (UITextField delegate, etc.)
-//------------------------------------------------------------------
-
-- (void)updateCurrentHashtag
-{
-	WhereBeUsState *state = [WhereBeUsState shared];
-	
-	if (![self.hashtagField.text isEqualToString:state.currentHashtag])
-	{
-		state.currentHashtag = self.hashtagField.text;
-		[state save];
-		
-		// new hashtag -- let the service know!
-		[self updateServiceWithLocation];
-		
-		if ([state.currentHashtag length] > 0)
-		{
-			[self startWatchingForUpdates];
-		}
-		else
-		{
-			[self stopWatchingForUpdates];
-		}
-	}
-	
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-	NSAssert(textField == self.hashtagField, @"Unexpected delegate call.");
-
-	// NSPredicate is a very strange beast, but it turns out it's the way to do regular expressions in Cocoa (among other things)
-	NSPredicate *alphanumericOrUnderscore = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", @"[a-zA-Z0-9_]*"];
-	return [alphanumericOrUnderscore evaluateWithObject:string];
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	NSAssert(textField == self.hashtagField, @"Unexpected delegate call.");
-	[textField resignFirstResponder];
-	[self updateCurrentHashtag];
-	return YES;
 }
 
 
@@ -454,39 +394,6 @@ CGFloat fsign(CGFloat f)
 
 
 //------------------------------------------------------------------
-// Tweet Spot Window Delegate
-//------------------------------------------------------------------
-
-- (void)gotWindowEvent:(UIEvent *)event
-{
-
-	// did the user click in the map view?
-	UITouch *touch = [event.allTouches anyObject];
-	CGPoint touchInMap = [touch locationInView:mapView];
-	if ([mapView pointInside:touchInMap withEvent:event])
-	{
-		// if they're editing the hashtag field, go ahead and blur() it -- they're done for now
-		if ([self.hashtagField isFirstResponder])
-		{
-			[self.hashtagField resignFirstResponder];
-			[self updateCurrentHashtag];			
-		}
-	}
-}
-
-
-//------------------------------------------------------------------
-// Tweet Spot Hashtag Changed Delegate (off app delegate)
-//------------------------------------------------------------------
-
-- (void)gotNewHashtag:(NSString *)newHashtag
-{
-	[self.hashtagField setText:newHashtag];
-	[self updateCurrentHashtag];	
-}
-
-
-//------------------------------------------------------------------
 // UIViewController overrides
 //------------------------------------------------------------------
 
@@ -506,11 +413,7 @@ CGFloat fsign(CGFloat f)
 		locationManager.distanceFilter = 20.0; /* don't update unless you've moved 20 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
-		[locationManager startUpdatingLocation];
-		
-		// let our application know we'll listen
-		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
-		[appDelegate setHashtagDelegate:self];
+		[locationManager startUpdatingLocation];		
     }
     return self;
 }
@@ -518,17 +421,7 @@ CGFloat fsign(CGFloat f)
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	
-	self.hashtagField.autocorrectionType = UITextAutocorrectionTypeNo;
-	self.hashtagField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-	self.hashtagField.returnKeyType = UIReturnKeyDone;
-	
-	WhereBeUsState *state = [WhereBeUsState shared];
-	if (state.currentHashtag != nil && ([state.currentHashtag length] > 0))
-	{
-		self.hashtagField.text = state.currentHashtag;
-		[self startWatchingForUpdates];		
-	}
+	[self startWatchingForUpdates];		
 }
 
 - (void)didReceiveMemoryWarning 
@@ -544,7 +437,6 @@ CGFloat fsign(CGFloat f)
 - (void)viewWillAppear:(BOOL)animated 
 {
 	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-	[delegate.window setWindowDelegate:self];
 	if (!delegate.navigationController.navigationBar.isHidden)
 	{
 		[delegate.navigationController setNavigationBarHidden:YES animated:YES];
@@ -554,8 +446,6 @@ CGFloat fsign(CGFloat f)
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[self updateCurrentHashtag];
-	
 	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
 	[delegate.navigationController setNavigationBarHidden:NO animated:YES];

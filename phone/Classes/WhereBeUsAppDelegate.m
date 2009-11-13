@@ -36,8 +36,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
-	hashtagDelegate = nil;
-	
 	// Load our application state (potentially from a file)
 	/* ignore return value */ [WhereBeUsState shared];
 
@@ -52,19 +50,7 @@
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-	// XXX TODO check validity of URL	
-	// wherebeus://hashtag/
-	
-	if (hashtagDelegate != nil)
-	{
-		[hashtagDelegate gotNewHashtag:[url host]];
-	}
-	else
-	{
-		WhereBeUsState *state = [WhereBeUsState shared];
-		state.currentHashtag = [url host];	
-	}
-	
+	// XXX TODO 
 	return YES;
 }
 
@@ -78,14 +64,8 @@
 	}
 }
 
-- (void)setHashtagDelegate:(id<WhereBeUsHashtagChangedDelegate>)newHashtagDelegate
-{
-	hashtagDelegate = newHashtagDelegate;
-}
-
 - (void)dealloc 
 {
-	hashtagDelegate = nil;
 	[navigationController release];
 	[window release];
 	[super dealloc];

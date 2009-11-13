@@ -18,13 +18,10 @@
 - (void)deselectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
 @end
 
-@interface MapViewController : UIViewController<MKMapViewDelegate, WhereBeUsAnnotationManager, WhereBeUsWindowDelegate, UITextFieldDelegate, CLLocationManagerDelegate, WhereBeUsHashtagChangedDelegate> {
-	// hashtag
-	IBOutlet UITextField *hashtagField;
-	IBOutlet UIButton *tweetButton;
-	
-	// map area
+@interface MapViewController : UIViewController<MKMapViewDelegate, WhereBeUsAnnotationManager, UITextFieldDelegate, CLLocationManagerDelegate> {
+	// the UI (is simple!)
 	IBOutlet MKMapView *mapView;
+	IBOutlet UIButton *tweetButton;
 	
 	// location management
 	CLLocationManager *locationManager;
@@ -35,18 +32,16 @@
 	CLLocationAccuracy bestHorizontalAccuracy;
 	CLLocationCoordinate2D currentCoordinate;
 	BOOL hasCoordinate;
-	
-	// keep this handy for performance
+
+	// neato!
 	NSMutableDictionary *twitterUsernameToAnnotation;
 }
 
-@property (nonatomic, retain) IBOutlet UITextField *hashtagField;
 @property (nonatomic, retain) IBOutlet UIButton *tweetButton;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 
 // actions
 - (IBAction)tweetButtonPushed:(id)sender;
-- (IBAction)hashtagFieldTextChanged:(id)sender;
 
 - (void)updateServiceWithLocation;
 
