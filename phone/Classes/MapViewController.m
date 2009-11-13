@@ -123,7 +123,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 	if (!gettingLocationUpdates)
 	{
 		gettingLocationUpdates = YES;
-		[ConnectionHelper wbu_getUpdatesForHashtagWithTarget:self action:@selector(wbu_finishedGetUpdatesForHashtag:) hashtag:[WhereBeUsState shared].currentHashtag];
+		// XXX TODO need new service API here
+//		[ConnectionHelper wbu_getUpdatesForHashtagWithTarget:self action:@selector(wbu_finishedGetUpdatesForHashtag:) hashtag:[WhereBeUsState shared].currentHashtag];
 	}
 }
 
@@ -300,13 +301,8 @@ CGFloat fsign(CGFloat f)
 	if (hasCoordinate && !updatingLocation)
 	{
 		WhereBeUsState *state = [WhereBeUsState shared];
-		if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
-		{
-			updatingLocation = YES;
-			NSString *message = state.currentMessage;			
-			if (message == nil) { message = @""; }			
-			[ConnectionHelper wbu_postUpdateWithTarget:self action:@selector(wbu_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:state.currentHashtag message:message coordinate:currentCoordinate];			
-		}				
+		// XXX TODO: need a new service URL
+		[ConnectionHelper wbu_postUpdateWithTarget:self action:@selector(wbu_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:@"XXX REMOVE" message:@"XXX REMOVE" coordinate:currentCoordinate];			
 	}
 }
 
@@ -325,7 +321,6 @@ CGFloat fsign(CGFloat f)
 	annotation.twitterUsername = state.twitterUsername;
 	annotation.twitterFullName = state.twitterFullName;
 	annotation.twitterProfileImageURL = state.twitterProfileImageURL;
-	annotation.message = state.currentMessage;
 	[annotation setLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude];
 	annotation.lastUpdate = [NSDate date];
 	annotation.visited = NO;

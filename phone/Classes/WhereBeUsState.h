@@ -18,8 +18,8 @@
 	NSString *twitterPassword;
 	NSString *twitterFullName;
 	NSString *twitterProfileImageURL;
-	NSString *currentHashtag;
-	NSString *currentMessage;
+	
+	NSString *lastTweetedMessage;
 	
 	BOOL isDirty;
 }
@@ -35,14 +35,12 @@
 - (NSString *)twitterPassword;
 - (NSString *)twitterFullName;
 - (NSString *)twitterProfileImageURL;
-- (NSString *)currentHashtag;
-- (NSString *)currentMessage;
+- (NSString *)lastTweetedMessage;
 
 - (void)setTwitterUsername:(NSString *)newTwitterUsername;
 - (void)setTwitterPassword:(NSString *)newTwitterPassword;
 - (void)setTwitterFullName:(NSString *)newTwitterFullName;
 - (void)setTwitterProfileImageURL:(NSString *)newTwitterProfileImageURL;
-- (void)setCurrentHashtag:(NSString *)newCurrentHashtag;
-- (void)setCurrentMessage:(NSString *)newCurrentMessage;
+- (void)setLastTweetedMessage:(NSString *)newLastTweetedMessage;
 
 @end

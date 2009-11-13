@@ -14,8 +14,7 @@ static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
 static NSString *const kTwitterFullNameKey = @"twitter_full_name";
 static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url";
-static NSString *const kCurrentHashtagKey = @"current_hashtag";
-static NSString *const kCurrentMessageKey = @"current_message";
+static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 
 
 @implementation WhereBeUsState
@@ -115,8 +114,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	twitterPassword = nil;
 	twitterFullName = nil;
 	twitterProfileImageURL = nil;
-	currentHashtag = nil;
-	currentMessage = nil;
+	lastTweetedMessage = nil;
 	isDirty = NO;
 }
 
@@ -136,8 +134,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	[twitterPassword release];
 	[twitterFullName release];
 	[twitterProfileImageURL release];
-	[currentHashtag release];
-	[currentMessage release];
+	[lastTweetedMessage release];
 	[super dealloc];
 }
 
@@ -173,14 +170,9 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	return twitterProfileImageURL;
 }
 
-- (NSString *)currentHashtag
+- (NSString *)lastTweetedMessage
 {
-	return currentHashtag;
-}
-
-- (NSString *)currentMessage
-{
-	return currentMessage;
+	return lastTweetedMessage;
 }
 
 - (void)setTwitterUsername:(NSString *)newTwitterUsername
@@ -211,31 +203,10 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	[self propertyChanged];
 }
 
-- (void)setCurrentHashtag:(NSString *)newCurrentHashtag
+- (void)setLastTweetedMessage:(NSString *)newLastTweetedMessage
 {
-	if (currentHashtag != nil)
-	{
-		if ([currentHashtag isEqualToString:newCurrentHashtag])
-		{
-			// NO-OP
-			return;
-		}
-	}
-	
-	[currentHashtag autorelease];
-	currentHashtag = [newCurrentHashtag retain];
-	
-	// the current message only applies to the current hashtag
-	[currentMessage autorelease];
-	currentMessage = nil;
-
-	[self propertyChanged];
-}
-
-- (void)setCurrentMessage:(NSString *)newCurrentMessage
-{
-	[currentMessage autorelease];
-	currentMessage = [newCurrentMessage retain];
+	[lastTweetedMessage autorelease];
+	lastTweetedMessage = [newLastTweetedMessage retain];
 	[self propertyChanged];
 }
 
@@ -247,8 +218,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
 	[encoder encodeObject:twitterFullName forKey:kTwitterFullNameKey];
 	[encoder encodeObject:twitterProfileImageURL forKey:kTwitterProfileImageURLKey];
-	[encoder encodeObject:currentHashtag forKey:kCurrentHashtagKey];
-	[encoder encodeObject:currentMessage forKey:kCurrentMessageKey];
+	[encoder encodeObject:lastTweetedMessage forKey:kLastTweetedMessageKey];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder 
@@ -262,8 +232,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 		self.twitterPassword = [decoder decodeObjectForKey:kTwitterPasswordKey];
 		self.twitterFullName = [decoder decodeObjectForKey:kTwitterFullNameKey];
 		self.twitterProfileImageURL = [decoder decodeObjectForKey:kTwitterProfileImageURLKey];
-		self.currentHashtag = [decoder decodeObjectForKey:kCurrentHashtagKey];
-		self.currentMessage = [decoder decodeObjectForKey:kCurrentMessageKey];
+		self.lastTweetedMessage = [decoder decodeObjectForKey:kLastTweetedMessageKey];
 	}
 	
 	return self;
@@ -279,8 +248,7 @@ static NSString *const kCurrentMessageKey = @"current_message";
 	copy.twitterPassword = [[twitterPassword copy] autorelease];
 	copy.twitterFullName = [[twitterFullName copy] autorelease];
 	copy.twitterProfileImageURL = [[twitterProfileImageURL copy] autorelease];
-	copy.currentHashtag = [[currentHashtag copy] autorelease];
-	copy.currentMessage = [[currentMessage copy] autorelease];
+	copy.lastTweetedMessage = [[lastTweetedMessage copy] autorelease];
 	
 	return copy;
 }

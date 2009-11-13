@@ -30,20 +30,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	WhereBeUsState *state = [WhereBeUsState shared];
-	
-	if (state.currentMessage != nil && [state.currentMessage length] > 0)
-	{
-		[self.messageText setText:state.currentMessage];
-	}
-	else if (state.currentHashtag != nil && [state.currentHashtag length] > 0)
-	{
-		[self.messageText setText:[NSString stringWithFormat:@"Follow my location with Tweet The Spot: #%@. http://www.wherebe.us/v/%@/", state.currentHashtag, state.currentHashtag]];
-	}
-	else
-	{
-		NSAssert(NO, @"Should never get here.");
-	}
+	[self.messageText setText:@"I'm on the move! Follow me with http://wherebe.us/"];
 	
 	[self.messageText becomeFirstResponder];
 	
@@ -63,13 +50,13 @@
 
 - (void)postTweet
 {
-	// set the message
+	// get the message
 	WhereBeUsState *state = [WhereBeUsState shared];
-	state.currentMessage = [self.messageText text];
+	state.lastTweetedMessage = [self.messageText text];
 	[state save];
 	
 	// send the message!
-	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.currentMessage username:state.twitterUsername password:state.twitterPassword];
+	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.lastTweetedMessage username:state.twitterUsername password:state.twitterPassword];
 	
 	// done; back to the map.
 	[(WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate] popViewController:YES];
