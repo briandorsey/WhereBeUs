@@ -19,6 +19,8 @@
 		289233A70DB2D0840083E9F9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A50DB2D0840083E9F9 /* MainView.m */; };
 		289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A90DB2D0DB0083E9F9 /* MainViewController.m */; };
 		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
+		551DCF1810ACE06E0027C8A6 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 551DCF1710ACE06E0027C8A6 /* MapKit.framework */; };
+		551DCF1C10ACE0740027C8A6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 551DCF1B10ACE0740027C8A6 /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideViewController.m; path = Classes/FlipsideViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* wherebeus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wherebeus_Prefix.pch; sourceTree = "<group>"; };
+		551DCF1710ACE06E0027C8A6 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		551DCF1B10ACE0740027C8A6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* wherebeus-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "wherebeus-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,6 +56,8 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
+				551DCF1810ACE06E0027C8A6 /* MapKit.framework in Frameworks */,
+				551DCF1C10ACE0740027C8A6 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +82,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		281C6CD70DB2D82200F60ACC /* Flipside View */ = {
+		281C6CD70DB2D82200F60ACC /* Tweet View */ = {
 			isa = PBXGroup;
 			children = (
 				289233A20DB2D0840083E9F9 /* FlipsideView.h */,
@@ -84,10 +90,10 @@
 				289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */,
 				289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */,
 			);
-			name = "Flipside View";
+			name = "Tweet View";
 			sourceTree = "<group>";
 		};
-		289233A00DB2D0730083E9F9 /* Main View */ = {
+		289233A00DB2D0730083E9F9 /* Map View */ = {
 			isa = PBXGroup;
 			children = (
 				289233A40DB2D0840083E9F9 /* MainView.h */,
@@ -95,14 +101,14 @@
 				289233A80DB2D0DB0083E9F9 /* MainViewController.h */,
 				289233A90DB2D0DB0083E9F9 /* MainViewController.m */,
 			);
-			name = "Main View";
+			name = "Map View";
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				289233A00DB2D0730083E9F9 /* Main View */,
-				281C6CD70DB2D82200F60ACC /* Flipside View */,
+				289233A00DB2D0730083E9F9 /* Map View */,
+				281C6CD70DB2D82200F60ACC /* Tweet View */,
 				080E96DDFE201D6D7F000001 /* Application Delegate */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -138,6 +144,8 @@
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765580DF743DE002DB57D /* CoreGraphics.framework */,
+				551DCF1710ACE06E0027C8A6 /* MapKit.framework */,
+				551DCF1B10ACE0740027C8A6 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
