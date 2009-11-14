@@ -122,7 +122,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
 	if (!gettingLocationUpdates)
 	{
-		gettingLocationUpdates = YES;
+		gettingLocationUpdates = NO; /* XXX YES; */
 		// XXX TODO need new service API here
 //		[ConnectionHelper wbu_getUpdatesForHashtagWithTarget:self action:@selector(wbu_finishedGetUpdatesForHashtag:) hashtag:[WhereBeUsState shared].currentHashtag];
 	}
@@ -297,17 +297,21 @@ CGFloat fsign(CGFloat f)
 
 - (void)updateServiceWithLocation
 {
+	return; /* TODO XXX */
+	
 	// update only if all the conditions are right to do so
 	if (hasCoordinate && !updatingLocation)
 	{
-		WhereBeUsState *state = [WhereBeUsState shared];
+//		WhereBeUsState *state = [WhereBeUsState shared];
 		// XXX TODO: need a new service URL
-		[ConnectionHelper wbu_postUpdateWithTarget:self action:@selector(wbu_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:@"XXX REMOVE" message:@"XXX REMOVE" coordinate:currentCoordinate];			
+//		[ConnectionHelper wbu_postUpdateWithTarget:self action:@selector(wbu_finishedPostUpdate:) twitterUsername:state.twitterUsername twitterFullName:state.twitterFullName twitterProfileImageURL:state.twitterProfileImageURL hashtag:@"XXX REMOVE" message:@"XXX REMOVE" coordinate:currentCoordinate];			
 	}
 }
 
 - (void)updateUserAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
 {
+	return; /* TODO XXX */
+	
 	WhereBeUsState *state = [WhereBeUsState shared];
 	UpdateAnnotation *annotationFromDictionary = (UpdateAnnotation *) [twitterUsernameToAnnotation objectForKey:state.twitterUsername];
 	UpdateAnnotation *annotation = annotationFromDictionary;
@@ -431,17 +435,18 @@ CGFloat fsign(CGFloat f)
 
 - (void)viewWillAppear:(BOOL)animated 
 {
-	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 	if (!delegate.navigationController.navigationBar.isHidden)
 	{
 		[delegate.navigationController setNavigationBarHidden:YES animated:YES];
 	}
+	
     [super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	WhereBeUsAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+	WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
 	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillDisappear:animated];

@@ -29,6 +29,21 @@
 	[navigationController pushViewController:tweetViewController animated:animated];	
 }
 
+- (void)showModalTwitterCredentialsController
+{
+	TwitterCredentialsViewController *controller = [[TwitterCredentialsViewController alloc] initWithNibName:@"TwitterCredentialsViewController" bundle:nil];	
+	controller.delegate = self;
+	
+	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[navigationController.topViewController presentModalViewController:controller animated:YES];	
+}
+
+- (void)twitterCredentialsViewControllerDidFinish:(TwitterCredentialsViewController *)controller
+{
+	[navigationController.topViewController dismissModalViewControllerAnimated:YES];
+	[controller release];
+}
+
 - (void)popViewController:(BOOL)animated
 {
 	[navigationController popViewControllerAnimated:YES];	
@@ -42,7 +57,12 @@
 	[self showMapViewController:NO];
 	[navigationController setNavigationBarHidden:YES animated:NO];
 	
-
+//	WhereBeUsState *state = [WhereBeUsState shared];
+//	if (!state.hasTwitterCredentials)
+//	{
+//		[self showModalTwitterCredentialsController];
+//	}
+	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 }

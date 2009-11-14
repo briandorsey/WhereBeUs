@@ -7,8 +7,9 @@
 //
 
 #import "WhereBeUsWindow.h"
+#import "TwitterCredentialsViewController.h"
 
-@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate> {    
+@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, TwitterCredentialsViewControllerDelegate> {    
     WhereBeUsWindow *window;
     UINavigationController *navigationController;
 }

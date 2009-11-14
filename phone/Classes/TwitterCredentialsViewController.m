@@ -38,6 +38,7 @@
 @synthesize passwordField;
 @synthesize loginButton;
 @synthesize activityIndicator;
+@synthesize delegate;
 
 - (void)startLoginProcess
 {
@@ -88,9 +89,7 @@
 	state.twitterProfileImageURL = [dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL];
 	[state save];
 	
-	// Now go to the map.
-	WhereBeUsAppDelegate *app = [[UIApplication sharedApplication] delegate];
-	[app showMapViewController:YES];	
+	[delegate twitterCredentialsViewControllerDidFinish:self];
 }
 
 - (IBAction)loginButtonPushed:(id)sender
