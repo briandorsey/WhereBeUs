@@ -444,11 +444,23 @@ CGFloat fsign(CGFloat f)
     [super viewWillAppear:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if (!state.hasTwitterCredentials)
+	{
+		WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
+		[delegate showModalTwitterCredentialsController];		
+	}
+	
+	[super viewDidAppear:animated];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
 	WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
-	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
+//	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillDisappear:animated];
 }
 

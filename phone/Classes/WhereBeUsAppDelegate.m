@@ -57,12 +57,6 @@
 	[self showMapViewController:NO];
 	[navigationController setNavigationBarHidden:YES animated:NO];
 	
-//	WhereBeUsState *state = [WhereBeUsState shared];
-//	if (!state.hasTwitterCredentials)
-//	{
-//		[self showModalTwitterCredentialsController];
-//	}
-	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 }

@@ -20,6 +20,7 @@
 - (void)showMapViewController:(BOOL)animated;
 - (void)showTweetViewController:(BOOL)animated;
 - (void)popViewController:(BOOL)animated;
+- (void)showModalTwitterCredentialsController;
 
 @end
 
