@@ -18,7 +18,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 - (void)showMapViewController:(BOOL)animated;
-- (void)showTweetViewController:(BOOL)animated;
+- (void)showModalTweetViewController;
 - (void)popViewController:(BOOL)animated;
 - (void)showModalTwitterCredentialsController;
 

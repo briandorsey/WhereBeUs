@@ -23,10 +23,13 @@
 	[navigationController pushViewController:mapViewController animated:animated];
 }
 
-- (void)showTweetViewController:(BOOL)animated
+- (void)showModalTweetViewController
 {
-	TweetViewController *tweetViewController = [[[TweetViewController alloc] initWithNibName:@"TweetViewController" bundle:nil] autorelease];
-	[navigationController pushViewController:tweetViewController animated:animated];	
+//	TweetViewController *controller = [[[TweetViewController alloc] initWithNibName:@"TweetViewController" bundle:nil] autorelease];
+//	controller.delegate = self;
+//	
+//	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+//	[navigationController.topViewController presentModalViewController:controller animated:YES];
 }
 
 - (void)showModalTwitterCredentialsController

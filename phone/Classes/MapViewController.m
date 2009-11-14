@@ -434,13 +434,7 @@ CGFloat fsign(CGFloat f)
 }
 
 - (void)viewWillAppear:(BOOL)animated 
-{
-	WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
-	if (!delegate.navigationController.navigationBar.isHidden)
-	{
-		[delegate.navigationController setNavigationBarHidden:YES animated:YES];
-	}
-	
+{	
     [super viewWillAppear:animated];
 }
 
@@ -460,7 +454,6 @@ CGFloat fsign(CGFloat f)
 {
 	WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
 	[delegate.window setWindowDelegate:nil];	
-//	[delegate.navigationController setNavigationBarHidden:NO animated:YES];
     [super viewWillDisappear:animated];
 }
 
