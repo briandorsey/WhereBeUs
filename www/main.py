@@ -24,15 +24,26 @@ def BREAKPOINT():
   p = pdb.Pdb(None, sys.__stdin__, sys.__stdout__)
   p.set_trace()
 
+class TwitterUser(db.Model):
+    user_id = db.IntProperty()
+    username = db.StringProperty()
+    full_name = db.StringProperty()
+    profile_image_url = db.LinkProperty()
+    friend_ids = db.ListProperty(int)
+    
+class FacebookUser(db.Model):
+    pass # XXX TODO    
+        
 class LocationUpdate(db.Model):
-    twitter_username = db.StringProperty()
-    twitter_full_name = db.StringProperty()
-    twitter_profile_image_url = db.LinkProperty()
-    hashtag = db.StringProperty()
-    message = db.StringProperty()
+    twitter_user = db.ReferenceProperty(TwitterUser)
+    # Soon, also facebook_user
+    
+    when = db.DateTimeProperty(auto_now_add=True)
     latitude = db.FloatProperty()
     longitude = db.FloatProperty()
-    update_datetime = db.DateTimeProperty()
+
+    
+
     
 class HashTagHandler(webapp.RequestHandler):
     @staticmethod
