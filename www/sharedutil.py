@@ -40,12 +40,11 @@ class DefaultingDict(FlexibleDefaultingDict):
 
 class LocationUpdateJSON(DefaultingDict):
     __attribute_values__ = [
-                    ('twitter_username', None),
-                    ('twitter_full_name', None),
-                    ('twitter_profile_image_url', None),
-                    ('hashtag', None),
+                    ('display_name', None),
+                    ('profile_image_url', None),
                     ('latitude', None),
                     ('longitude', None),
                     ('message', None),
+                    ('message_time', None),
                     ('update_datetime', None),
             ]
