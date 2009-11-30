@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#include "WhereBeUsAppDelegate.h"
 
 @implementation LoginViewController
 
@@ -22,6 +23,10 @@
 
 - (IBAction)facebookButtonPressed:(id)sender
 {
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+	FBSession *session = [appDelegate facebookSession];
+	FBLoginDialog* dialog = [[[FBLoginDialog alloc] initWithSession:session] autorelease];
+	[dialog show];	
 }
 
 - (IBAction)twitterButtonPressed:(id)sender

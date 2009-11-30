@@ -61,6 +61,14 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
+	// Set up the facebook session
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"FacebookKeysActual" ofType:@"plist"];
+	NSDictionary *keys = [[NSDictionary alloc] initWithContentsOfFile:path];	
+	NSString *apiKey = (NSString *)[keys objectForKey:@"FacebookApiKey"];
+	NSString *apiSecret = (NSString *)[keys objectForKey:@"FacebookApiSecret"];
+	facebookSession = [[FBSession sessionForApplication:apiKey secret:apiSecret delegate:self] retain];
+	[facebookSession resume]; /* returns YES if user is logged in... */
+	
 	// Load our application state (potentially from a file)
 	WhereBeUsState *state = [WhereBeUsState shared];
 	
@@ -98,11 +106,41 @@
 
 - (void)dealloc 
 {
+	[facebookSession release];
 	[navigationController release];
 	[window release];
 	[super dealloc];
 }
 
+
+//---------------------------------------------------------
+// Facebook Session
+//---------------------------------------------------------
+
+- (FBSession *)facebookSession
+{
+	return facebookSession;
+}
+
+// Called when a user has successfully logged in and begun a session.
+- (void)session:(FBSession*)session didLogin:(FBUID)uid
+{
+}
+
+// Called when a user closes the login dialog without logging in.
+- (void)sessionDidNotLogin:(FBSession*)session
+{
+}
+
+// Called when a session is about to log out.
+- (void)session:(FBSession*)session willLogout:(FBUID)uid
+{
+}
+
+// Called when a session has logged out.
+- (void)sessionDidLogout:(FBSession*)session
+{
+}
 
 @end
 

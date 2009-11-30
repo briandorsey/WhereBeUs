@@ -8,10 +8,12 @@
 
 #import "WhereBeUsWindow.h"
 #import "TwitterCredentialsViewController.h"
+#import "FBConnect/FBConnect.h"
 
-@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, TwitterCredentialsViewControllerDelegate> {    
+@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, TwitterCredentialsViewControllerDelegate, FBSessionDelegate> {    
     WhereBeUsWindow *window;
     UINavigationController *navigationController;
+	FBSession *facebookSession;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
@@ -21,6 +23,8 @@
 - (void)showModalTweetViewController;
 - (void)popViewController:(BOOL)animated;
 - (void)showModalTwitterCredentialsController;
+
+- (FBSession *)facebookSession;
 
 @end
 
