@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FacebookApiSecret</key>
+	<string>you_must_fill_this_in_yourself</string>
+	<key>FacebookApiKey</key>
+	<string>you_must_fill_this_in_yourself</string>
+</dict>
+</plist>

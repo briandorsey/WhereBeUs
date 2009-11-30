@@ -66,6 +66,7 @@
 		55E77EBD10C3803E00F49D91 /* FBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EB010C3803E00F49D91 /* FBSession.m */; };
 		55E77EBE10C3803E00F49D91 /* FBStreamDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EB210C3803E00F49D91 /* FBStreamDialog.m */; };
 		55E77EBF10C3803E00F49D91 /* FBXMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EB410C3803E00F49D91 /* FBXMLHandler.m */; };
+		55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E77F0710C383C400F49D91 /* FacebookKeys.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -168,6 +169,7 @@
 		55E77EB210C3803E00F49D91 /* FBStreamDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBStreamDialog.m; path = FBConnect/FBStreamDialog.m; sourceTree = "<group>"; };
 		55E77EB310C3803E00F49D91 /* FBXMLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBXMLHandler.h; path = FBConnect/FBXMLHandler.h; sourceTree = "<group>"; };
 		55E77EB410C3803E00F49D91 /* FBXMLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBXMLHandler.m; path = FBConnect/FBXMLHandler.m; sourceTree = "<group>"; };
+		55E77F0710C383C400F49D91 /* FacebookKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FacebookKeys.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,6 +246,7 @@
 				557191781098F5980059E40F /* MapViewController.xib */,
 				55AC0FEE109E8D4400101F7F /* TweetViewController.xib */,
 				5553976110C350FC00126892 /* LoginViewController.xib */,
+				55E77F0710C383C400F49D91 /* FacebookKeys.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				5553976610C3518400126892 /* big-facebook.png in Resources */,
 				5553976710C3518400126892 /* big-twitter.png in Resources */,
 				55E77EB510C3803E00F49D91 /* FBConnect.bundle in Resources */,
+				55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
