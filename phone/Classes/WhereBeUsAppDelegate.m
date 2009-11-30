@@ -11,6 +11,7 @@
 #import "TwitterCredentialsViewController.h"
 #import "MapViewController.h"
 #import "TweetViewController.h"
+#import "LoginViewController.h"
 
 @implementation WhereBeUsAppDelegate
 
@@ -47,6 +48,12 @@
 	[controller release];
 }
 
+- (void)showLoginViewController:(BOOL)animated
+{
+	LoginViewController *loginViewController = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
+	[navigationController pushViewController:loginViewController animated:animated];
+}
+
 - (void)popViewController:(BOOL)animated
 {
 	[navigationController popViewControllerAnimated:YES];	
@@ -55,9 +62,17 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
 	// Load our application state (potentially from a file)
-	/* ignore return value */ [WhereBeUsState shared];
+	WhereBeUsState *state = [WhereBeUsState shared];
+	
+	if (state.hasTwitterCredentials)
+	{
+		[self showMapViewController:NO];
+	}
+	else
+	{
+		[self showLoginViewController:NO];
+	}
 
-	[self showMapViewController:NO];
 	[navigationController setNavigationBarHidden:YES animated:NO];
 	
 	[window addSubview:[navigationController view]];

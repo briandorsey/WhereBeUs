@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>FacebookApiSecret</key>
+	<string>This file is for demonstration purposes only.</string>
+	<key>FacebookApiKey</key>
+	<string>You must create a file in the same directory called &quot;FacebookKeysActual.plist&quot; and fill it with your facebook keys.</string>
+</dict>
+</plist>
