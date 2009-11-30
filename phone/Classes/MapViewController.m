@@ -176,8 +176,8 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (IBAction)tweetButtonPushed:(id)sender
 {
-	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[appDelegate showTweetViewController:YES]; 
+//	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
+//// TODO davepeck	[appDelegate showTweetViewController:YES]; 
 }
 
 
