@@ -24,28 +24,27 @@ def BREAKPOINT():
   p = pdb.Pdb(None, sys.__stdin__, sys.__stdout__)
   p.set_trace()
 
-class TwitterUser(db.Model):
-    user_id = db.IntegerProperty()
-    username = db.StringProperty()
-    full_name = db.StringProperty()
+# DataStore classes
+class User(db.Model):
+    display_name = db.StringProperty()
     profile_image_url = db.LinkProperty()
-    friend_ids = db.ListProperty(int)
-    
-class FacebookUser(db.Model):
-    pass # XXX TODO    
-        
+
+class UserService(db.Model):
+    user = db.ReferenceProperty(User, collection_name = "services")
+    display_name = db.StringProperty()
+    profile_image_url = db.LinkProperty()
+    service_type = db.StringProperty()  # "twitter"
+    id_on_service = db.IntegerProperty() # 12345
+    friend_ids = db.ListProperty(int)   # [12345, 6789]
+
 class LocationUpdate(db.Model):
-    twitter_user = db.ReferenceProperty(TwitterUser)
-    # Soon, also facebook_user
-    
-    when = db.DateTimeProperty(auto_now_add=True)
-    latitude = db.FloatProperty()
-    longitude = db.FloatProperty()
+    user = db.ReferenceProperty(User, collection_name = "locations")
+    location = db.GeoPtProperty()
+    update_time = db.DateTimeProperty(auto_now_add=True)
+    horizontal_accuracy = db.FloatProperty()
 
-    
-
-    
-class HashTagHandler(webapp.RequestHandler):
+# Handlers
+class UpdateHandler(webapp.RequestHandler):
     @staticmethod
     def location_update_dictionary(update):
         location_update = sharedutil.LocationUpdateJSON()
@@ -80,24 +79,48 @@ class HashTagHandler(webapp.RequestHandler):
             #sys.__stdout__.write(simplejson.dumps(response))
             #sys.__stdout__.flush()
 
-class UpdateHandler(webapp.RequestHandler):
     def post(self):
+        response = {'success': False, 'message': 'Unforseen error condition.'}
         try:
             data = simplejson.loads(self.request.body.decode('utf8'))
-            update = LocationUpdate.get_or_insert(key_name = data['twitter_username'])
-            update.twitter_username = data['twitter_username']
-            update.twitter_full_name = data['twitter_full_name']
-            update.twitter_profile_image_url = data['twitter_profile_image_url']
-            update.hashtag = data['hashtag']
-            update.latitude = data['latitude']
-            update.longitude = data['longitude']
-            update.message = data['message']
-            update.update_datetime = datetime.datetime.utcnow()
-        except:
+            user = None
+            update_queue = []
+            for service in data['services']:
+                key_name = '%s%s' % (service['service_type'], service['id_on_service'])
+                user_service = UserService.get_or_insert(key_name = key_name)
+                user_service.id_on_service = service['id_on_service']
+                user_service.service_type = service['service_type']
+                user_service.display_name = service['display_name']
+                user_service.profile_image_url = service['profile_image_url']
+                update_queue.append(user_service)
+
+                if not user and not user_service.user:
+                    user = User()
+                    #TODO: use Twitter data in case of conflict
+                    user.display_name = user_service.display_name
+                    user.profile_image_url = user_service.profile_image_url
+                    #TODO: error checking
+                    user.put()
+                    user_service.user = user
+                elif user and not user_service.user:
+                    user_service.user = user
+
+#            update = LocationUpdate.get_or_insert(key_name = data['twitter_username'])
+#            update.twitter_username = data['twitter_username']
+#            update.twitter_full_name = data['twitter_full_name']
+#            update.twitter_profile_image_url = data['twitter_profile_image_url']
+#            update.hashtag = data['hashtag']
+#            update.latitude = data['latitude']
+#            update.longitude = data['longitude']
+#            update.message = data['message']
+#            update.update_datetime = datetime.datetime.utcnow()
+        except KeyError:
             response = {'success': False, 'message': 'Malformed POST request.'}
         else:
             try:
-                update.put()
+                #TODO: is there a better way to commit all updated instances?
+                for item in update_queue:
+                    item.put()
             except:
                 response = {'success': False, 'message': 'Datastore timeout or other error.'}
             else:
@@ -118,7 +141,6 @@ class ViewHandler(webapp.RequestHandler):
 
 def main():
   application = webapp.WSGIApplication([('/', MainHandler),
-                                       ('/api/1/hashtag/(.*)/', HashTagHandler),
                                        ('/api/1/update/', UpdateHandler),
                                        ('/v/(.*)/', ViewHandler),
                                        ]
