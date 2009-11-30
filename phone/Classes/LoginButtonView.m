@@ -11,6 +11,23 @@
 
 @implementation LoginButtonView
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	[self addObserver:self forKeyPath:@"highlighted" options:0 context:nil];
+}
+
+- (void)dealloc
+{
+	[self removeObserver:self forKeyPath:@"highlighted"]; /* TODO davepeck: is this the right place to do so, or will addObserver increment the ref count? */
+	[super dealloc];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	[self setNeedsDisplay];
+}
+
 - (void)drawRect:(CGRect)rect
 {
 	CGRect rrect = self.bounds;
@@ -28,7 +45,15 @@
     CGFloat maxy = CGRectGetMaxY(rrect);
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();	
-	CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.33);	
+	if (self.highlighted)
+	{
+		CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.75);	
+		CGContextSetRGBFillColor(context, 1.0, 1.0, 1.0, 0.25);
+	}
+	else
+	{		
+		CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.33);	
+	}
     CGContextSetLineWidth(context, 2.0);
 	
     CGContextMoveToPoint(context, minx, midy);
@@ -37,7 +62,8 @@
     CGContextAddArcToPoint(context, maxx, maxy, midx, maxy, radius);
     CGContextAddArcToPoint(context, minx, maxy, minx, midy, radius);
     CGContextClosePath(context);
-    CGContextDrawPath(context, kCGPathStroke);
+	
+    CGContextDrawPath(context, self.highlighted ? kCGPathFillStroke : kCGPathStroke);
 }
 
 @end
