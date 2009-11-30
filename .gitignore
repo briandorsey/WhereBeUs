@@ -10,7 +10,7 @@ config.php
 # Key File Excludes
 #--------------------------------
 
-FacebookKeys.plist
+FacebookKeysActual.plist
 
 
 #--------------------------------
