@@ -25,7 +25,7 @@ def BREAKPOINT():
   p.set_trace()
 
 class TwitterUser(db.Model):
-    user_id = db.IntProperty()
+    user_id = db.IntegerProperty()
     username = db.StringProperty()
     full_name = db.StringProperty()
     profile_image_url = db.LinkProperty()
