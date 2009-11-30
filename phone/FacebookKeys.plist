@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>FacebookApiSecret</key>
-	<string>you_must_fill_this_in_yourself_also</string>
+	<string>This file is for demonstration purposes only.</string>
 	<key>FacebookApiKey</key>
-	<string>you_must_fill_this_in_yourself</string>
+	<string>You must create a file in the same directory called &quot;FacebookKeysActual.plist&quot; and fill it with your facebook keys.</string>
 </dict>
 </plist>

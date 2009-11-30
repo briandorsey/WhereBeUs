@@ -67,6 +67,7 @@
 		55E77EBE10C3803E00F49D91 /* FBStreamDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EB210C3803E00F49D91 /* FBStreamDialog.m */; };
 		55E77EBF10C3803E00F49D91 /* FBXMLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EB410C3803E00F49D91 /* FBXMLHandler.m */; };
 		55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E77F0710C383C400F49D91 /* FacebookKeys.plist */; };
+		55E77F0A10C3855700F49D91 /* FacebookKeysActual.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +171,7 @@
 		55E77EB310C3803E00F49D91 /* FBXMLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBXMLHandler.h; path = FBConnect/FBXMLHandler.h; sourceTree = "<group>"; };
 		55E77EB410C3803E00F49D91 /* FBXMLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FBXMLHandler.m; path = FBConnect/FBXMLHandler.m; sourceTree = "<group>"; };
 		55E77F0710C383C400F49D91 /* FacebookKeys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FacebookKeys.plist; sourceTree = "<group>"; };
+		55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FacebookKeysActual.plist; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -239,6 +241,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */,
 				559A0B6410A3620F005921E7 /* Images */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */,
@@ -452,6 +455,7 @@
 				5553976710C3518400126892 /* big-twitter.png in Resources */,
 				55E77EB510C3803E00F49D91 /* FBConnect.bundle in Resources */,
 				55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */,
+				55E77F0A10C3855700F49D91 /* FacebookKeysActual.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
