@@ -13,14 +13,15 @@
 // between runs of the application -- would normally break this
 // into several model objects but this is HACK NIGHT Y'ALL!
 
+typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter users. Seems fair enough. */
+
 @interface WhereBeUsState : NSObject<NSCoding, NSCopying> {
+	TwitterId twitterUserId;
 	NSString *twitterUsername;
 	NSString *twitterPassword;
 	NSString *twitterFullName;
-	NSString *twitterProfileImageURL;
-	
-	NSString *lastTweetedMessage;
-	
+	NSString *twitterProfileImageURL;	
+	NSString *lastMessage;	
 	BOOL isDirty;
 }
 
@@ -31,16 +32,18 @@
 
 - (BOOL)hasTwitterCredentials;
 
+- (TwitterId)twitterUserId;
 - (NSString *)twitterUsername;
 - (NSString *)twitterPassword;
 - (NSString *)twitterFullName;
 - (NSString *)twitterProfileImageURL;
-- (NSString *)lastTweetedMessage;
+- (NSString *)lastMessage;
 
+- (void)setTwitterUserId:(TwitterId)twitterUserId;
 - (void)setTwitterUsername:(NSString *)newTwitterUsername;
 - (void)setTwitterPassword:(NSString *)newTwitterPassword;
 - (void)setTwitterFullName:(NSString *)newTwitterFullName;
 - (void)setTwitterProfileImageURL:(NSString *)newTwitterProfileImageURL;
-- (void)setLastTweetedMessage:(NSString *)newLastTweetedMessage;
+- (void)setLastMessage:(NSString *)newLastMessage;
 
 @end

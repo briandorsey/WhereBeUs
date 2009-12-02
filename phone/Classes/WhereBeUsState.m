@@ -9,13 +9,12 @@
 #import "WhereBeUsState.h"
 
 static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
-
+static NSString *const kTwitterUserIdKey = @"twitter_user_id";
 static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
 static NSString *const kTwitterFullNameKey = @"twitter_full_name";
 static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url";
-static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
-
+static NSString *const kLastMessageKey = @"last_message";
 
 @implementation WhereBeUsState
 
@@ -110,11 +109,12 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 
 - (void)setDefaults
 {
+	twitterUserId = (TwitterId) 0;
 	twitterUsername = nil;
 	twitterPassword = nil;
 	twitterFullName = nil;
 	twitterProfileImageURL = nil;
-	lastTweetedMessage = nil;
+	lastMessage = nil;
 	isDirty = NO;
 }
 
@@ -134,7 +134,7 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 	[twitterPassword release];
 	[twitterFullName release];
 	[twitterProfileImageURL release];
-	[lastTweetedMessage release];
+	[lastMessage release];
 	[super dealloc];
 }
 
@@ -148,6 +148,11 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 - (BOOL)isDirty
 {
 	return isDirty;
+}
+
+- (TwitterId)twitterUserId
+{
+	return twitterUserId;
 }
 
 - (NSString *)twitterUsername
@@ -170,9 +175,15 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 	return twitterProfileImageURL;
 }
 
-- (NSString *)lastTweetedMessage
+- (NSString *)lastMessage
 {
-	return lastTweetedMessage;
+	return lastMessage;
+}
+
+- (void)setTwitterUserId:(TwitterId)newTwitterUserId
+{
+	twitterUserId = newTwitterUserId;
+	[self propertyChanged];
 }
 
 - (void)setTwitterUsername:(NSString *)newTwitterUsername
@@ -203,10 +214,10 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 	[self propertyChanged];
 }
 
-- (void)setLastTweetedMessage:(NSString *)newLastTweetedMessage
+- (void)setLastMessage:(NSString *)newLastMessage
 {
-	[lastTweetedMessage autorelease];
-	lastTweetedMessage = [newLastTweetedMessage retain];
+	[lastMessage autorelease];
+	lastMessage = [newLastMessage retain];
 	[self propertyChanged];
 }
 
@@ -214,11 +225,12 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 
 - (void)encodeWithCoder:(NSCoder *)encoder 
 {
+	[encoder encodeInt32:(int32_t)twitterUserId forKey:kTwitterUserIdKey];
 	[encoder encodeObject:twitterUsername forKey:kTwitterUsernameKey];
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
 	[encoder encodeObject:twitterFullName forKey:kTwitterFullNameKey];
 	[encoder encodeObject:twitterProfileImageURL forKey:kTwitterProfileImageURLKey];
-	[encoder encodeObject:lastTweetedMessage forKey:kLastTweetedMessageKey];
+	[encoder encodeObject:lastMessage forKey:kLastMessageKey];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder 
@@ -228,11 +240,12 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 	if (self != nil) 
 	{
 		[self setDefaults];
+		self.twitterUserId = (TwitterId) [decoder decodeInt32ForKey:kTwitterUserIdKey];
 		self.twitterUsername = [decoder decodeObjectForKey:kTwitterUsernameKey];
 		self.twitterPassword = [decoder decodeObjectForKey:kTwitterPasswordKey];
 		self.twitterFullName = [decoder decodeObjectForKey:kTwitterFullNameKey];
 		self.twitterProfileImageURL = [decoder decodeObjectForKey:kTwitterProfileImageURLKey];
-		self.lastTweetedMessage = [decoder decodeObjectForKey:kLastTweetedMessageKey];
+		self.lastMessage = [decoder decodeObjectForKey:kLastMessageKey];
 	}
 	
 	return self;
@@ -244,11 +257,12 @@ static NSString *const kLastTweetedMessageKey = @"last_tweeted_message";
 {
 	WhereBeUsState *copy = [[[self class] allocWithZone:zone] init];
 	
+	copy.twitterUserId = twitterUserId;
 	copy.twitterUsername = [[twitterUsername copy] autorelease];
 	copy.twitterPassword = [[twitterPassword copy] autorelease];
 	copy.twitterFullName = [[twitterFullName copy] autorelease];
 	copy.twitterProfileImageURL = [[twitterProfileImageURL copy] autorelease];
-	copy.lastTweetedMessage = [[lastTweetedMessage copy] autorelease];
+	copy.lastMessage = [[lastMessage copy] autorelease];
 	
 	return copy;
 }

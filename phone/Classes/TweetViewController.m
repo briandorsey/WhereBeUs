@@ -52,11 +52,11 @@
 {
 	// get the message
 	WhereBeUsState *state = [WhereBeUsState shared];
-	state.lastTweetedMessage = [self.messageText text];
+	state.lastMessage = [self.messageText text];
 	[state save];
 	
 	// send the message!
-	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.lastTweetedMessage username:state.twitterUsername password:state.twitterPassword];
+	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.lastMessage username:state.twitterUsername password:state.twitterPassword];
 	
 	// done; back to the map.
 	[(WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate] popViewController:YES];
