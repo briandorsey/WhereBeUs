@@ -9,29 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LoginViewController : UIViewController {
-	IBOutlet UILabel *helpMessage;
-	
-	IBOutlet UIButton *facebookButton;
-	IBOutlet UILabel *facebookStatus;
-	IBOutlet UILabel *facebookAccount;
-	
-	IBOutlet UIButton *twitterButton;
-	IBOutlet UILabel *twitterStatus;
-	IBOutlet UILabel *twitterAccount;
+@interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
+	IBOutlet UITableView *tableView;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *helpMessage;
-
-@property (nonatomic, retain) IBOutlet UIButton *facebookButton;
-@property (nonatomic, retain) IBOutlet UILabel *facebookStatus;
-@property (nonatomic, retain) IBOutlet UILabel *facebookAccount;
-
-@property (nonatomic, retain) IBOutlet UIButton *twitterButton;
-@property (nonatomic, retain) IBOutlet UILabel *twitterStatus;
-@property (nonatomic, retain) IBOutlet UILabel *twitterAccount;
-
-- (IBAction)facebookButtonPressed:(id)sender;
-- (IBAction)twitterButtonPressed:(id)sender;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 
 @end

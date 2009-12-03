@@ -11,17 +11,9 @@
 
 @implementation LoginViewController
 
-@synthesize helpMessage;
+@synthesize tableView;
 
-@synthesize facebookButton;
-@synthesize facebookStatus;
-@synthesize facebookAccount;
-
-@synthesize twitterButton;
-@synthesize twitterStatus;
-@synthesize twitterAccount;
-
-- (IBAction)facebookButtonPressed:(id)sender
+- (void)showFacebookCredentials
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
 	FBSession *session = [appDelegate facebookSession];
@@ -29,7 +21,7 @@
 	[dialog show];	
 }
 
-- (IBAction)twitterButtonPressed:(id)sender
+- (void)showTwitterCredentials
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
 	[appDelegate showModalTwitterCredentialsController];	
@@ -37,24 +29,96 @@
 
 - (void)viewDidLoad 
 {	
-    [super viewDidLoad];
-	self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-}
-
-- (void)viewDidUnload 
-{
+	[super viewDidLoad];
 }
 
 - (void)dealloc 
 {
-	self.helpMessage = nil;
-	self.facebookButton = nil;
-	self.facebookStatus = nil;
-	self.facebookAccount = nil;
-	self.twitterButton = nil;
-	self.twitterStatus = nil;
-	self.twitterAccount = nil;
+	self.tableView = nil;
     [super dealloc];
+}
+
+
+//-----------------------------------------------------------------------
+// TableViewDataSource implementation.
+//-----------------------------------------------------------------------
+
+const NSUInteger FacebookSection = 0;
+const NSUInteger TwitterSection = 1;
+const NSUInteger LoginInfoRow = 0;
+const NSUInteger LoginActionRow = 1;
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 2;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (section == FacebookSection)
+	{
+		return @"Facebook";
+	}
+	else if (section == TwitterSection)
+	{
+		return @"Twitter";
+	}
+	
+	return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	// both facebook and twitter have two...
+	return 2;
+} 
+
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{		
+	NSUInteger section = [indexPath indexAtPosition:0];
+	NSUInteger row = [indexPath indexAtPosition:1];
+	
+	NSString *reuseIdentifier= [NSString stringWithFormat:@"login-cell-%d-%d", section, row];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];	
+	if (cell != nil)
+	{
+		return cell;
+	}
+	
+	cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+
+	if (section == FacebookSection)
+	{
+		if (row == LoginInfoRow)
+		{			
+			cell.textLabel.text = @"not signed in";
+			cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+			cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+		}		
+		else if (row == LoginActionRow)
+		{
+			cell.textLabel.text = @"Sign In";
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		}
+	}
+	else if (section == TwitterSection)
+	{
+		if (row == LoginInfoRow)
+		{
+			cell.textLabel.text = @"not signed in";
+			cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+			cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+		}
+		else if (row == LoginActionRow)
+		{
+			cell.textLabel.text = @"Sign In";
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+		}
+	}
+	
+	return cell;
 }
 
 @end
