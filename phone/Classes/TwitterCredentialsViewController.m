@@ -67,7 +67,7 @@
 	NSString *error = [dictionary valueForKey:TWITTER_ERROR];
 	if (error != nil)
 	{
-		[Utilities displayModalAlertWithTitle:@"Couldn't Log In" message:@"Your username and password weren't correct. Please try again." buttonTitle:@"OK" delegate:self];
+		[Utilities displayModalAlertWithTitle:@"Couldn't Log In" message:@"Your username and password were incorrect. Please try again." buttonTitle:@"OK" delegate:self];
 		return;
 	}
 	
