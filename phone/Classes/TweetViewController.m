@@ -66,7 +66,7 @@
 {
 	if (response == nil)
 	{
-		[Utilities displayModalAlertWithTitle:@"Twitter Failure" message:@"Couldn't post your tweet. Please try again." buttonTitle:@"OK"];
+		[Utilities displayModalAlertWithTitle:@"Twitter Failure" message:@"Couldn't post your tweet. Please try again." buttonTitle:@"OK" delegate:nil];
 	}
 }
 

@@ -12,48 +12,38 @@
 #import "JsonResponse.h"
 #import "WhereBeUsState.h"
 #import "WhereBeUsAppDelegate.h"
+#import "EditCellViewController.h"
 
 @implementation TwitterCredentialsViewController
 
-//-----------------------------------------------------------------------
-// Private Stuff
-//-----------------------------------------------------------------------
-
-- (void)disableLoginButton
-{
-	[self.loginButton setEnabled:NO];
-}
-
-- (void)enableLoginButton
-{
-	[self.loginButton setEnabled:YES];
-}
-
-
-//-----------------------------------------------------------------------
-// Outlets and Actions
-//-----------------------------------------------------------------------
-
-@synthesize usernameField;
-@synthesize passwordField;
-@synthesize loginButton;
+@synthesize tableView;
 @synthesize activityIndicator;
 @synthesize delegate;
 
+
+//-----------------------------------------------------------------------
+// Private Implementation...
+//-----------------------------------------------------------------------
+
 - (void)startLoginProcess
 {
-	[self disableLoginButton];
-	[self.usernameField setEnabled:NO];
-	[self.passwordField setEnabled:NO];
+	[usernameController.textField setEnabled:NO];
+	[passwordController.textField setEnabled:NO];
+	[passwordController.textField resignFirstResponder];
 	[self.activityIndicator startAnimating];	
 }
 
 - (void)stopLoginProcess
 {
-	[self enableLoginButton];
-	[self.usernameField setEnabled:YES];
-	[self.passwordField setEnabled:YES];
+	[usernameController.textField setEnabled:YES];
+	[passwordController.textField setEnabled:YES];
 	[self.activityIndicator stopAnimating];	
+}
+
+- (void)gotValidUsername:(NSString*)username password:(NSString*)password
+{
+	[self startLoginProcess];
+	[ConnectionHelper twitter_verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:usernameController.textField.text password:passwordController.textField.text];	
 }
 
 - (void)verifyCredentials_returned:(JsonResponse *)results
@@ -62,13 +52,13 @@
 	
 	if (results == nil)
 	{
-		[Utilities displayModalAlertWithTitle:@"Network Error" message:@"We couldn't contact Twitter. Please check your network connection and try again." buttonTitle:@"OK"];
+		[Utilities displayModalAlertWithTitle:@"Network Error" message:@"We couldn't contact Twitter. Please check your network connection and try again." buttonTitle:@"OK" delegate:self];
 		return;
 	}
 	
 	if (![results isDictionary])
 	{
-		[Utilities displayModalAlertWithTitle:@"Twitter Error" message:@"Twitter returned an unexpected response. Please try again." buttonTitle:@"OK"];
+		[Utilities displayModalAlertWithTitle:@"Twitter Error" message:@"Twitter returned an unexpected response. Please try again later." buttonTitle:@"OK" delegate:self];
 		return;
 	}
 	
@@ -77,14 +67,14 @@
 	NSString *error = [dictionary valueForKey:TWITTER_ERROR];
 	if (error != nil)
 	{
-		[Utilities displayModalAlertWithTitle:@"Invalid" message:@"Either your username or your password was incorrect. Please try again." buttonTitle:@"OK"];
+		[Utilities displayModalAlertWithTitle:@"Couldn't Log In" message:@"Your username and password weren't correct. Please try again." buttonTitle:@"OK" delegate:self];
 		return;
 	}
 	
 	// Success! Remember the twitter account information.
 	WhereBeUsState *state = [WhereBeUsState shared];
-	state.twitterUsername = [[[self.usernameField text] copy] autorelease];
-	state.twitterPassword = [[[self.passwordField text] copy] autorelease];
+	state.twitterUsername = [[[usernameController.textField text] copy] autorelease];
+	state.twitterPassword = [[[passwordController.textField text] copy] autorelease];
 	state.twitterFullName = [dictionary valueForKey:TWITTER_FULL_NAME];
 	state.twitterProfileImageURL = [dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL];
 	[state save];
@@ -92,29 +82,40 @@
 	[delegate twitterCredentialsViewControllerDidFinish:self];
 }
 
-- (IBAction)loginButtonPushed:(id)sender
+
+//-----------------------------------------------------------------------
+// UIAlertViewDelegate
+//-----------------------------------------------------------------------
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-	[self startLoginProcess];
-	[ConnectionHelper twitter_verifyCredentialsWithTarget:self action:@selector(verifyCredentials_returned:) username:[self.usernameField text] password:[self.passwordField text]];	
+	[usernameController.textField becomeFirstResponder];
 }
 
-- (void)setAppropriateStateForLoginButton
+
+//-----------------------------------------------------------------------
+// UITextFieldDelegate
+//-----------------------------------------------------------------------
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	NSString *username = [self.usernameField text];
-	NSString *password = [self.passwordField text];
-	if (([username length] > 1) && ([password length] > 2))
+	if (textField == usernameController.textField)
 	{
-		[self enableLoginButton];
+		[passwordController.textField becomeFirstResponder];
+		return YES;
 	}
 	else
-	{
-		[self disableLoginButton];
-	}		
-}
-
-- (IBAction)textChanged:(id)sender
-{
-	[self setAppropriateStateForLoginButton];
+	{	
+		// textField is for passwordController. Make sure they didn't skip directly to it...
+		if ([usernameController.textField.text length] < 1)
+		{
+			return NO;
+		}
+		
+		// looks like we have a potentially valid u/p. Try it...
+		[self gotValidUsername:usernameController.textField.text password:passwordController.textField.text];
+		return YES;
+	}
 }
 
 
@@ -127,7 +128,23 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
-		self.navigationItem.title = @"Login";
+		self.navigationItem.title = @"Twitter Login";
+		usernameController = (EditCellViewController *) [[EditCellViewController alloc] initWithNibName:@"EditCellViewController" bundle:nil];
+		usernameController.labelText = @"Username";
+		usernameController.textFieldDelegate = self;		
+		usernameController.autocorrectionType = UITextAutocorrectionTypeNo;
+		usernameController.enablesReturnKeyAutomatically = YES;
+		usernameController.clearsOnBeginEditing = NO;
+		usernameController.returnKeyType = UIReturnKeyNext;
+		
+		passwordController = (EditCellViewController *) [[EditCellViewController alloc] initWithNibName:@"EditCellViewController" bundle:nil];
+		passwordController.labelText = @"Password";
+		passwordController.textFieldDelegate = self;
+		passwordController.autocorrectionType = UITextAutocorrectionTypeNo;
+		passwordController.enablesReturnKeyAutomatically = YES;
+		passwordController.returnKeyType = UIReturnKeyDone;
+		passwordController.secureTextEntry = YES;
+		passwordController.clearsOnBeginEditing = YES;
     }
     return self;
 }
@@ -135,8 +152,6 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
-	[self.loginButton setTitleColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0] forState:UIControlStateDisabled];
-	[self.usernameField setClearsOnBeginEditing:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -144,41 +159,50 @@
 	WhereBeUsState *state = [WhereBeUsState shared];
 	if (state.hasTwitterCredentials)
 	{
-		[self.usernameField setText:state.twitterUsername];
-		[self.passwordField setText:state.twitterPassword];
+		[usernameController.textField setText:state.twitterUsername];
+		[passwordController.textField setText:state.twitterPassword];
 	}
-	else
-	{
-		[self.usernameField setText:@""];
-		[self.passwordField setText:@""];
-	}
-
-	[self setAppropriateStateForLoginButton];
-	[self.usernameField becomeFirstResponder];
-}
-
-- (void)didReceiveMemoryWarning 
-{
-	// Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
 	
-	// Release any cached data, images, etc that aren't in use.
+	[super viewWillAppear:animated];
 }
 
-- (void)viewDidUnload 
+- (void)viewDidAppear:(BOOL)animated
 {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
+	[usernameController.textField becomeFirstResponder];
+	[super viewDidAppear:animated];
 }
-
 
 - (void)dealloc
 {
-	self.usernameField = nil;
-	self.passwordField = nil;
-	self.loginButton = nil;
+	self.tableView = nil;
 	self.activityIndicator = nil;
+	self.delegate = nil;
+	[usernameController release];
+	[passwordController release];
     [super dealloc];
+}
+
+
+//-----------------------------------------------------------------------
+// TableViewDataSource implementation. Static!
+//-----------------------------------------------------------------------
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	return 2;
+} 
+
+- (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	NSUInteger row = [indexPath row];
+	if (row == 0)
+	{
+		return usernameController.cell;
+	}
+	else
+	{
+		return passwordController.cell;
+	}
 }
 
 

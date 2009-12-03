@@ -7,25 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EditCellViewController.h"
 
 @protocol TwitterCredentialsViewControllerDelegate;
 
-@interface TwitterCredentialsViewController : UIViewController {
-	IBOutlet UITextField *usernameField;
-	IBOutlet UITextField *passwordField;
-	IBOutlet UIButton *loginButton;
+@interface TwitterCredentialsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, UIAlertViewDelegate> {
+	IBOutlet UITableView *tableView;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	id<TwitterCredentialsViewControllerDelegate> delegate;
+	
+	EditCellViewController *usernameController;
+	EditCellViewController *passwordController;
 }
 
-@property (nonatomic, retain) IBOutlet UITextField *usernameField;
-@property (nonatomic, retain) IBOutlet UITextField *passwordField;
-@property (nonatomic, retain) IBOutlet UIButton *loginButton;
+@property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, assign) id<TwitterCredentialsViewControllerDelegate> delegate;
-
-- (IBAction)loginButtonPushed:(id)sender;
-- (IBAction)textChanged:(id)sender;
 
 @end
 

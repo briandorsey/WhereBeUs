@@ -11,12 +11,12 @@
 
 @implementation Utilities
 
-+(void)displayModalAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle
++ (void)displayModalAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle delegate:(id<UIAlertViewDelegate>)delegate
 {	
 	UIAlertView *alert = [[UIAlertView alloc]
 						  initWithTitle:title
 						  message:message
-						  delegate:nil 
+						  delegate:delegate 
 						  cancelButtonTitle:buttonTitle
 						  otherButtonTitles:nil];		
 	[alert show];

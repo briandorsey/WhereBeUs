@@ -31,6 +31,8 @@
 
 - (IBAction)twitterButtonPressed:(id)sender
 {
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+	[appDelegate showModalTwitterCredentialsController];	
 }
 
 - (void)viewDidLoad 

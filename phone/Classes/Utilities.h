@@ -13,6 +13,6 @@
 
 }
 
-+(void)displayModalAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle;
++ (void)displayModalAlertWithTitle:(NSString *)title message:(NSString *)message buttonTitle:(NSString *)buttonTitle delegate:(id<UIAlertViewDelegate>)delegate;
 
 @end
