@@ -20,17 +20,12 @@
 		55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55491EE310C734D7007A811F /* EditCellViewController.xib */; };
 		55491EE810C735CC007A811F /* EditCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55491EE710C735CC007A811F /* EditCellViewController.m */; };
 		5553976210C350FC00126892 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5553976110C350FC00126892 /* LoginViewController.xib */; };
-		5553976610C3518400126892 /* big-facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 5553976410C3518400126892 /* big-facebook.png */; };
-		5553976710C3518400126892 /* big-twitter.png in Resources */ = {isa = PBXBuildFile; fileRef = 5553976510C3518400126892 /* big-twitter.png */; };
 		5553976B10C3561900126892 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5553976A10C3561900126892 /* LoginViewController.m */; };
-		5553981910C36E1C00126892 /* LoginButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5553981810C36E1C00126892 /* LoginButtonView.m */; };
 		557191791098F5980059E40F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557191781098F5980059E40F /* MapViewController.xib */; };
 		5571917D1098F5B60059E40F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5571917C1098F5B60059E40F /* MapViewController.m */; };
 		557191CC109913490059E40F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191CB109913490059E40F /* CoreLocation.framework */; };
 		557191EE1099137C0059E40F /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191ED1099137C0059E40F /* MapKit.framework */; };
 		557192EF109A4EAC0059E40F /* WhereBeUsWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 557192EE109A4EAC0059E40F /* WhereBeUsWindow.m */; };
-		558DDCD410AA4AE400C27E66 /* bird-noselect-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 558DDCD210AA4AE400C27E66 /* bird-noselect-full.png */; };
-		558DDCD510AA4AE400C27E66 /* bird-selected-full.png in Resources */ = {isa = PBXBuildFile; fileRef = 558DDCD310AA4AE400C27E66 /* bird-selected-full.png */; };
 		559A0B6710A3621E005921E7 /* bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6510A3621E005921E7 /* bubble.png */; };
 		559A0B6810A3621E005921E7 /* default37.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0B6610A3621E005921E7 /* default37.png */; };
 		559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */; };
@@ -93,12 +88,8 @@
 		55491EE610C735CC007A811F /* EditCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCellViewController.h; sourceTree = "<group>"; };
 		55491EE710C735CC007A811F /* EditCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCellViewController.m; sourceTree = "<group>"; };
 		5553976110C350FC00126892 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
-		5553976410C3518400126892 /* big-facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "big-facebook.png"; path = "images/big-facebook.png"; sourceTree = "<group>"; };
-		5553976510C3518400126892 /* big-twitter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "big-twitter.png"; path = "images/big-twitter.png"; sourceTree = "<group>"; };
 		5553976910C3561900126892 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5553976A10C3561900126892 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		5553981710C36E1C00126892 /* LoginButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginButtonView.h; sourceTree = "<group>"; };
-		5553981810C36E1C00126892 /* LoginButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginButtonView.m; sourceTree = "<group>"; };
 		557191781098F5980059E40F /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		5571917B1098F5B60059E40F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		5571917C1098F5B60059E40F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -106,8 +97,6 @@
 		557191ED1099137C0059E40F /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		557192ED109A4EAC0059E40F /* WhereBeUsWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUsWindow.h; sourceTree = "<group>"; };
 		557192EE109A4EAC0059E40F /* WhereBeUsWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereBeUsWindow.m; sourceTree = "<group>"; };
-		558DDCD210AA4AE400C27E66 /* bird-noselect-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bird-noselect-full.png"; path = "images/bird-noselect-full.png"; sourceTree = "<group>"; };
-		558DDCD310AA4AE400C27E66 /* bird-selected-full.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "bird-selected-full.png"; path = "images/bird-selected-full.png"; sourceTree = "<group>"; };
 		559A0B6510A3621E005921E7 /* bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bubble.png; path = images/bubble.png; sourceTree = "<group>"; };
 		559A0B6610A3621E005921E7 /* default37.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default37.png; path = images/default37.png; sourceTree = "<group>"; };
 		559A0B6910A3624D005921E7 /* UpdateAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotationView.h; sourceTree = "<group>"; };
@@ -304,10 +293,6 @@
 		559A0B6410A3620F005921E7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5553976410C3518400126892 /* big-facebook.png */,
-				5553976510C3518400126892 /* big-twitter.png */,
-				558DDCD210AA4AE400C27E66 /* bird-noselect-full.png */,
-				558DDCD310AA4AE400C27E66 /* bird-selected-full.png */,
 				5523366E10AA3B0300CEBB6B /* map-marker-white.png */,
 				559A0CCD10A3A6C5005921E7 /* center.png */,
 				559A0CCE10A3A6C5005921E7 /* fill.png */,
@@ -368,8 +353,6 @@
 				559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */,
 				5553976910C3561900126892 /* LoginViewController.h */,
 				5553976A10C3561900126892 /* LoginViewController.m */,
-				5553981710C36E1C00126892 /* LoginButtonView.h */,
-				5553981810C36E1C00126892 /* LoginButtonView.m */,
 				55491EE610C735CC007A811F /* EditCellViewController.h */,
 				55491EE710C735CC007A811F /* EditCellViewController.m */,
 			);
@@ -456,11 +439,7 @@
 				559A0CD310A3A6C5005921E7 /* left.png in Resources */,
 				559A0CD410A3A6C5005921E7 /* right.png in Resources */,
 				5523366F10AA3B0300CEBB6B /* map-marker-white.png in Resources */,
-				558DDCD410AA4AE400C27E66 /* bird-noselect-full.png in Resources */,
-				558DDCD510AA4AE400C27E66 /* bird-selected-full.png in Resources */,
 				5553976210C350FC00126892 /* LoginViewController.xib in Resources */,
-				5553976610C3518400126892 /* big-facebook.png in Resources */,
-				5553976710C3518400126892 /* big-twitter.png in Resources */,
 				55E77EB510C3803E00F49D91 /* FBConnect.bundle in Resources */,
 				55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */,
 				55E77F0A10C3855700F49D91 /* FacebookKeysActual.plist in Resources */,
@@ -501,7 +480,6 @@
 				559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */,
 				559A0BD810A37B2F005921E7 /* AsyncImageCache.m in Sources */,
 				5553976B10C3561900126892 /* LoginViewController.m in Sources */,
-				5553981910C36E1C00126892 /* LoginButtonView.m in Sources */,
 				55E77EB610C3803E00F49D91 /* FBConnectGlobal.m in Sources */,
 				55E77EB710C3803E00F49D91 /* FBDialog.m in Sources */,
 				55E77EB810C3803E00F49D91 /* FBFeedDialog.m in Sources */,
