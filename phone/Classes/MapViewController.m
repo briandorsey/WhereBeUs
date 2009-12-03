@@ -444,7 +444,7 @@ CGFloat fsign(CGFloat f)
 	if (!state.hasTwitterCredentials)
 	{
 		WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
-		[delegate showModalTwitterCredentialsController];		
+		[delegate showTwitterCredentialsController];		
 	}
 	
 	[super viewDidAppear:animated];

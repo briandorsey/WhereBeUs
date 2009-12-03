@@ -33,18 +33,16 @@
 //	[navigationController.topViewController presentModalViewController:controller animated:YES];
 }
 
-- (void)showModalTwitterCredentialsController
+- (void)showTwitterCredentialsController
 {
 	TwitterCredentialsViewController *controller = [[TwitterCredentialsViewController alloc] initWithNibName:@"TwitterCredentialsViewController" bundle:nil];	
 	controller.delegate = self;
-	
-	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-	[navigationController.topViewController presentModalViewController:controller animated:YES];	
+	[navigationController pushViewController:controller animated:YES];
 }
 
 - (void)twitterCredentialsViewControllerDidFinish:(TwitterCredentialsViewController *)controller
 {
-	[navigationController.topViewController dismissModalViewControllerAnimated:YES];
+	[navigationController popViewControllerAnimated:YES];
 	[controller release];
 }
 
@@ -81,7 +79,7 @@
 		[self showLoginViewController:NO];
 	}
 
-	[navigationController setNavigationBarHidden:YES animated:NO];
+//	[navigationController setNavigationBarHidden:YES animated:NO];
 	
 	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];

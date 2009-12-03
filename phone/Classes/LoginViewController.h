@@ -11,8 +11,12 @@
 
 @interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *tableView;
+	IBOutlet UIBarButtonItem *doneButton;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+
+- (void)doneButtonPressed:(id)sender;
 
 @end

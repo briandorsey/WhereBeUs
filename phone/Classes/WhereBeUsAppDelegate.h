@@ -14,6 +14,7 @@
     WhereBeUsWindow *window;
     UINavigationController *navigationController;
 	FBSession *facebookSession;
+	UINavigationBar *bar;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
@@ -22,7 +23,7 @@
 - (void)showMapViewController:(BOOL)animated;
 - (void)showModalTweetViewController;
 - (void)popViewController:(BOOL)animated;
-- (void)showModalTwitterCredentialsController;
+- (void)showTwitterCredentialsController;
 
 - (FBSession *)facebookSession;
 

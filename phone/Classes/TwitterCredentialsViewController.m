@@ -128,7 +128,6 @@
     self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
-		self.navigationItem.title = @"Twitter Login";
 		usernameController = (EditCellViewController *) [[EditCellViewController alloc] initWithNibName:@"EditCellViewController" bundle:nil];
 		usernameController.labelText = @"Username";
 		usernameController.textFieldDelegate = self;		
@@ -152,6 +151,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];	
+	self.navigationItem.title = @"Twitter Sign In";	
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -169,6 +169,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
 	[usernameController.textField becomeFirstResponder];
+	[self.tableView setEditing:YES]; // see http://stackoverflow.com/questions/376372/
 	[super viewDidAppear:animated];
 }
 
@@ -180,6 +181,28 @@
 	[usernameController release];
 	[passwordController release];
     [super dealloc];
+}
+
+
+//-----------------------------------------------------------------------
+// UITableViewDelegate
+//-----------------------------------------------------------------------
+
+- (NSIndexPath *)tableView:(UITableView *)theTableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return nil;
+}
+
+- (BOOL)tableView:(UITableView *)theTableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	// see http://stackoverflow.com/questions/376372/
+    return NO; 	
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)theTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	// see http://stackoverflow.com/questions/376372/
+    return UITableViewCellEditingStyleNone;
 }
 
 
