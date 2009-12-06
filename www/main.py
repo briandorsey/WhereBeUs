@@ -11,12 +11,12 @@ import sharedutil
 
 def get_rid_of_microseconds(dt):
     return datetime.datetime(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second)
-    
+
 def iso_utc_string(dt):
     no_micros = get_rid_of_microseconds(dt)
-    
-    # after digging around in datetime for too long, I gave up and 
-    # hacked the UTC mark in. 
+
+    # after digging around in datetime for too long, I gave up and
+    # hacked the UTC mark in.
     return no_micros.isoformat() + "Z"
 
 def BREAKPOINT():
@@ -55,7 +55,7 @@ class UpdateHandler(webapp.RequestHandler):
         location_update.message = update.message
         location_update.latitude = update.latitude
         location_update.longitude = update.longitude
-        location_update.update_datetime = iso_utc_string(update.update_datetime)        
+        location_update.update_datetime = iso_utc_string(update.update_datetime)
         return location_update
 
     def get(self, hashtag):
@@ -68,7 +68,7 @@ class UpdateHandler(webapp.RequestHandler):
             response = {'success': False, 'message': 'Datastore failure', 'call_again_seconds': 15, 'updates': []}
         else:
             response = {'success': True, 'message': 'OK', 'call_again_seconds': 15, 'updates': update_list}
-                
+
         self.response.headers['Content-Type'] = 'application/json'
         callback = self.request.get("callback")
         if callback:

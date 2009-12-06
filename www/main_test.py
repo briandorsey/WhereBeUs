@@ -9,6 +9,8 @@ import sharedutil_test
 base_url = "http://localhost:8082"
 #base_url = "http://ourtweetspot.appspot.com"
 
+#TODO: startup test dev_appserver.py in it's own dir for the tests
+
 def check_json_response(response):
     assert 'success' in response
     assert 'message' in response
