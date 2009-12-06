@@ -44,6 +44,8 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 // logged in they return twitter (naturally!)
 - (NSString *)preferredFullName;
 - (NSString *)preferredProfileImageURL;
+- (void)clearTwitter;
+- (void)clearFacebook;
 
 - (TwitterId)twitterUserId;
 - (NSString *)twitterUsername;

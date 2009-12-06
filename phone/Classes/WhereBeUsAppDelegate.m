@@ -12,6 +12,8 @@
 #import "MapViewController.h"
 #import "TweetViewController.h"
 #import "LoginViewController.h"
+#import "ConnectionHelper.h"
+
 
 @implementation WhereBeUsAppDelegate
 
@@ -120,14 +122,53 @@
 	return facebookSession;
 }
 
-// Called when a user has successfully logged in and begun a session.
-- (void)session:(FBSession*)session didLogin:(FBUID)uid
+- (void)notifyFacebookCredentialsChanged
 {
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName:FACEBOOK_CREDENTIALS_CHANGED object:self userInfo:nil];
+}
+
+- (void)notifyTwitterCredentialsChanged
+{
+	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
+	[defaultCenter postNotificationName:TWITTER_CREDENTIALS_CHANGED object:self userInfo:nil];
+}
+
+- (void)done_facebookUsersGetInfo:(id)result
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	
+	if (result != nil)
+	{
+  		NSDictionary* user = [result objectAtIndex:0];
+		
+		state.facebookUserId = (FBUID) facebookSession.uid;
+		state.facebookFullName = [user objectForKey:@"name"];
+		state.facebookProfileImageURL = [user objectForKey:@"pic_square"];
+	}
+	else
+	{
+		[state clearFacebook];
+	}
+	
+	[state save];	
+	[self notifyFacebookCredentialsChanged];
+}
+
+// Called when a user has successfully logged in and begun a session.
+- (void)session:(FBSession*)session didLogin:(FBUID)fbuid
+{
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", fbuid], @"uids", @"name, pic_square", @"fields", nil];
+	[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookUsersGetInfo:) call:@"facebook.users.getInfo" params:params];	
 }
 
 // Called when a user closes the login dialog without logging in.
 - (void)sessionDidNotLogin:(FBSession*)session
 {
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[state clearFacebook];
+	[state save];
+	[self notifyFacebookCredentialsChanged];
 }
 
 // Called when a session is about to log out.
@@ -138,6 +179,10 @@
 // Called when a session has logged out.
 - (void)sessionDidLogout:(FBSession*)session
 {
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[state clearFacebook];
+	[state save];	
+	[self notifyFacebookCredentialsChanged];
 }
 
 @end

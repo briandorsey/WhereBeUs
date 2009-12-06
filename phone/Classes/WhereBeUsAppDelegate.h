@@ -10,6 +10,9 @@
 #import "TwitterCredentialsViewController.h"
 #import "FBConnect/FBConnect.h"
 
+#define FACEBOOK_CREDENTIALS_CHANGED @"wherebeus_facebook_credentials_changed"
+#define TWITTER_CREDENTIALS_CHANGED @"wherebeus_twitter_credentials_changed"
+
 @interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, TwitterCredentialsViewControllerDelegate, FBSessionDelegate> {    
     WhereBeUsWindow *window;
     UINavigationController *navigationController;
@@ -26,6 +29,8 @@
 - (void)showTwitterCredentialsController;
 
 - (FBSession *)facebookSession;
+- (void)notifyFacebookCredentialsChanged;
+- (void)notifyTwitterCredentialsChanged;
 
 @end
 

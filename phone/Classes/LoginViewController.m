@@ -45,17 +45,14 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-	FBSession *session = appDelegate.facebookSession;
-	[session.delegates addObject:self];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookCredentialsChanged:) name:FACEBOOK_CREDENTIALS_CHANGED object:nil];
 	[self.tableView reloadData];	
 	[super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-	[appDelegate.facebookSession.delegates removeObject:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:FACEBOOK_CREDENTIALS_CHANGED object:nil];	
 	[super viewWillDisappear:animated];
 }
 
@@ -73,29 +70,10 @@ const NSUInteger LoginActionRow = 1;
 
 
 //-----------------------------------------------------------------------
-// FBSessionDelegate
+// NSNotification Recipient
 //-----------------------------------------------------------------------
 
-- (void)done_facebookUsername:(id)result
-{
-	if (result != nil)
-	{
-		NSArray* users = result;
-  		NSDictionary* user = [users objectAtIndex:0];
-  		NSString* name = [user objectForKey:@"name"];
-		NSLog(@"Name is %@", name);
-  		NSString* pc = [user objectForKey:@"pic_square"];
-		NSLog(@"Pic Square is %@", pc);
-	}
-}
-
-- (void)session:(FBSession *)session didLogin:(FBUID)fbuid
-{
-	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", fbuid], @"uids", @"name, pic_square", @"fields", nil];
-	[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookUsername:) call:@"facebook.users.getInfo" params:params];
-}
-
-- (void)sessionDidLogout:(FBSession*)session
+- (void)facebookCredentialsChanged:(NSNotification*)notification
 {
 	[self.tableView reloadData];
 }
@@ -123,13 +101,14 @@ const NSUInteger LoginActionRow = 1;
 {
 	[theTableView deselectRowAtIndexPath:indexPath animated:YES];
 	NSUInteger section = [indexPath indexAtPosition:0];
-	
+	WhereBeUsState *state = [WhereBeUsState shared];
+		
 	if (section == FacebookSection)
 	{
-		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-		FBSession *session = [appDelegate facebookSession];
-		if (session.isConnected)
+		if (state.hasFacebookCredentials)
 		{
+			WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+			FBSession *session = [appDelegate facebookSession];
 			[session logout];
 		}
 		else
@@ -139,14 +118,9 @@ const NSUInteger LoginActionRow = 1;
 	}
 	else if (section == TwitterSection)
 	{
-		WhereBeUsState *state = [WhereBeUsState shared];
 		if (state.hasTwitterCredentials)
 		{
-			state.twitterUserId = (TwitterId) 0;
-			state.twitterUsername = nil;
-			state.twitterPassword = nil;
-			state.twitterFullName = nil;
-			state.twitterProfileImageURL = nil;
+			[state clearTwitter];
 			[state save];
 			[self.tableView reloadData];
 		}
@@ -161,7 +135,6 @@ const NSUInteger LoginActionRow = 1;
 //-----------------------------------------------------------------------
 // UITableViewDataSource
 //-----------------------------------------------------------------------
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -194,16 +167,15 @@ const NSUInteger LoginActionRow = 1;
 	NSUInteger row = [indexPath indexAtPosition:1];
 	
 	UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
+	WhereBeUsState *state = [WhereBeUsState shared];
 
 	if (section == FacebookSection)
 	{
-		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-		FBSession *session = [appDelegate facebookSession];
-		if (session.isConnected)
+		if (state.hasFacebookCredentials)
 		{
 			if (row == LoginInfoRow)
 			{
-				cell.textLabel.text = @"signed in as XXX TODO";
+				cell.textLabel.text = [NSString stringWithFormat:@"signed in as %@", state.facebookFullName];
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
 			}		
@@ -232,7 +204,6 @@ const NSUInteger LoginActionRow = 1;
 	}
 	else if (section == TwitterSection)
 	{
-		WhereBeUsState *state = [WhereBeUsState shared];
 		if (state.hasTwitterCredentials)
 		{
 			if (row == LoginInfoRow)

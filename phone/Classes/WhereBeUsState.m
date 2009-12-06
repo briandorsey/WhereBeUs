@@ -185,6 +185,21 @@ static NSString *const kLastMessageKey = @"last_message";
 	return self.facebookProfileImageURL;
 }
 
+- (void)clearTwitter
+{
+	self.twitterUserId = (TwitterId) 0;
+	self.twitterUsername = nil;
+	self.twitterPassword = nil;
+	self.twitterProfileImageURL = nil;
+}
+
+- (void)clearFacebook
+{
+	self.facebookUserId = (FBUID) 0;
+	self.facebookFullName = nil;
+	self.facebookProfileImageURL = nil;
+}
+
 - (TwitterId)twitterUserId
 {
 	return twitterUserId;
