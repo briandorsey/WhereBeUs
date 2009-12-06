@@ -14,6 +14,9 @@ static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
 static NSString *const kTwitterFullNameKey = @"twitter_full_name";
 static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url";
+static NSString *const kFacebookUserIdKey = @"facebook_user_id";
+static NSString *const kFacebookFullNameKey = @"facebook_full_name";
+static NSString *const kFacebookProfileImageURLKey = @"facebook_profile_image_url";
 static NSString *const kLastMessageKey = @"last_message";
 
 @implementation WhereBeUsState
@@ -114,6 +117,9 @@ static NSString *const kLastMessageKey = @"last_message";
 	twitterPassword = nil;
 	twitterFullName = nil;
 	twitterProfileImageURL = nil;
+	facebookUserId = (FBUID) 0;
+	facebookFullName = nil;
+	facebookProfileImageURL = nil;
 	lastMessage = nil;
 	isDirty = NO;
 }
@@ -134,6 +140,8 @@ static NSString *const kLastMessageKey = @"last_message";
 	[twitterPassword release];
 	[twitterFullName release];
 	[twitterProfileImageURL release];
+	[facebookFullName release];
+	[facebookProfileImageURL release];
 	[lastMessage release];
 	[super dealloc];
 }
@@ -142,12 +150,39 @@ static NSString *const kLastMessageKey = @"last_message";
 
 - (BOOL)hasTwitterCredentials
 {
-	return (twitterUsername != nil) && (twitterPassword != nil);
+	return (twitterUserId != (TwitterId) 0);
+}
+
+- (BOOL)hasFacebookCredentials
+{
+	return (facebookUserId != (FBUID) 0);
 }
 
 - (BOOL)isDirty
 {
 	return isDirty;
+}
+
+// These return whatever is logged in, but if both are 
+// logged in they return twitter (naturally!)
+- (NSString *)preferredFullName
+{
+	if (self.hasTwitterCredentials)
+	{
+		return self.twitterFullName;
+	}
+	
+	return self.facebookFullName;
+}
+
+- (NSString *)preferredProfileImageURL
+{
+	if (self.hasTwitterCredentials)
+	{
+		return self.twitterProfileImageURL;
+	}
+	
+	return self.facebookProfileImageURL;
 }
 
 - (TwitterId)twitterUserId
@@ -173,6 +208,21 @@ static NSString *const kLastMessageKey = @"last_message";
 - (NSString *)twitterProfileImageURL
 {
 	return twitterProfileImageURL;
+}
+
+- (FBUID)facebookUserId
+{
+	return facebookUserId;
+}
+
+- (NSString *)facebookFullName
+{
+	return facebookFullName;
+}
+
+- (NSString *)facebookProfileImageURL
+{
+	return facebookProfileImageURL;
 }
 
 - (NSString *)lastMessage
@@ -214,6 +264,26 @@ static NSString *const kLastMessageKey = @"last_message";
 	[self propertyChanged];
 }
 
+- (void)setFacebookUserId:(FBUID)newFacebookUserId
+{
+	facebookUserId = newFacebookUserId;
+	[self propertyChanged];
+}
+
+- (void)setFacebookFullName:(NSString *)newFacebookFullName
+{
+	[facebookFullName autorelease];
+	facebookFullName = [newFacebookFullName retain];
+	[self propertyChanged];
+}
+
+- (void)setFacebookProfileImageURL:(NSString *)newFacebookProfileImageURL
+{
+	[facebookProfileImageURL autorelease];
+	facebookProfileImageURL = [newFacebookProfileImageURL retain];
+	[self propertyChanged];
+}
+
 - (void)setLastMessage:(NSString *)newLastMessage
 {
 	[lastMessage autorelease];
@@ -230,6 +300,9 @@ static NSString *const kLastMessageKey = @"last_message";
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
 	[encoder encodeObject:twitterFullName forKey:kTwitterFullNameKey];
 	[encoder encodeObject:twitterProfileImageURL forKey:kTwitterProfileImageURLKey];
+	[encoder encodeInt64:(int64_t)facebookUserId forKey:kFacebookUserIdKey];
+	[encoder encodeObject:facebookFullName forKey:kFacebookFullNameKey];
+	[encoder encodeObject:facebookProfileImageURL forKey:kFacebookProfileImageURLKey];
 	[encoder encodeObject:lastMessage forKey:kLastMessageKey];
 }
 
@@ -245,6 +318,9 @@ static NSString *const kLastMessageKey = @"last_message";
 		self.twitterPassword = [decoder decodeObjectForKey:kTwitterPasswordKey];
 		self.twitterFullName = [decoder decodeObjectForKey:kTwitterFullNameKey];
 		self.twitterProfileImageURL = [decoder decodeObjectForKey:kTwitterProfileImageURLKey];
+		self.facebookUserId = (FBUID) [decoder decodeInt64ForKey:kFacebookUserIdKey];
+		self.facebookFullName = [decoder decodeObjectForKey:kFacebookFullNameKey];
+		self.facebookProfileImageURL = [decoder decodeObjectForKey:kFacebookProfileImageURLKey];
 		self.lastMessage = [decoder decodeObjectForKey:kLastMessageKey];
 	}
 	
@@ -262,6 +338,9 @@ static NSString *const kLastMessageKey = @"last_message";
 	copy.twitterPassword = [[twitterPassword copy] autorelease];
 	copy.twitterFullName = [[twitterFullName copy] autorelease];
 	copy.twitterProfileImageURL = [[twitterProfileImageURL copy] autorelease];
+	copy.facebookUserId = facebookUserId;
+	copy.facebookFullName = [[facebookFullName copy] autorelease];
+	copy.facebookProfileImageURL = [[facebookProfileImageURL copy] autorelease];
 	copy.lastMessage = [[lastMessage copy] autorelease];
 	
 	return copy;
