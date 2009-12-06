@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FBConnect/FBConnect.h"
 
 
-@interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
+@interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, FBSessionDelegate, FBRequestDelegate> {
 	IBOutlet UITableView *tableView;
 	IBOutlet UIBarButtonItem *doneButton;
 }

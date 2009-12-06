@@ -52,6 +52,29 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	return _sing;
 }
 
+- (id)init
+{
+	self = [super init];
+	if (self != nil)
+	{
+		facebookRequestToDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, 1, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+		CFRetain(facebookRequestToDictionary);
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	CFDictionaryRemoveAllValues(facebookRequestToDictionary);
+	CFRelease(facebookRequestToDictionary);
+	[super dealloc];
+}
+
+- (CFMutableDictionaryRef)facebookRequestToDictionary
+{
+	return facebookRequestToDictionary;
+}
+
 
 //------------------------------------------------------------------------
 // Public API
@@ -91,6 +114,14 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
 }
 
++ (void)fb_requestWithTarget:(id)target action:(SEL)action call:(NSString *)method params:(NSDictionary *)params
+{
+	FBRequest *request = [FBRequest requestWithDelegate:[ConnectionHelper getDelegate]];
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	CFDictionarySetValue([[ConnectionHelper getDelegate] facebookRequestToDictionary], request, d);
+	[request call:method params:params];
+}
+
 
 //------------------------------------------------------------------------
 // Json callback
@@ -118,5 +149,47 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	[jsonConnection release];			
 }
 
+
+//------------------------------------------------------------------------
+// FBRequestDelegate
+//------------------------------------------------------------------------
+
+- (void)request:(FBRequest*)request didFailWithError:(NSError*)error
+{
+	for (id key in [error userInfo])
+	{
+		NSLog(@"Facebook request error: %@: %@", key, [[error userInfo] objectForKey:key]);
+	}
+	
+	id target;
+	SEL action;	
+	NSDictionary *d = (NSDictionary *) CFDictionaryGetValue(facebookRequestToDictionary, request);	
+	[ConnectionHelper expandDictionary:d target:&target action:&action];
+	
+	[target performSelector:action withObject:nil];
+	CFDictionaryRemoveValue(facebookRequestToDictionary, request);
+}
+
+- (void)request:(FBRequest*)request didLoad:(id)result
+{
+	id target;
+	SEL action;	
+	NSDictionary *d = (NSDictionary *) CFDictionaryGetValue(facebookRequestToDictionary, request);	
+	[ConnectionHelper expandDictionary:d target:&target action:&action];
+	
+	[target performSelector:action withObject:result];
+	CFDictionaryRemoveValue(facebookRequestToDictionary, request);	
+}
+
+- (void)requestWasCancelled:(FBRequest*)request
+{
+	id target;
+	SEL action;	
+	NSDictionary *d = (NSDictionary *) CFDictionaryGetValue(facebookRequestToDictionary, request);	
+	[ConnectionHelper expandDictionary:d target:&target action:&action];
+	
+	[target performSelector:action withObject:nil];
+	CFDictionaryRemoveValue(facebookRequestToDictionary, request);		
+}
 
 @end

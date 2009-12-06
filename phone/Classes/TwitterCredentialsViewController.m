@@ -73,6 +73,7 @@
 	
 	// Success! Remember the twitter account information.
 	WhereBeUsState *state = [WhereBeUsState shared];
+	state.twitterUserId = (TwitterId) [(NSNumber *)[dictionary valueForKey:TWITTER_USER_ID] longValue];	
 	state.twitterUsername = [[[usernameController.textField text] copy] autorelease];
 	state.twitterPassword = [[[passwordController.textField text] copy] autorelease];
 	state.twitterFullName = [dictionary valueForKey:TWITTER_FULL_NAME];

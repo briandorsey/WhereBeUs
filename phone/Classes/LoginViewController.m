@@ -8,6 +8,8 @@
 
 #import "LoginViewController.h"
 #include "WhereBeUsAppDelegate.h"
+#include "WhereBeUsState.h"
+#include "ConnectionHelper.h"
 
 const NSUInteger FacebookSection = 0;
 const NSUInteger TwitterSection = 1;
@@ -41,6 +43,22 @@ const NSUInteger LoginActionRow = 1;
 	[self.doneButton setEnabled:NO];	
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+	FBSession *session = appDelegate.facebookSession;
+	[session.delegates addObject:self];
+	[self.tableView reloadData];	
+	[super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+	[appDelegate.facebookSession.delegates removeObject:self];
+	[super viewWillDisappear:animated];
+}
+
 - (void)doneButtonPressed:(id)sender
 {
 	NSLog(@"DONE BUTTON TODO DAVEPECK");
@@ -51,6 +69,35 @@ const NSUInteger LoginActionRow = 1;
 	self.tableView = nil;
 	self.doneButton = nil;
     [super dealloc];
+}
+
+
+//-----------------------------------------------------------------------
+// FBSessionDelegate
+//-----------------------------------------------------------------------
+
+- (void)done_facebookUsername:(id)result
+{
+	if (result != nil)
+	{
+		NSArray* users = result;
+  		NSDictionary* user = [users objectAtIndex:0];
+  		NSString* name = [user objectForKey:@"name"];
+		NSLog(@"Name is %@", name);
+  		NSString* pc = [user objectForKey:@"pic_square"];
+		NSLog(@"Pic Square is %@", pc);
+	}
+}
+
+- (void)session:(FBSession *)session didLogin:(FBUID)fbuid
+{
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", fbuid], @"uids", @"name, pic_square", @"fields", nil];
+	[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookUsername:) call:@"facebook.users.getInfo" params:params];
+}
+
+- (void)sessionDidLogout:(FBSession*)session
+{
+	[self.tableView reloadData];
 }
 
 
@@ -79,11 +126,34 @@ const NSUInteger LoginActionRow = 1;
 	
 	if (section == FacebookSection)
 	{
-		[self showFacebookCredentials];
+		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+		FBSession *session = [appDelegate facebookSession];
+		if (session.isConnected)
+		{
+			[session logout];
+		}
+		else
+		{
+			[self showFacebookCredentials];
+		}
 	}
 	else if (section == TwitterSection)
 	{
-		[self showTwitterCredentials];
+		WhereBeUsState *state = [WhereBeUsState shared];
+		if (state.hasTwitterCredentials)
+		{
+			state.twitterUserId = (TwitterId) 0;
+			state.twitterUsername = nil;
+			state.twitterPassword = nil;
+			state.twitterFullName = nil;
+			state.twitterProfileImageURL = nil;
+			[state save];
+			[self.tableView reloadData];
+		}
+		else
+		{		
+			[self showTwitterCredentials];
+		}
 	}
 }
 
@@ -123,43 +193,75 @@ const NSUInteger LoginActionRow = 1;
 	NSUInteger section = [indexPath indexAtPosition:0];
 	NSUInteger row = [indexPath indexAtPosition:1];
 	
-	NSString *reuseIdentifier= [NSString stringWithFormat:@"login-cell-%d-%d", section, row];
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];	
-	if (cell != nil)
-	{
-		return cell;
-	}
-	
-	cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier] autorelease];
+	UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
 
 	if (section == FacebookSection)
 	{
-		if (row == LoginInfoRow)
-		{			
-			cell.textLabel.text = @"not signed in";
-			cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
-			cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
-		}		
-		else if (row == LoginActionRow)
+		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
+		FBSession *session = [appDelegate facebookSession];
+		if (session.isConnected)
 		{
-			cell.textLabel.text = @"Sign In";
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			if (row == LoginInfoRow)
+			{
+				cell.textLabel.text = @"signed in as XXX TODO";
+				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+			}		
+			else if (row == LoginActionRow)
+			{
+				cell.textLabel.text = @"Sign Out";
+				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}			
 		}
+		else
+		{
+			if (row == LoginInfoRow)
+			{
+				cell.textLabel.text = @"not signed in";
+				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+			}		
+			else if (row == LoginActionRow)
+			{
+				cell.textLabel.text = @"Sign In";
+				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}						
+		}			
 	}
 	else if (section == TwitterSection)
 	{
-		if (row == LoginInfoRow)
+		WhereBeUsState *state = [WhereBeUsState shared];
+		if (state.hasTwitterCredentials)
 		{
-			cell.textLabel.text = @"not signed in";
-			cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
-			cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+			if (row == LoginInfoRow)
+			{
+				cell.textLabel.text = [NSString stringWithFormat:@"signed in as @%@", state.twitterUsername];
+				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+			}
+			else if (row == LoginActionRow)
+			{
+				cell.textLabel.text = @"Sign Out";
+				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}			
 		}
-		else if (row == LoginActionRow)
+		else
 		{
-			cell.textLabel.text = @"Sign In";
-			cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			if (row == LoginInfoRow)
+			{
+				cell.textLabel.text = @"not signed in";
+				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
+				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+			}
+			else if (row == LoginActionRow)
+			{
+				cell.textLabel.text = @"Sign In";
+				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			}
 		}
 	}
 	

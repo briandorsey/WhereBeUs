@@ -9,15 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "JsonConnection.h"
+#import "FBConnect/FBRequest.h"
 
+#define TWITTER_USER_ID @"id"
 #define TWITTER_FULL_NAME @"name"
 #define TWITTER_ACCOUNT_NAME @"screen_name"
 #define TWITTER_PROFILE_IMAGE_URL @"profile_image_url"
 #define TWITTER_BIO @"description"
 #define TWITTER_ERROR @"error"
 
-@interface ConnectionHelper : NSObject<JsonConnectionDelegate> {
-
+@interface ConnectionHelper : NSObject<JsonConnectionDelegate, FBRequestDelegate> {
+	CFMutableDictionaryRef facebookRequestToDictionary;
 }
 
 
@@ -40,5 +42,11 @@
 						hashtag:(NSString *)hashtag 
 						message:(NSString *)message
 					 coordinate:(CLLocationCoordinate2D)coordinate;
+
+// facebook session must be opened for this to work.
++ (void)fb_requestWithTarget:(id)target action:(SEL)action call:(NSString *)method params:(NSDictionary *)params;
+
+
+- (CFMutableDictionaryRef)facebookRequestToDictionary;
 
 @end
