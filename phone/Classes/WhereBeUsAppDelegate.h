@@ -7,23 +7,23 @@
 //
 
 #import "WhereBeUsWindow.h"
-#import "TwitterCredentialsViewController.h"
+#import "FrontSideNavigationController.h"
+#import "BackSideNavigationController.h"
 #import "FBConnect/FBConnect.h"
 
-@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, TwitterCredentialsViewControllerDelegate, FBSessionDelegate> {    
+@interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, FBSessionDelegate> {    
     WhereBeUsWindow *window;
-    UINavigationController *navigationController;
-	FBSession *facebookSession;
-	UINavigationBar *bar;
+    FrontSideNavigationController *frontSideNavigationController;
+    BackSideNavigationController *backSideNavigationController;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+@property (nonatomic, retain) IBOutlet FrontSideNavigationController *frontSideNavigationController;
+@property (nonatomic, retain) IBOutlet BackSideNavigationController *backSideNavigationController;
 
-- (void)showMapViewController:(BOOL)animated;
-- (void)showModalTweetViewController;
-- (void)popViewController:(BOOL)animated;
-- (void)showTwitterCredentialsController;
+- (BOOL)showingFrontSide;
+- (BOOL)showingBackSide;
+- (void)flip:(BOOL)animated;
 
 @end
 

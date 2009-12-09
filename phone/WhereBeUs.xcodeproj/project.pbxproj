@@ -21,6 +21,8 @@
 		55491EE810C735CC007A811F /* EditCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55491EE710C735CC007A811F /* EditCellViewController.m */; };
 		5553976210C350FC00126892 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5553976110C350FC00126892 /* LoginViewController.xib */; };
 		5553976B10C3561900126892 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5553976A10C3561900126892 /* LoginViewController.m */; };
+		5557336210CF4BA800CFDE43 /* BackSideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5557336110CF4BA800CFDE43 /* BackSideNavigationController.m */; };
+		5557336510CF4C9700CFDE43 /* FrontSideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5557336410CF4C9700CFDE43 /* FrontSideNavigationController.m */; };
 		557191791098F5980059E40F /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 557191781098F5980059E40F /* MapViewController.xib */; };
 		5571917D1098F5B60059E40F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5571917C1098F5B60059E40F /* MapViewController.m */; };
 		557191CC109913490059E40F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557191CB109913490059E40F /* CoreLocation.framework */; };
@@ -90,6 +92,10 @@
 		5553976110C350FC00126892 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		5553976910C3561900126892 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		5553976A10C3561900126892 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		5557336010CF4BA800CFDE43 /* BackSideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackSideNavigationController.h; sourceTree = "<group>"; };
+		5557336110CF4BA800CFDE43 /* BackSideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackSideNavigationController.m; sourceTree = "<group>"; };
+		5557336310CF4C9700CFDE43 /* FrontSideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontSideNavigationController.h; sourceTree = "<group>"; };
+		5557336410CF4C9700CFDE43 /* FrontSideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontSideNavigationController.m; sourceTree = "<group>"; };
 		557191781098F5980059E40F /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
 		5571917B1098F5B60059E40F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		5571917C1098F5B60059E40F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
@@ -355,6 +361,10 @@
 				5553976A10C3561900126892 /* LoginViewController.m */,
 				55491EE610C735CC007A811F /* EditCellViewController.h */,
 				55491EE710C735CC007A811F /* EditCellViewController.m */,
+				5557336310CF4C9700CFDE43 /* FrontSideNavigationController.h */,
+				5557336410CF4C9700CFDE43 /* FrontSideNavigationController.m */,
+				5557336010CF4BA800CFDE43 /* BackSideNavigationController.h */,
+				5557336110CF4BA800CFDE43 /* BackSideNavigationController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -491,6 +501,8 @@
 				55E77EBE10C3803E00F49D91 /* FBStreamDialog.m in Sources */,
 				55E77EBF10C3803E00F49D91 /* FBXMLHandler.m in Sources */,
 				55491EE810C735CC007A811F /* EditCellViewController.m in Sources */,
+				5557336210CF4BA800CFDE43 /* BackSideNavigationController.m in Sources */,
+				5557336510CF4C9700CFDE43 /* FrontSideNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
