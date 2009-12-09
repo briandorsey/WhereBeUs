@@ -23,8 +23,7 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)showFacebookCredentials
 {
-	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-	FBSession *session = [appDelegate facebookSession];
+	FBSession *session = [FBSession session];
 	FBLoginDialog* dialog = [[[FBLoginDialog alloc] initWithSession:session] autorelease];
 	[dialog show];	
 }
@@ -45,14 +44,14 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookCredentialsChanged:) name:FACEBOOK_CREDENTIALS_CHANGED object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(credentialsChanged:) name:CREDENTIALS_CHANGED object:nil];
 	[self.tableView reloadData];	
 	[super viewWillAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:FACEBOOK_CREDENTIALS_CHANGED object:nil];	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:CREDENTIALS_CHANGED object:nil];	
 	[super viewWillDisappear:animated];
 }
 
@@ -73,7 +72,7 @@ const NSUInteger LoginActionRow = 1;
 // NSNotification Recipient
 //-----------------------------------------------------------------------
 
-- (void)facebookCredentialsChanged:(NSNotification*)notification
+- (void)credentialsChanged:(NSNotification*)notification
 {
 	[self.tableView reloadData];
 }
@@ -107,9 +106,10 @@ const NSUInteger LoginActionRow = 1;
 	{
 		if (state.hasFacebookCredentials)
 		{
-			WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-			FBSession *session = [appDelegate facebookSession];
+			FBSession *session = [FBSession session];
 			[session logout];
+			[state clearFacebookCredentials];
+			[state save];
 		}
 		else
 		{
@@ -120,9 +120,8 @@ const NSUInteger LoginActionRow = 1;
 	{
 		if (state.hasTwitterCredentials)
 		{
-			[state clearTwitter];
+			[state clearTwitterCredentials];
 			[state save];
-			[self.tableView reloadData];
 		}
 		else
 		{		

@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "FBConnect/FBConnect.h"
 
-// catch-all place to put state that we want to save
-// between runs of the application -- would normally break this
-// into several model objects but this is HACK NIGHT Y'ALL!
+#define CREDENTIALS_CHANGED @"wherebeus_credentials_changed"
+#define FACEBOOK_CREDENTIALS_CHANGED @"wherebeus_facebook_credentials_changed"
+#define TWITTER_CREDENTIALS_CHANGED @"wherebeus_twitter_credentials_changed"
 
 typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter users. Seems fair enough. */
 
@@ -37,16 +37,16 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (BOOL)isDirty;
 - (void)save;
 
+// basic helpers
+- (BOOL)hasAnyCredentials;
 - (BOOL)hasTwitterCredentials;
 - (BOOL)hasFacebookCredentials;
 
-// These return whatever is logged in, but if both are 
-// logged in they return twitter (naturally!)
+// current name and profile image (preference is for twitter if both twitter and facebook are logged in)
 - (NSString *)preferredFullName;
 - (NSString *)preferredProfileImageURL;
-- (void)clearTwitter;
-- (void)clearFacebook;
 
+// fine-grained credential information
 - (TwitterId)twitterUserId;
 - (NSString *)twitterUsername;
 - (NSString *)twitterPassword;
@@ -57,14 +57,11 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)facebookProfileImageURL;
 - (NSString *)lastMessage;
 
-- (void)setTwitterUserId:(TwitterId)twitterUserId;
-- (void)setTwitterUsername:(NSString *)newTwitterUsername;
-- (void)setTwitterPassword:(NSString *)newTwitterPassword;
-- (void)setTwitterFullName:(NSString *)newTwitterFullName;
-- (void)setTwitterProfileImageURL:(NSString *)newTwitterProfileImageURL;
-- (void)setFacebookUserId:(FBUID)newFacebookUserId;
-- (void)setFacebookFullName:(NSString *)newFacebookFullName;
-- (void)setFacebookProfileImageURL:(NSString *)newFacebookProfileImageURL;
+// you must set your credentials all-at-once
+- (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword fullName:(NSString *)newTwitterFullName profileImageURL:(NSString *)newTwitterProfileImageURL;
+- (void)setFacebookUserId:(FBUID)newFacebookUserId fullName:(NSString *)newFacebookFullName profileImageURL:(NSString *)newFacebookProfileImageURL;
 - (void)setLastMessage:(NSString *)newLastMessage;
+- (void)clearTwitterCredentials;
+- (void)clearFacebookCredentials;
 
 @end

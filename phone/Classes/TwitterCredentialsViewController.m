@@ -73,11 +73,11 @@
 	
 	// Success! Remember the twitter account information.
 	WhereBeUsState *state = [WhereBeUsState shared];
-	state.twitterUserId = (TwitterId) [(NSNumber *)[dictionary valueForKey:TWITTER_USER_ID] longValue];	
-	state.twitterUsername = [[[usernameController.textField text] copy] autorelease];
-	state.twitterPassword = [[[passwordController.textField text] copy] autorelease];
-	state.twitterFullName = [dictionary valueForKey:TWITTER_FULL_NAME];
-	state.twitterProfileImageURL = [dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL];
+	[state setTwitterUserId:(TwitterId) [(NSNumber *)[dictionary valueForKey:TWITTER_USER_ID] longValue] 
+				   username:[[[usernameController.textField text] copy] autorelease]
+				   password:[[[passwordController.textField text] copy] autorelease]
+				   fullName:[dictionary valueForKey:TWITTER_FULL_NAME]
+			profileImageURL:[dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL]];
 	[state save];
 	
 	[delegate twitterCredentialsViewControllerDidFinish:self];

@@ -117,23 +117,6 @@
 // Facebook Session
 //---------------------------------------------------------
 
-- (FBSession *)facebookSession
-{
-	return facebookSession;
-}
-
-- (void)notifyFacebookCredentialsChanged
-{
-	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	[defaultCenter postNotificationName:FACEBOOK_CREDENTIALS_CHANGED object:self userInfo:nil];
-}
-
-- (void)notifyTwitterCredentialsChanged
-{
-	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
-	[defaultCenter postNotificationName:TWITTER_CREDENTIALS_CHANGED object:self userInfo:nil];
-}
-
 - (void)done_facebookUsersGetInfo:(id)result
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
@@ -141,18 +124,14 @@
 	if (result != nil)
 	{
   		NSDictionary* user = [result objectAtIndex:0];
-		
-		state.facebookUserId = (FBUID) facebookSession.uid;
-		state.facebookFullName = [user objectForKey:@"name"];
-		state.facebookProfileImageURL = [user objectForKey:@"pic_square"];
+		[state setFacebookUserId:(FBUID)facebookSession.uid fullName:[user objectForKey:@"name"] profileImageURL:[user objectForKey:@"pic_square"]];
 	}
 	else
 	{
-		[state clearFacebook];
+		[state clearFacebookCredentials];
 	}
 	
 	[state save];	
-	[self notifyFacebookCredentialsChanged];
 }
 
 // Called when a user has successfully logged in and begun a session.
@@ -166,9 +145,8 @@
 - (void)sessionDidNotLogin:(FBSession*)session
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
-	[state clearFacebook];
+	[state clearFacebookCredentials];
 	[state save];
-	[self notifyFacebookCredentialsChanged];
 }
 
 // Called when a session is about to log out.
@@ -180,9 +158,8 @@
 - (void)sessionDidLogout:(FBSession*)session
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
-	[state clearFacebook];
+	[state clearFacebookCredentials];
 	[state save];	
-	[self notifyFacebookCredentialsChanged];
 }
 
 @end
