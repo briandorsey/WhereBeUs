@@ -16,6 +16,8 @@ const NSUInteger TwitterSection = 1;
 const NSUInteger LoginInfoRow = 0;
 const NSUInteger LoginActionRow = 1;
 
+const NSTimeInterval SpinnerSeconds = 0.75;
+
 @implementation LoginViewController
 
 @synthesize tableView;
@@ -41,11 +43,15 @@ const NSUInteger LoginActionRow = 1;
 	self.navigationItem.rightBarButtonItem = self.doneButton;
 	WhereBeUsState *state = [WhereBeUsState shared];	
 	[self.doneButton setEnabled:state.hasAnyCredentials];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(facebookCredentialsChanged:) name:FACEBOOK_CREDENTIALS_CHANGED object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(twitterCredentialsChanged:) name:TWITTER_CREDENTIALS_CHANGED object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(credentialsChanged:) name:CREDENTIALS_CHANGED object:nil];
+	facebookActivity = NO;
+	twitterActivity = NO;
+	
 	WhereBeUsState *state = [WhereBeUsState shared];	
 	[self.doneButton setEnabled:state.hasAnyCredentials];
 	[self.tableView reloadData];	
@@ -54,7 +60,6 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:CREDENTIALS_CHANGED object:nil];	
 	[super viewWillDisappear:animated];
 }
 
@@ -68,7 +73,40 @@ const NSUInteger LoginActionRow = 1;
 {
 	self.tableView = nil;
 	self.doneButton = nil;
+	[twitterTimer invalidate];
+	[facebookTimer invalidate];
     [super dealloc];
+}
+
+
+//-----------------------------------------------------------------------
+// NSTimer Callbacks
+//-----------------------------------------------------------------------
+
+- (void)facebookTimerFiredForLogout:(NSTimer *)timer
+{
+	// clear activity and timer
+	facebookActivity = NO;
+	[facebookTimer invalidate];
+	facebookTimer = nil;	
+
+	// logout will ultimately call our credentialsChanged notification
+	FBSession *session = [FBSession session];
+	[session logout];
+}
+
+- (void)twitterTimerFiredForLogout:(NSTimer *)timer
+{
+	// clear activity and timer
+	twitterActivity = NO;
+	[twitterTimer invalidate];
+	twitterTimer = nil;	
+
+	// clear the user's twitter credentials. 
+	// (this will ultimately call our credentialsChanged notification)
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[state clearTwitterCredentials];
+	[state save];
 }
 
 
@@ -76,11 +114,20 @@ const NSUInteger LoginActionRow = 1;
 // NSNotification Recipient
 //-----------------------------------------------------------------------
 
-- (void)credentialsChanged:(NSNotification*)notification
+- (void)facebookCredentialsChanged:(NSNotification*)notification
 {
+	facebookActivity = NO;
 	WhereBeUsState *state = [WhereBeUsState shared];
 	[self.doneButton setEnabled:state.hasAnyCredentials];
 	[self.tableView reloadData];
+}
+
+- (void)twitterCredentialsChanged:(NSNotification*)notification
+{
+	twitterActivity = NO;
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[self.doneButton setEnabled:state.hasAnyCredentials];
+	[self.tableView reloadData];	
 }
 
 
@@ -94,12 +141,17 @@ const NSUInteger LoginActionRow = 1;
 
 	if (row == LoginActionRow)
 	{
-		return indexPath;
+		NSUInteger section = [indexPath indexAtPosition:0];		
+		// Only allow selection if we're not actively logging in or out for this item
+		if (
+			((section == FacebookSection) && !facebookActivity) ||
+			((section == TwitterSection) && !twitterActivity))
+		{
+			return indexPath;
+		}
 	}
-	else
-	{	
-		return nil;
-	}
+				
+	return nil;
 }
 
 - (void)tableView:(UITableView *)theTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,30 +162,32 @@ const NSUInteger LoginActionRow = 1;
 		
 	if (section == FacebookSection)
 	{
+		facebookActivity = YES;
+		
 		if (state.hasFacebookCredentials)
 		{
-			FBSession *session = [FBSession session];
-			[session logout];
-			[state clearFacebookCredentials];
-			[state save];
+			facebookTimer = [NSTimer scheduledTimerWithTimeInterval:SpinnerSeconds target:self selector:@selector(facebookTimerFiredForLogout:) userInfo:nil repeats:NO];
 		}
 		else
 		{
 			[self showFacebookCredentials];
-		}
+		}		
 	}
 	else if (section == TwitterSection)
 	{
+		twitterActivity = YES;
+		
 		if (state.hasTwitterCredentials)
 		{
-			[state clearTwitterCredentials];
-			[state save];
+			twitterTimer = [NSTimer scheduledTimerWithTimeInterval:SpinnerSeconds target:self selector:@selector(twitterTimerFiredForLogout:) userInfo:nil repeats:NO];
 		}
 		else
 		{		
 			[self showTwitterCredentials];
 		}
 	}
+	
+	[self.tableView reloadData];	
 }
 
 
@@ -168,6 +222,7 @@ const NSUInteger LoginActionRow = 1;
 
 - (UITableViewCell *)tableView:(UITableView *)theTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {		
+	// TODO DAVEPECK XXX :: simplify/refactor this logic -- it was simple, many checkins ago. Now it is absurdly repetitive.
 	NSUInteger section = [indexPath indexAtPosition:0];
 	NSUInteger row = [indexPath indexAtPosition:1];
 	
@@ -186,9 +241,19 @@ const NSUInteger LoginActionRow = 1;
 			}		
 			else if (row == LoginActionRow)
 			{
-				cell.textLabel.text = @"Sign Out";
-				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				if (facebookActivity)
+				{
+					cell.textLabel.text = @"Signing Out...";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
+					cell.accessoryView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+					[(UIActivityIndicatorView *)cell.accessoryView startAnimating];
+				}
+				else
+				{
+					cell.textLabel.text = @"Sign Out";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				}
 			}			
 		}
 		else
@@ -201,9 +266,19 @@ const NSUInteger LoginActionRow = 1;
 			}		
 			else if (row == LoginActionRow)
 			{
-				cell.textLabel.text = @"Sign In";
-				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				if (facebookActivity)
+				{
+					cell.textLabel.text = @"Signing In...";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
+					cell.accessoryView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+					[(UIActivityIndicatorView *)cell.accessoryView startAnimating];
+				}
+				else
+				{
+					cell.textLabel.text = @"Sign In";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				}
 			}						
 		}			
 	}
@@ -219,9 +294,19 @@ const NSUInteger LoginActionRow = 1;
 			}
 			else if (row == LoginActionRow)
 			{
-				cell.textLabel.text = @"Sign Out";
-				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				if (twitterActivity)
+				{
+					cell.textLabel.text = @"Signing Out...";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
+					cell.accessoryView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+					[(UIActivityIndicatorView *)cell.accessoryView startAnimating];
+				}
+				else
+				{
+					cell.textLabel.text = @"Sign Out";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				}
 			}			
 		}
 		else
@@ -234,9 +319,19 @@ const NSUInteger LoginActionRow = 1;
 			}
 			else if (row == LoginActionRow)
 			{
-				cell.textLabel.text = @"Sign In";
-				cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
-				cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				if (twitterActivity)
+				{
+					cell.textLabel.text = @"Signing In...";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];
+					cell.accessoryView = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+					[(UIActivityIndicatorView *)cell.accessoryView startAnimating];
+				}
+				else
+				{
+					cell.textLabel.text = @"Sign In";
+					cell.textLabel.font = [UIFont boldSystemFontOfSize:17.0];			
+					cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+				}
 			}
 		}
 	}
