@@ -39,12 +39,15 @@ const NSUInteger LoginActionRow = 1;
 	[super viewDidLoad];
 	self.navigationItem.title = @"Accounts";
 	self.navigationItem.rightBarButtonItem = self.doneButton;
-	[self.doneButton setEnabled:NO];	
+	WhereBeUsState *state = [WhereBeUsState shared];	
+	[self.doneButton setEnabled:state.hasAnyCredentials];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(credentialsChanged:) name:CREDENTIALS_CHANGED object:nil];
+	WhereBeUsState *state = [WhereBeUsState shared];	
+	[self.doneButton setEnabled:state.hasAnyCredentials];
 	[self.tableView reloadData];	
 	[super viewWillAppear:animated];
 }
@@ -57,7 +60,8 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)doneButtonPressed:(id)sender
 {
-	NSLog(@"DONE BUTTON TODO DAVEPECK");
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
+	[appDelegate flip:YES];
 }
 
 - (void)dealloc 
@@ -74,6 +78,8 @@ const NSUInteger LoginActionRow = 1;
 
 - (void)credentialsChanged:(NSNotification*)notification
 {
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[self.doneButton setEnabled:state.hasAnyCredentials];
 	[self.tableView reloadData];
 }
 

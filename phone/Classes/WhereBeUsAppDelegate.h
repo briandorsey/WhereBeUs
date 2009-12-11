@@ -13,16 +13,14 @@
 
 @interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, FBSessionDelegate> {    
     IBOutlet WhereBeUsWindow *window;
-    FrontSideNavigationController *frontSideNavigationController;
-    BackSideNavigationController *backSideNavigationController;
+    IBOutlet FrontSideNavigationController *frontSideNavigationController;
+    IBOutlet BackSideNavigationController *backSideNavigationController; // effectively, a modal view controller to the frontSideNavController.
 	BOOL showingFrontSide;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
-
-
-- (FrontSideNavigationController *)frontSideNavigationController;
-- (BackSideNavigationController *)backSideNavigationController;
+@property (nonatomic, retain) IBOutlet FrontSideNavigationController *frontSideNavigationController;
+@property (nonatomic, retain) IBOutlet BackSideNavigationController *backSideNavigationController;
 
 - (BOOL)showingFrontSide;
 - (BOOL)showingBackSide;

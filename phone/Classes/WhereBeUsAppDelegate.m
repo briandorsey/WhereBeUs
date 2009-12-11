@@ -17,59 +17,19 @@
 
 @implementation WhereBeUsAppDelegate
 
-@synthesize window;
-
-
 //----------------------------------------------------------------
 // Private Helpers
 //----------------------------------------------------------------
 
-- (void)showCurrentView
-{
-	if (showingFrontSide)
-	{
-		if (backSideNavigationController != nil)
-		{
-			[[backSideNavigationController view] removeFromSuperview];
-		}
-		
-		[window addSubview:[self frontSideNavigationController].view];
-	}
-	else
-	{
-		if (frontSideNavigationController != nil)
-		{
-			[[frontSideNavigationController view] removeFromSuperview];
-		}
-		
-		[window addSubview:[self backSideNavigationController].view];
-	}	
-}
 
 
 //----------------------------------------------------------------
 // Public APIs
 //----------------------------------------------------------------
 
-- (FrontSideNavigationController *)frontSideNavigationController
-{
-	if (frontSideNavigationController == nil)
-	{
-		frontSideNavigationController = [[FrontSideNavigationController alloc] initWithNibName:@"FrontSideNavigationController" bundle:nil];
-	}
-	
-	return frontSideNavigationController;
-}
-
-- (BackSideNavigationController *)backSideNavigationController
-{
-	if (backSideNavigationController == nil)
-	{
-		backSideNavigationController = [[BackSideNavigationController alloc] initWithNibName:@"BackSideNavigationController" bundle:nil];
-	}
-	
-	return backSideNavigationController;
-}
+@synthesize window;
+@synthesize frontSideNavigationController;
+@synthesize backSideNavigationController;
 
 - (BOOL)showingFrontSide
 {
@@ -84,7 +44,15 @@
 - (void)flip:(BOOL)animated
 {
 	showingFrontSide = !showingFrontSide;
-	[self showCurrentView];
+	
+	if (showingFrontSide)
+	{
+		[self.frontSideNavigationController dismissModalViewControllerAnimated:animated];
+	}
+	else
+	{
+		[self.frontSideNavigationController presentModalViewController:self.backSideNavigationController animated:animated];
+	}
 }
 
 
@@ -117,20 +85,21 @@
 			[state clearFacebookCredentials];
 		}
 	}
-	
-	// Do we have _any_ credentials (twitter or facebook)?
-	// If so, show the 'front side' of the app. Otherwise,
-	// immediately show the 'back side' login/settings views.
-	if (state.hasAnyCredentials)
-	{
-		showingFrontSide = YES;
-	}
-	else
-	{
-		showingFrontSide = NO;
-	}
-	[self showCurrentView];
 
+	// Get our frontside/backside transitions set up
+	frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	
+	// Show the frontside opportunistically
+	showingFrontSide = YES;
+	[window addSubview:self.frontSideNavigationController.view];
+	
+	// But immediately transition to backside if we need credentials.
+	if (!state.hasAnyCredentials)
+	{
+		[self flip:NO];
+	}
+	
     [window makeKeyAndVisible];
 }
 
@@ -154,8 +123,8 @@
 - (void)dealloc 
 {
 	self.window = nil;
-	[frontSideNavigationController release];
-	[backSideNavigationController release];
+	self.frontSideNavigationController = nil;
+	self.backSideNavigationController = nil;
 	[super dealloc];
 }
 
