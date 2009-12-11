@@ -41,8 +41,8 @@
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
 		55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FA7109E875F00101F7F /* NSString+PostData.m */; };
 		55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */; };
-		55AC0FEF109E8D4400101F7F /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AC0FEE109E8D4400101F7F /* ChatViewController.xib */; };
-		55AC0FF3109E8D7B00101F7F /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FF2109E8D7B00101F7F /* ChatViewController.m */; };
+		55AC0FEF109E8D4400101F7F /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AC0FEE109E8D4400101F7F /* SendMessageViewController.xib */; };
+		55AC0FF3109E8D7B00101F7F /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FF2109E8D7B00101F7F /* SendMessageViewController.m */; };
 		55D1CC821098190500FD9606 /* NSData+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */; };
 		55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */; };
 		55D1CCC91098211A00FD9606 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CCC81098211A00FD9606 /* Utilities.m */; };
@@ -122,9 +122,9 @@
 		55AC0FA7109E875F00101F7F /* NSString+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PostData.m"; sourceTree = "<group>"; };
 		55AC0FAD109E87DD00101F7F /* NSDictionary+PostData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PostData.h"; sourceTree = "<group>"; };
 		55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PostData.m"; sourceTree = "<group>"; };
-		55AC0FEE109E8D4400101F7F /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
-		55AC0FF1109E8D7B00101F7F /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
-		55AC0FF2109E8D7B00101F7F /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
+		55AC0FEE109E8D4400101F7F /* SendMessageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SendMessageViewController.xib; sourceTree = "<group>"; };
+		55AC0FF1109E8D7B00101F7F /* SendMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendMessageViewController.h; sourceTree = "<group>"; };
+		55AC0FF2109E8D7B00101F7F /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Encoding.h"; sourceTree = "<group>"; };
 		55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Encoding.m"; sourceTree = "<group>"; };
 		55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionHelper.h; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 				8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */,
 				55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */,
 				557191781098F5980059E40F /* MapViewController.xib */,
-				55AC0FEE109E8D4400101F7F /* ChatViewController.xib */,
+				55AC0FEE109E8D4400101F7F /* SendMessageViewController.xib */,
 				5553976110C350FC00126892 /* LoginViewController.xib */,
 				55E77F0710C383C400F49D91 /* FacebookKeys.plist */,
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
@@ -353,8 +353,8 @@
 				55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */,
 				5571917B1098F5B60059E40F /* MapViewController.h */,
 				5571917C1098F5B60059E40F /* MapViewController.m */,
-				55AC0FF1109E8D7B00101F7F /* ChatViewController.h */,
-				55AC0FF2109E8D7B00101F7F /* ChatViewController.m */,
+				55AC0FF1109E8D7B00101F7F /* SendMessageViewController.h */,
+				55AC0FF2109E8D7B00101F7F /* SendMessageViewController.m */,
 				559A0B6910A3624D005921E7 /* UpdateAnnotationView.h */,
 				559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */,
 				5553976910C3561900126892 /* LoginViewController.h */,
@@ -441,7 +441,7 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */,
 				557191791098F5980059E40F /* MapViewController.xib in Resources */,
-				55AC0FEF109E8D4400101F7F /* ChatViewController.xib in Resources */,
+				55AC0FEF109E8D4400101F7F /* SendMessageViewController.xib in Resources */,
 				559A0B6710A3621E005921E7 /* bubble.png in Resources */,
 				559A0B6810A3621E005921E7 /* default37.png in Resources */,
 				559A0CD110A3A6C5005921E7 /* center.png in Resources */,
@@ -484,7 +484,7 @@
 				55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */,
 				55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */,
 				55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */,
-				55AC0FF3109E8D7B00101F7F /* ChatViewController.m in Sources */,
+				55AC0FF3109E8D7B00101F7F /* SendMessageViewController.m in Sources */,
 				550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */,
 				550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */,
 				559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */,

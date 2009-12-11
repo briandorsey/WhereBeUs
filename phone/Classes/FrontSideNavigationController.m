@@ -8,7 +8,7 @@
 
 #import "FrontSideNavigationController.h"
 #import "MapViewController.h"
-#import "ChatViewController.h"
+#import "SendMessageViewController.h"
 
 @implementation FrontSideNavigationController
 
@@ -19,14 +19,14 @@
 	[self pushViewController:mapViewController animated:animated];
 }
 
-- (void)showModalChatViewController
+- (void)showModalSendMessage
 {
-	ChatViewController *controller = [[[ChatViewController alloc] initWithNibName:@"ChatViewController" bundle:nil] autorelease];	
+	SendMessageViewController *controller = [[[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:nil] autorelease];	
 	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	[self presentModalViewController:controller animated:YES];
 }
 
-- (void)hideModalChatViewController
+- (void)hideModalSendMessage
 {
 	[self dismissModalViewControllerAnimated:YES];
 }

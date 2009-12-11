@@ -6,7 +6,7 @@
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
-#import "ChatViewController.h"
+#import "SendMessageViewController.h"
 #import "WhereBeUsState.h"
 #import "Utilities.h"
 #import "WhereBeUsAppDelegate.h"
@@ -14,7 +14,7 @@
 #import "JsonResponse.h"
 
 
-@implementation ChatViewController
+@implementation SendMessageViewController
 
 @synthesize messageText;
 @synthesize activityIndicator;
@@ -62,7 +62,7 @@
 {
 	[self.activityIndicator stopAnimating];
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[UIApplication sharedApplication].delegate;
-	[[appDelegate frontSideNavigationController] hideModalChatViewController];
+	[[appDelegate frontSideNavigationController] hideModalSendMessage];
 }
 
 
@@ -78,7 +78,7 @@
 		
 		// All done; go back to the map view.
 		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
-		[[appDelegate frontSideNavigationController] hideModalChatViewController];		
+		[[appDelegate frontSideNavigationController] hideModalSendMessage];		
 	}
 }
 

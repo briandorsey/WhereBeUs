@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ChatViewController : UIViewController<UITextViewDelegate> {
+@interface SendMessageViewController : UIViewController<UITextViewDelegate> {
 	IBOutlet UITextView *messageText;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 	BOOL sendingToFacebook;

@@ -184,7 +184,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 - (IBAction)chatButtonPushed:(id)sender
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[[appDelegate frontSideNavigationController] showModalChatViewController];
+	[[appDelegate frontSideNavigationController] showModalSendMessage];
 }
 
 

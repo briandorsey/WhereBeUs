@@ -13,7 +13,7 @@
 }
 
 - (void)showMapViewController:(BOOL)animated;
-- (void)showModalChatViewController;
-- (void)hideModalChatViewController;
+- (void)showModalSendMessage;
+- (void)hideModalSendMessage;
 
 @end
