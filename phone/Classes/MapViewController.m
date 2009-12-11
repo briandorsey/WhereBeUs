@@ -440,13 +440,6 @@ CGFloat fsign(CGFloat f)
 
 - (void)viewDidAppear:(BOOL)animated
 {
-	WhereBeUsState *state = [WhereBeUsState shared];
-	if (!state.hasTwitterCredentials)
-	{
-		WhereBeUsAppDelegate *delegate = (WhereBeUsAppDelegate *) [[UIApplication sharedApplication] delegate];
-		[delegate showTwitterCredentialsController];		
-	}
-	
 	[super viewDidAppear:animated];
 }
 

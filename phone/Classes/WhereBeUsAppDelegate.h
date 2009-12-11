@@ -12,14 +12,17 @@
 #import "FBConnect/FBConnect.h"
 
 @interface WhereBeUsAppDelegate : NSObject <UIApplicationDelegate, FBSessionDelegate> {    
-    WhereBeUsWindow *window;
+    IBOutlet WhereBeUsWindow *window;
     FrontSideNavigationController *frontSideNavigationController;
     BackSideNavigationController *backSideNavigationController;
+	BOOL showingFrontSide;
 }
 
 @property (nonatomic, retain) IBOutlet WhereBeUsWindow *window;
-@property (nonatomic, retain) IBOutlet FrontSideNavigationController *frontSideNavigationController;
-@property (nonatomic, retain) IBOutlet BackSideNavigationController *backSideNavigationController;
+
+
+- (FrontSideNavigationController *)frontSideNavigationController;
+- (BackSideNavigationController *)backSideNavigationController;
 
 - (BOOL)showingFrontSide;
 - (BOOL)showingBackSide;

@@ -31,7 +31,7 @@ const NSUInteger LoginActionRow = 1;
 - (void)showTwitterCredentials
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) ([UIApplication sharedApplication].delegate);
-	[appDelegate showTwitterCredentialsController];	
+	[[appDelegate backSideNavigationController] showTwitterCredentialsController];	
 }
 
 - (void)viewDidLoad 

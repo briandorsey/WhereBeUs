@@ -59,7 +59,9 @@
 	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(twitter_donePostTweet:) message:state.lastMessage username:state.twitterUsername password:state.twitterPassword];
 	
 	// done; back to the map.
-	[(WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate] popViewController:YES];
+	// TODO davepeck:
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
+	[[appDelegate frontSideNavigationController] popViewControllerAnimated:YES];
 }
 
 - (void)twitter_donePostTweet:(JsonResponse *)response

@@ -18,8 +18,79 @@
 @implementation WhereBeUsAppDelegate
 
 @synthesize window;
-@synthesize frontSideNavigationController;
-@synthesize backSideNavigationController;
+
+
+//----------------------------------------------------------------
+// Private Helpers
+//----------------------------------------------------------------
+
+- (void)showCurrentView
+{
+	if (showingFrontSide)
+	{
+		if (backSideNavigationController != nil)
+		{
+			[[backSideNavigationController view] removeFromSuperview];
+		}
+		
+		[window addSubview:[self frontSideNavigationController].view];
+	}
+	else
+	{
+		if (frontSideNavigationController != nil)
+		{
+			[[frontSideNavigationController view] removeFromSuperview];
+		}
+		
+		[window addSubview:[self backSideNavigationController].view];
+	}	
+}
+
+
+//----------------------------------------------------------------
+// Public APIs
+//----------------------------------------------------------------
+
+- (FrontSideNavigationController *)frontSideNavigationController
+{
+	if (frontSideNavigationController == nil)
+	{
+		frontSideNavigationController = [[FrontSideNavigationController alloc] initWithNibName:@"FrontSideNavigationController" bundle:nil];
+	}
+	
+	return frontSideNavigationController;
+}
+
+- (BackSideNavigationController *)backSideNavigationController
+{
+	if (backSideNavigationController == nil)
+	{
+		backSideNavigationController = [[BackSideNavigationController alloc] initWithNibName:@"BackSideNavigationController" bundle:nil];
+	}
+	
+	return backSideNavigationController;
+}
+
+- (BOOL)showingFrontSide
+{
+	return showingFrontSide;
+}
+
+- (BOOL)showingBackSide
+{
+	return !showingFrontSide;
+}
+
+- (void)flip:(BOOL)animated
+{
+	showingFrontSide = !showingFrontSide;
+	[self showCurrentView];
+}
+
+
+//----------------------------------------------------------------
+// Private Overrides, etc.
+//----------------------------------------------------------------
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
@@ -52,32 +123,21 @@
 	// immediately show the 'back side' login/settings views.
 	if (state.hasAnyCredentials)
 	{
-		
+		showingFrontSide = YES;
 	}
 	else
 	{
+		showingFrontSide = NO;
 	}
-	
-	
-	if (state.hasTwitterCredentials)
-	{
-		[self showMapViewController:NO];
-	}
-	else
-	{
-		[self showLoginViewController:NO];
-	}
+	[self showCurrentView];
 
-//	[navigationController setNavigationBarHidden:YES animated:NO];
-	
-	[window addSubview:[navigationController view]];
     [window makeKeyAndVisible];
 }
 
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-	// XXX TODO 
+	// XXX TODO DAVEPECK
 	return YES;
 }
 
@@ -93,14 +153,15 @@
 
 - (void)dealloc 
 {
-	[navigationController release];
-	[window release];
+	self.window = nil;
+	[frontSideNavigationController release];
+	[backSideNavigationController release];
 	[super dealloc];
 }
 
 
 //---------------------------------------------------------
-// Facebook Session
+// Facebook Session Delegate
 //---------------------------------------------------------
 
 - (void)done_facebookUsersGetInfo:(id)result
@@ -120,14 +181,12 @@
 	[state save];	
 }
 
-// Called when a user has successfully logged in and begun a session.
 - (void)session:(FBSession*)session didLogin:(FBUID)fbuid
 {
 	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", fbuid], @"uids", @"name, pic_square", @"fields", nil];
 	[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookUsersGetInfo:) call:@"facebook.users.getInfo" params:params];	
 }
 
-// Called when a user closes the login dialog without logging in.
 - (void)sessionDidNotLogin:(FBSession*)session
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
@@ -135,12 +194,10 @@
 	[state save];
 }
 
-// Called when a session is about to log out.
 - (void)session:(FBSession*)session willLogout:(FBUID)uid
 {
 }
 
-// Called when a session has logged out.
 - (void)sessionDidLogout:(FBSession*)session
 {
 	WhereBeUsState *state = [WhereBeUsState shared];

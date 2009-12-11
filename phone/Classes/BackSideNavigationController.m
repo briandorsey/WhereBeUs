@@ -7,7 +7,7 @@
 //
 
 #import "BackSideNavigationController.h"
-
+#import "LoginViewController.h"
 
 @implementation BackSideNavigationController
 
@@ -18,7 +18,7 @@
 
 - (void)twitterCredentialsViewControllerDidFinish:(TwitterCredentialsViewController *)controller
 {
-	[navigationController popViewControllerAnimated:YES];
+	[self popViewControllerAnimated:YES];
 	[controller release];
 }
 
@@ -30,7 +30,7 @@
 - (void)showLoginViewController:(BOOL)animated
 {
 	LoginViewController *loginViewController = [[[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil] autorelease];
-	[navigationController pushViewController:loginViewController animated:animated];
+	[self pushViewController:loginViewController animated:animated];
 }
 
 - (void)viewDidLoad
@@ -53,7 +53,7 @@
 {
 	TwitterCredentialsViewController *controller = [[TwitterCredentialsViewController alloc] initWithNibName:@"TwitterCredentialsViewController" bundle:nil];	
 	controller.delegate = self;
-	[navigationController pushViewController:controller animated:YES];
+	[self pushViewController:controller animated:YES];
 }
 
 
