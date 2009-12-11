@@ -28,8 +28,9 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Properties
 //------------------------------------------------------------------
 
-@synthesize backSideButton;
 @synthesize mapView;
+@synthesize backSideButton;
+@synthesize chatButton;
 
 
 //------------------------------------------------------------------
@@ -156,11 +157,11 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)dealloc
 {
-	self.backSideButton = nil;
 	self.mapView = nil;
+	self.backSideButton = nil;
+	self.chatButton = nil;
 	
-	[twitterUsernameToAnnotation release];
-	
+	[twitterUsernameToAnnotation release];	
 	[locationManager stopUpdatingLocation];
 	[locationManager release];
 	
@@ -178,6 +179,12 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	[appDelegate flip:YES];
+}
+
+- (IBAction)chatButtonPushed:(id)sender
+{
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[[appDelegate frontSideNavigationController] showModalChatViewController];
 }
 
 

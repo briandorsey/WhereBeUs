@@ -16,7 +16,6 @@
 		550721DB109B98BC0025B4FA /* WhereBeUsState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* WhereBeUsState.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
-		5523366F10AA3B0300CEBB6B /* map-marker-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 5523366E10AA3B0300CEBB6B /* map-marker-white.png */; };
 		55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55491EE310C734D7007A811F /* EditCellViewController.xib */; };
 		55491EE810C735CC007A811F /* EditCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55491EE710C735CC007A811F /* EditCellViewController.m */; };
 		5553976210C350FC00126892 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5553976110C350FC00126892 /* LoginViewController.xib */; };
@@ -38,11 +37,12 @@
 		559A0CD410A3A6C5005921E7 /* right.png in Resources */ = {isa = PBXBuildFile; fileRef = 559A0CD010A3A6C5005921E7 /* right.png */; };
 		55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */; };
 		55A127CF1097F53200B79AB5 /* TwitterCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */; };
+		55A6F0FF10D300860041E914 /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 55A6F0FE10D300860041E914 /* chat.png */; };
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
 		55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FA7109E875F00101F7F /* NSString+PostData.m */; };
 		55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */; };
-		55AC0FEF109E8D4400101F7F /* TweetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AC0FEE109E8D4400101F7F /* TweetViewController.xib */; };
-		55AC0FF3109E8D7B00101F7F /* TweetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FF2109E8D7B00101F7F /* TweetViewController.m */; };
+		55AC0FEF109E8D4400101F7F /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AC0FEE109E8D4400101F7F /* ChatViewController.xib */; };
+		55AC0FF3109E8D7B00101F7F /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FF2109E8D7B00101F7F /* ChatViewController.m */; };
 		55D1CC821098190500FD9606 /* NSData+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */; };
 		55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */; };
 		55D1CCC91098211A00FD9606 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CCC81098211A00FD9606 /* Utilities.m */; };
@@ -85,7 +85,6 @@
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
 		550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CleanObject.m"; sourceTree = "<group>"; };
-		5523366E10AA3B0300CEBB6B /* map-marker-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "map-marker-white.png"; path = "images/map-marker-white.png"; sourceTree = "<group>"; };
 		55491EE310C734D7007A811F /* EditCellViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditCellViewController.xib; sourceTree = "<group>"; };
 		55491EE610C735CC007A811F /* EditCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCellViewController.h; sourceTree = "<group>"; };
 		55491EE710C735CC007A811F /* EditCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCellViewController.m; sourceTree = "<group>"; };
@@ -116,15 +115,16 @@
 		55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TwitterCredentialsViewController.xib; sourceTree = "<group>"; };
 		55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterCredentialsViewController.h; sourceTree = "<group>"; };
 		55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCredentialsViewController.m; sourceTree = "<group>"; };
+		55A6F0FE10D300860041E914 /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chat.png; path = images/chat.png; sourceTree = "<group>"; };
 		55AC0F89109E841200101F7F /* NSString+URLEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncode.h"; sourceTree = "<group>"; };
 		55AC0F8A109E841200101F7F /* NSString+URLEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncode.m"; sourceTree = "<group>"; };
 		55AC0FA6109E875F00101F7F /* NSString+PostData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+PostData.h"; sourceTree = "<group>"; };
 		55AC0FA7109E875F00101F7F /* NSString+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PostData.m"; sourceTree = "<group>"; };
 		55AC0FAD109E87DD00101F7F /* NSDictionary+PostData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+PostData.h"; sourceTree = "<group>"; };
 		55AC0FAE109E87DD00101F7F /* NSDictionary+PostData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+PostData.m"; sourceTree = "<group>"; };
-		55AC0FEE109E8D4400101F7F /* TweetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TweetViewController.xib; sourceTree = "<group>"; };
-		55AC0FF1109E8D7B00101F7F /* TweetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetViewController.h; sourceTree = "<group>"; };
-		55AC0FF2109E8D7B00101F7F /* TweetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetViewController.m; sourceTree = "<group>"; };
+		55AC0FEE109E8D4400101F7F /* ChatViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatViewController.xib; sourceTree = "<group>"; };
+		55AC0FF1109E8D7B00101F7F /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		55AC0FF2109E8D7B00101F7F /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 		55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Encoding.h"; sourceTree = "<group>"; };
 		55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Encoding.m"; sourceTree = "<group>"; };
 		55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionHelper.h; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 				8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */,
 				55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */,
 				557191781098F5980059E40F /* MapViewController.xib */,
-				55AC0FEE109E8D4400101F7F /* TweetViewController.xib */,
+				55AC0FEE109E8D4400101F7F /* ChatViewController.xib */,
 				5553976110C350FC00126892 /* LoginViewController.xib */,
 				55E77F0710C383C400F49D91 /* FacebookKeys.plist */,
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
@@ -299,7 +299,7 @@
 		559A0B6410A3620F005921E7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				5523366E10AA3B0300CEBB6B /* map-marker-white.png */,
+				55A6F0FE10D300860041E914 /* chat.png */,
 				559A0CCD10A3A6C5005921E7 /* center.png */,
 				559A0CCE10A3A6C5005921E7 /* fill.png */,
 				559A0CCF10A3A6C5005921E7 /* left.png */,
@@ -353,8 +353,8 @@
 				55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */,
 				5571917B1098F5B60059E40F /* MapViewController.h */,
 				5571917C1098F5B60059E40F /* MapViewController.m */,
-				55AC0FF1109E8D7B00101F7F /* TweetViewController.h */,
-				55AC0FF2109E8D7B00101F7F /* TweetViewController.m */,
+				55AC0FF1109E8D7B00101F7F /* ChatViewController.h */,
+				55AC0FF2109E8D7B00101F7F /* ChatViewController.m */,
 				559A0B6910A3624D005921E7 /* UpdateAnnotationView.h */,
 				559A0B6A10A3624D005921E7 /* UpdateAnnotationView.m */,
 				5553976910C3561900126892 /* LoginViewController.h */,
@@ -441,19 +441,19 @@
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */,
 				557191791098F5980059E40F /* MapViewController.xib in Resources */,
-				55AC0FEF109E8D4400101F7F /* TweetViewController.xib in Resources */,
+				55AC0FEF109E8D4400101F7F /* ChatViewController.xib in Resources */,
 				559A0B6710A3621E005921E7 /* bubble.png in Resources */,
 				559A0B6810A3621E005921E7 /* default37.png in Resources */,
 				559A0CD110A3A6C5005921E7 /* center.png in Resources */,
 				559A0CD210A3A6C5005921E7 /* fill.png in Resources */,
 				559A0CD310A3A6C5005921E7 /* left.png in Resources */,
 				559A0CD410A3A6C5005921E7 /* right.png in Resources */,
-				5523366F10AA3B0300CEBB6B /* map-marker-white.png in Resources */,
 				5553976210C350FC00126892 /* LoginViewController.xib in Resources */,
 				55E77EB510C3803E00F49D91 /* FBConnect.bundle in Resources */,
 				55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */,
 				55E77F0A10C3855700F49D91 /* FacebookKeysActual.plist in Resources */,
 				55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */,
+				55A6F0FF10D300860041E914 /* chat.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,7 +484,7 @@
 				55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */,
 				55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */,
 				55AC0FAF109E87DD00101F7F /* NSDictionary+PostData.m in Sources */,
-				55AC0FF3109E8D7B00101F7F /* TweetViewController.m in Sources */,
+				55AC0FF3109E8D7B00101F7F /* ChatViewController.m in Sources */,
 				550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */,
 				550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */,
 				559A0B6B10A3624D005921E7 /* UpdateAnnotationView.m in Sources */,

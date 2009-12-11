@@ -10,7 +10,6 @@
 #import "WhereBeUsState.h"
 #import "TwitterCredentialsViewController.h"
 #import "MapViewController.h"
-#import "TweetViewController.h"
 #import "LoginViewController.h"
 #import "ConnectionHelper.h"
 
@@ -101,10 +100,8 @@
 	}
 	
 	[window setBackgroundColor:[UIColor blackColor]]; 
-	
     [window makeKeyAndVisible];
 }
-
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {

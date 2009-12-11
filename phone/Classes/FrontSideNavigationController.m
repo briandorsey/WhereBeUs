@@ -8,6 +8,7 @@
 
 #import "FrontSideNavigationController.h"
 #import "MapViewController.h"
+#import "ChatViewController.h"
 
 @implementation FrontSideNavigationController
 
@@ -18,13 +19,16 @@
 	[self pushViewController:mapViewController animated:animated];
 }
 
-- (void)showModalTweetViewController
+- (void)showModalChatViewController
 {
-	//	TweetViewController *controller = [[[TweetViewController alloc] initWithNibName:@"TweetViewController" bundle:nil] autorelease];
-	//	controller.delegate = self;
-	//	
-	//	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	//	[navigationController.topViewController presentModalViewController:controller animated:YES];
+	ChatViewController *controller = [[[ChatViewController alloc] initWithNibName:@"ChatViewController" bundle:nil] autorelease];	
+	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:controller animated:YES];
+}
+
+- (void)hideModalChatViewController
+{
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad 

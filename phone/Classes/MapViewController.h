@@ -22,6 +22,7 @@
 	// the UI (is simple!)
 	IBOutlet MKMapView *mapView;
 	IBOutlet UIButton *backSideButton;
+	IBOutlet UIButton *chatButton;
 	
 	// location management
 	CLLocationManager *locationManager;
@@ -37,11 +38,13 @@
 	NSMutableDictionary *twitterUsernameToAnnotation;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *backSideButton;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
+@property (nonatomic, retain) IBOutlet UIButton *backSideButton;
+@property (nonatomic, retain) IBOutlet UIButton *chatButton;
 
 // actions
 - (IBAction)backSideButtonPushed:(id)sender;
+- (IBAction)chatButtonPushed:(id)sender;
 
 - (void)updateServiceWithLocation;
 
