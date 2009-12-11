@@ -21,7 +21,7 @@
 @interface MapViewController : UIViewController<MKMapViewDelegate, WhereBeUsAnnotationManager, UITextFieldDelegate, CLLocationManagerDelegate> {
 	// the UI (is simple!)
 	IBOutlet MKMapView *mapView;
-	IBOutlet UIButton *tweetButton;
+	IBOutlet UIButton *backSideButton;
 	
 	// location management
 	CLLocationManager *locationManager;
@@ -37,11 +37,11 @@
 	NSMutableDictionary *twitterUsernameToAnnotation;
 }
 
-@property (nonatomic, retain) IBOutlet UIButton *tweetButton;
+@property (nonatomic, retain) IBOutlet UIButton *backSideButton;
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
 
 // actions
-- (IBAction)tweetButtonPushed:(id)sender;
+- (IBAction)backSideButtonPushed:(id)sender;
 
 - (void)updateServiceWithLocation;
 

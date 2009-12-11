@@ -7,13 +7,15 @@
 //
 
 #import "FrontSideNavigationController.h"
+#import "MapViewController.h"
 
 @implementation FrontSideNavigationController
 
 - (void)showMapViewController:(BOOL)animated
 {
-//	MapViewController *mapViewController = [[[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil] autorelease];
-//	[self pushViewController:mapViewController animated:animated];
+	MapViewController *mapViewController = [[[MapViewController alloc] initWithNibName:@"MapViewController" bundle:nil] autorelease];
+	[self setNavigationBarHidden:YES];
+	[self pushViewController:mapViewController animated:animated];
 }
 
 - (void)showModalTweetViewController

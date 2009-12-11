@@ -28,7 +28,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Properties
 //------------------------------------------------------------------
 
-@synthesize tweetButton;
+@synthesize backSideButton;
 @synthesize mapView;
 
 
@@ -156,7 +156,7 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 
 - (void)dealloc
 {
-	self.tweetButton = nil;
+	self.backSideButton = nil;
 	self.mapView = nil;
 	
 	[twitterUsernameToAnnotation release];
@@ -174,10 +174,10 @@ static const NSTimeInterval kUpdateTimerSeconds = 15;
 // Actions
 //------------------------------------------------------------------
 
-- (IBAction)tweetButtonPushed:(id)sender
+- (IBAction)backSideButtonPushed:(id)sender
 {
-//	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
-//// TODO davepeck	[appDelegate showTweetViewController:YES]; 
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[appDelegate flip:YES];
 }
 
 

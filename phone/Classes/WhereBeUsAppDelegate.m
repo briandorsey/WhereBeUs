@@ -100,6 +100,8 @@
 		[self flip:NO];
 	}
 	
+	[window setBackgroundColor:[UIColor blackColor]]; 
+	
     [window makeKeyAndVisible];
 }
 
