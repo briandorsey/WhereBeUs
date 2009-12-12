@@ -132,6 +132,19 @@
 // Facebook Session Delegate
 //---------------------------------------------------------
 
+- (void)done_facebookPermissionQuery:(id)result
+{
+	if (result != nil)
+	{
+		if ([result isEqualToString:@"1"])
+		{
+			WhereBeUsState *state = [WhereBeUsState shared];
+			[state setHasFacebookStatusUpdatePermission:YES];
+			[state save];
+		}
+	}
+}
+
 - (void)done_facebookUsersGetInfo:(id)result
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
@@ -140,6 +153,10 @@
 	{
   		NSDictionary* user = [result objectAtIndex:0];
 		[state setFacebookUserId:(FBUID)[FBSession session].uid fullName:[user objectForKey:@"name"] profileImageURL:[user objectForKey:@"pic_square"]];
+		
+		// Query to see if they've given us status_update permissions in the past
+		NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", @"status_update", @"ext_perm", nil];
+		[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookPermissionQuery:) call:@"facebook.users.hasAppPermission" params:params];
 	}
 	else
 	{

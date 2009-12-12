@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FBConnect/FBConnect.h"
 
-
-@interface SendMessageViewController : UIViewController<UITextViewDelegate> {
+@interface SendMessageViewController : UIViewController<UITextViewDelegate, FBDialogDelegate, UIAlertViewDelegate> {
 	IBOutlet UITextView *messageText;
 	IBOutlet UIActivityIndicatorView *activityIndicator;
-	BOOL sendingToFacebook;
-	BOOL sendingToTwitter;
-	
 }
 
 @property (nonatomic, retain) IBOutlet UITextView *messageText;

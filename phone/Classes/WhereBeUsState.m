@@ -17,6 +17,7 @@ static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url"
 static NSString *const kFacebookUserIdKey = @"facebook_user_id";
 static NSString *const kFacebookFullNameKey = @"facebook_full_name";
 static NSString *const kFacebookProfileImageURLKey = @"facebook_profile_image_url";
+static NSString *const kHasFacebookStatusUpdatePermissionKey = @"has_facebook_status_update_permission";
 static NSString *const kLastMessageKey = @"last_message";
 
 @implementation WhereBeUsState
@@ -142,6 +143,7 @@ static NSString *const kLastMessageKey = @"last_message";
 	facebookUserId = (FBUID) 0;
 	facebookFullName = nil;
 	facebookProfileImageURL = nil;
+	hasFacebookStatusUpdatePermission = NO;
 	lastMessage = nil;
 	isDirty = NO;
 }
@@ -253,6 +255,11 @@ static NSString *const kLastMessageKey = @"last_message";
 	return facebookProfileImageURL;
 }
 
+- (BOOL)hasFacebookStatusUpdatePermission
+{
+	return hasFacebookStatusUpdatePermission;
+}
+
 - (NSString *)lastMessage
 {
 	return lastMessage;
@@ -284,9 +291,16 @@ static NSString *const kLastMessageKey = @"last_message";
 	facebookFullName = [newFacebookFullName retain];
 	[facebookProfileImageURL autorelease];
 	facebookProfileImageURL = [newFacebookProfileImageURL retain];
+	hasFacebookStatusUpdatePermission = NO; /* Any time credentials change, we don't have this permission... */
 	
 	[self propertyChanged];
 	[self sendFacebookCredentialsNotification];
+}
+
+- (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission
+{
+	hasFacebookStatusUpdatePermission = newHasFacebookStatusUpdatePermission;
+	[self propertyChanged];
 }
 
 - (void)clearTwitterCredentials
@@ -318,6 +332,7 @@ static NSString *const kLastMessageKey = @"last_message";
 	[encoder encodeInt64:(int64_t)facebookUserId forKey:kFacebookUserIdKey];
 	[encoder encodeObject:facebookFullName forKey:kFacebookFullNameKey];
 	[encoder encodeObject:facebookProfileImageURL forKey:kFacebookProfileImageURLKey];
+	[encoder encodeBool:hasFacebookStatusUpdatePermission forKey:kHasFacebookStatusUpdatePermissionKey];
 	[encoder encodeObject:lastMessage forKey:kLastMessageKey];
 }
 
@@ -336,6 +351,7 @@ static NSString *const kLastMessageKey = @"last_message";
 		facebookUserId = (FBUID) [decoder decodeInt64ForKey:kFacebookUserIdKey];
 		facebookFullName = [[decoder decodeObjectForKey:kFacebookFullNameKey] retain];
 		facebookProfileImageURL = [[decoder decodeObjectForKey:kFacebookProfileImageURLKey] retain];
+		hasFacebookStatusUpdatePermission = [decoder decodeBoolForKey:kHasFacebookStatusUpdatePermissionKey];
 		lastMessage = [[decoder decodeObjectForKey:kLastMessageKey] retain];
 	}
 	
@@ -357,6 +373,8 @@ static NSString *const kLastMessageKey = @"last_message";
 	[copy setFacebookUserId:facebookUserId
 				   fullName:[[facebookFullName copy] autorelease]
 			profileImageURL:[[facebookProfileImageURL copy] autorelease]];
+
+	[copy setHasFacebookStatusUpdatePermission:hasFacebookStatusUpdatePermission];
 	
 	copy.lastMessage = [[lastMessage copy] autorelease];	
 	return copy;

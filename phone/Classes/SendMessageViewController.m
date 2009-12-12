@@ -70,42 +70,102 @@
 // Posting
 //---------------------------------------------------------------
 
-- (void)doneSendingMessage
+- (void)doneWithDialog
 {
-	if (!sendingToTwitter && !sendingToFacebook)
+	[self.activityIndicator stopAnimating];
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
+	[[appDelegate frontSideNavigationController] hideModalSendMessage];		
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+	[self.messageText becomeFirstResponder];
+}
+
+- (void)failedDialogWithTitle:(NSString *)title message:(NSString *)message
+{
+	[self.activityIndicator stopAnimating];
+	[Utilities displayModalAlertWithTitle:title message:message buttonTitle:@"OK" delegate:self];
+}
+
+- (void)doneSendingMessageToFacebook:(id)result
+{
+	if ((result == nil) || (![result isKindOfClass:[NSString class]]) || (![result isEqualToString:@"1"]))
 	{
-		[self.activityIndicator stopAnimating];
-		
-		// All done; go back to the map view.
-		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
-		[[appDelegate frontSideNavigationController] hideModalSendMessage];		
+		[self failedDialogWithTitle:@"Facebook Failure" message:@"Couldn't post to Facebook. Please try again."];
+		return;
+	}
+
+	[self doneWithDialog];
+}
+
+- (void)sendMessageToFacebook:(NSString *)message
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", message, @"status", nil];
+	[ConnectionHelper fb_requestWithTarget:self action:@selector(doneSendingMessageToFacebook:) call:@"facebook.status.set" params:params];
+}
+
+- (void)dialogDidSucceed:(FBDialog*)dialog 
+{
+	// This method is an FBDialogDelegate callback
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[state setHasFacebookStatusUpdatePermission:YES];
+	[state save];	
+	[self sendMessageToFacebook:state.lastMessage];
+}
+
+- (void)dialogDidCancel:(FBDialog *)dialog
+{
+	[self failedDialogWithTitle:@"Facebook Failure" message:@"Couldn't post to Facebook because permission was denied. Please try again."];
+}
+
+- (void)askForFacebookStatusUpdatePermission
+{
+	FBPermissionDialog* dialog = [[[FBPermissionDialog alloc] init] autorelease];
+	dialog.delegate = self;
+	dialog.permission = @"status_update";
+	[dialog show];
+}
+
+- (void)prepareToSendMessageToFacebook:(NSString *)message
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if (state.hasFacebookStatusUpdatePermission)
+	{
+		[self sendMessageToFacebook:message];
+	}
+	else
+	{
+		[self askForFacebookStatusUpdatePermission];
 	}
 }
 
 - (void)doneSendingMessageToTwitter:(JsonResponse *)response
 {
+	// did we fail? Bail, but stay with this view.
 	if (response == nil)
 	{
-		[Utilities displayModalAlertWithTitle:@"Twitter Failure" message:@"Couldn't post your tweet. Please try again." buttonTitle:@"OK" delegate:nil];
+		[self failedDialogWithTitle:@"Twitter Failure" message:@"Couldn't post your tweet. Please try again."];
+		return;
+	}	
+
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if (state.hasFacebookCredentials)
+	{
+		[self prepareToSendMessageToFacebook:state.lastMessage];
 	}
-	
-	// done; clean up
-	sendingToTwitter = NO;
-	[self doneSendingMessage];
+	else
+	{	
+		[self doneWithDialog];
+	}
 }
 
-- (void)sendMessageToTwitter:(NSString *)message
+- (void)sendMessageToTwitterThenIfNecessaryToFacebook:(NSString *)message
 {
 	// send the message!
 	WhereBeUsState *state = [WhereBeUsState shared];
 	[ConnectionHelper twitter_postTweetWithTarget:self action:@selector(doneSendingMessageToTwitter:) message:message username:state.twitterUsername password:state.twitterPassword];
-}
-
-- (void)sendMessageToFacebook:(NSString *)message
-{
-	// TODO DAVEPECK
-	sendingToFacebook = NO;
-	[self doneSendingMessage];
 }
 
 - (void)sendMessage
@@ -118,18 +178,14 @@
 	state.lastMessage = [self.messageText text];
 	[state save];
 	
-	// do appropriate posts
-	sendingToFacebook = state.hasFacebookCredentials;
-	sendingToTwitter = state.hasTwitterCredentials;
-	
-	if (sendingToFacebook)
+	// start by sending the message to twitter...
+	if (state.hasTwitterCredentials)
 	{
-		[self sendMessageToFacebook:state.lastMessage];
+		[self sendMessageToTwitterThenIfNecessaryToFacebook:state.lastMessage];
 	}
-	
-	if (sendingToTwitter)
+	else if (state.hasFacebookCredentials)
 	{
-		[self sendMessageToTwitter:state.lastMessage];
+		[self prepareToSendMessageToFacebook:state.lastMessage];
 	}
 }
 

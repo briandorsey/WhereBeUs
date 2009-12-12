@@ -27,6 +27,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	FBUID facebookUserId;
 	NSString *facebookFullName;
 	NSString *facebookProfileImageURL;
+	BOOL hasFacebookStatusUpdatePermission;
 	
 	NSString *lastMessage;	
 	BOOL isDirty;
@@ -55,11 +56,13 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (FBUID)facebookUserId;
 - (NSString *)facebookFullName;
 - (NSString *)facebookProfileImageURL;
+- (BOOL)hasFacebookStatusUpdatePermission;
 - (NSString *)lastMessage;
 
 // you must set your credentials all-at-once
 - (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword fullName:(NSString *)newTwitterFullName profileImageURL:(NSString *)newTwitterProfileImageURL;
 - (void)setFacebookUserId:(FBUID)newFacebookUserId fullName:(NSString *)newFacebookFullName profileImageURL:(NSString *)newFacebookProfileImageURL;
+- (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission;
 - (void)setLastMessage:(NSString *)newLastMessage;
 - (void)clearTwitterCredentials;
 - (void)clearFacebookCredentials;
