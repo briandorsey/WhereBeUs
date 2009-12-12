@@ -94,6 +94,17 @@ static NSString *const kServiceBaseURL = @"http://localhost:8080";
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
++ (void)twitter_getFriendsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
+{
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://twitter.com/friends/ids/%@.json", username]
+							   delegate:[ConnectionHelper getDelegate] 
+							   userData:d 
+						   authUsername:username 
+						   authPassword:password
+							   postData:nil];
+}
+
 + (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];

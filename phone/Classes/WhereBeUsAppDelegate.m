@@ -59,6 +59,11 @@
 // Private Overrides, etc.
 //----------------------------------------------------------------
 
+- (void)startTwitterFriendUpdate
+{
+	
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
 	// Set up the facebook session.
@@ -83,6 +88,11 @@
 		{
 			[state clearFacebookCredentials];
 		}
+	}
+	
+	if (state.hasTwitterCredentials)
+	{
+		[self startTwitterFriendUpdate];
 	}
 
 	// Get our frontside/backside transitions set up
