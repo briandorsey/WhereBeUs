@@ -128,6 +128,12 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 	WhereBeUsState *state = [WhereBeUsState shared];
 	[self.doneButton setEnabled:state.hasAnyCredentials];
 	[self.tableView reloadData];	
+	
+	if (state.hasTwitterCredentials)
+	{
+		WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
+		[appDelegate updateTwitterFriends];
+	}
 }
 
 

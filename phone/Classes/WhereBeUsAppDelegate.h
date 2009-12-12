@@ -22,6 +22,8 @@
 @property (nonatomic, retain) IBOutlet FrontSideNavigationController *frontSideNavigationController;
 @property (nonatomic, retain) IBOutlet BackSideNavigationController *backSideNavigationController;
 
+- (void)updateTwitterFriends;
+
 - (BOOL)showingFrontSide;
 - (BOOL)showingBackSide;
 - (void)flip:(BOOL)animated;

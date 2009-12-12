@@ -12,6 +12,7 @@
 #import "MapViewController.h"
 #import "LoginViewController.h"
 #import "ConnectionHelper.h"
+#import "JsonResponse.h"
 
 
 @implementation WhereBeUsAppDelegate
@@ -59,9 +60,20 @@
 // Private Overrides, etc.
 //----------------------------------------------------------------
 
-- (void)startTwitterFriendUpdate
+- (void)twitterFriendUpdateFinished:(JsonResponse *)response
 {
-	
+	if (response != nil && response.isArray)
+	{
+		WhereBeUsState *state = [WhereBeUsState shared];
+		[state setTwitterFriendIds:response.array];
+		[state save];
+	}	
+}
+
+- (void)updateTwitterFriends
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	[ConnectionHelper twitter_getFriendsWithTarget:self action:@selector(twitterFriendUpdateFinished:) username:state.twitterUsername password:state.twitterPassword];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
@@ -90,9 +102,10 @@
 		}
 	}
 	
+	// Deal with re-capturing our twitter friend Id list, if necessary
 	if (state.hasTwitterCredentials)
 	{
-		[self startTwitterFriendUpdate];
+		[self updateTwitterFriends];
 	}
 
 	// Get our frontside/backside transitions set up
@@ -155,6 +168,23 @@
 	}
 }
 
+- (void)done_facebookFriendIdsQuery:(id)result
+{
+	if ((result != nil) && ([result isKindOfClass:[NSArray class]]))
+	{
+		NSMutableArray *array = [NSMutableArray arrayWithCapacity:[result count]];
+		for (id uid_container in result)
+		{
+			[array addObject:[uid_container objectForKey:@"uid"]];
+		}
+		NSArray *finalArray = [NSArray arrayWithArray:array];
+		
+		WhereBeUsState *state = [WhereBeUsState shared];
+		[state setFacebookFriendIds:finalArray];
+		[state save];		
+	}
+}
+
 - (void)done_facebookUsersGetInfo:(id)result
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
@@ -167,6 +197,10 @@
 		// Query to see if they've given us status_update permissions in the past
 		NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", @"status_update", @"ext_perm", nil];
 		[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookPermissionQuery:) call:@"facebook.users.hasAppPermission" params:params];
+		
+		// Also, query for the IDs of my friends...
+		params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", nil];
+		[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookFriendIdsQuery:) call:@"facebook.friends.get" params:params];
 	}
 	else
 	{
