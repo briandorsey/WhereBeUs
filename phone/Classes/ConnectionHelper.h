@@ -29,19 +29,9 @@
 // If results is nil, an error occured.
 
 + (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
-
 + (void)twitter_postTweetWithTarget:(id)target action:(SEL)action message:(NSString *)message username:(NSString *)username password:(NSString *)password;
 
-+ (void)wbu_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag;
-
-+ (void)wbu_postUpdateWithTarget:(id)target 
-						 action:(SEL)action
-				twitterUsername:(NSString *)twitterUsername 
-				twitterFullName:(NSString *)twitterFullName 
-		 twitterProfileImageURL:(NSString *)twitterProfileImageURL
-						hashtag:(NSString *)hashtag 
-						message:(NSString *)message
-					 coordinate:(CLLocationCoordinate2D)coordinate;
++ (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate;
 
 // facebook session must be opened for this to work.
 + (void)fb_requestWithTarget:(id)target action:(SEL)action call:(NSString *)method params:(NSDictionary *)params;

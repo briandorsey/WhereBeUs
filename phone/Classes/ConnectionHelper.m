@@ -10,13 +10,14 @@
 #import "JsonResponse.h"
 #import "NSObject+SBJSON.h"
 #import "NSDictionary+PostData.h"
+#import "WhereBeUsState.h"
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
-static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
+//static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 // use this base URL instead for local testing (useful for debugging from simulator!)
-// static NSString *const kServiceBaseURL = @"http://localhost:8080";
+static NSString *const kServiceBaseURL = @"http://localhost:8080";
 
 
 @implementation ConnectionHelper
@@ -93,23 +94,50 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
-+ (void)wbu_getUpdatesForHashtagWithTarget:(id)target action:(SEL)action hashtag:(NSString *)hashtag
++ (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/hashtag/%@/", kServiceBaseURL, hashtag] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
-}
-
-+ (void)wbu_postUpdateWithTarget:(id)target 
-						 action:(SEL)action
-				twitterUsername:(NSString *)twitterUsername 
-				twitterFullName:(NSString *)twitterFullName 
-		 twitterProfileImageURL:(NSString *)twitterProfileImageURL 
-						hashtag:(NSString *)hashtag 
-						message:(NSString *)message
-					 coordinate:(CLLocationCoordinate2D)coordinate
-{
-	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:twitterUsername, @"twitter_username", twitterFullName, @"twitter_full_name", twitterProfileImageURL, @"twitter_profile_image_url", hashtag, @"hashtag", [NSNumber numberWithFloat:coordinate.latitude], @"latitude", [NSNumber numberWithFloat:coordinate.longitude], @"longitude", message, @"message", nil];
+	WhereBeUsState *state = [WhereBeUsState shared];	
+	
+	// Build up information about services...
+	NSMutableArray *services = [NSMutableArray arrayWithCapacity:1];
+	if (state.hasTwitterCredentials)
+	{
+		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+							 @"facebook", @"service_type",
+							 [NSNumber numberWithUnsignedLongLong:state.facebookUserId], @"id_on_service",
+							 state.facebookFullName, @"display_name",
+							 state.facebookProfileImageURL, @"profile_image_url",
+							 state.facebookFriendIds, @"friends",
+							 nil]];
+	}
+	
+	if (state.hasFacebookCredentials)
+	{
+		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+							 @"twitter", @"service_type",
+							 [NSNumber numberWithUnsignedLongLong:state.twitterUserId], @"id_on_service",
+							 state.twitterFullName, @"display_name",
+							 state.twitterProfileImageURL, @"profile_image_url",
+							 state.twitterFriendIds, @"friends",
+							 nil]];
+	}
+	
+	NSString *safeMessage = state.lastMessage;
+	if (safeMessage == nil)
+	{
+		safeMessage = @"";
+	}
+	
+	NSDictionary *postDictionary = 
+		[NSDictionary dictionaryWithObjectsAndKeys:
+		 services, @"services",
+		 [NSNumber numberWithFloat:coordinate.latitude], @"latitude",
+		 [NSNumber numberWithFloat:coordinate.longitude], @"longitude",
+		 [NSNumber numberWithBool:YES], @"want_updates",
+		 safeMessage, @"message",
+		 nil];
+		
 	NSString *postJson = [postDictionary JSONRepresentation];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
 }

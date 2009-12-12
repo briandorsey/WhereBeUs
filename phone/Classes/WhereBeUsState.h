@@ -21,12 +21,14 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	NSString *twitterPassword;
 	NSString *twitterFullName;
 	NSString *twitterProfileImageURL;	
+	NSArray *twitterFriendIds;
 	
 	// these are for convenience -- but they must be kept 
 	// in sync with the actual fb login/logout state.
 	FBUID facebookUserId;
 	NSString *facebookFullName;
 	NSString *facebookProfileImageURL;
+	NSArray *facebookFriendIds;
 	BOOL hasFacebookStatusUpdatePermission;
 	
 	NSString *lastMessage;	
@@ -53,15 +55,21 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)twitterPassword;
 - (NSString *)twitterFullName;
 - (NSString *)twitterProfileImageURL;
+- (NSArray *)twitterFriendIds;
+
 - (FBUID)facebookUserId;
 - (NSString *)facebookFullName;
 - (NSString *)facebookProfileImageURL;
 - (BOOL)hasFacebookStatusUpdatePermission;
+- (NSArray *)facebookFriendIds;
+
 - (NSString *)lastMessage;
 
 // you must set your credentials all-at-once
 - (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword fullName:(NSString *)newTwitterFullName profileImageURL:(NSString *)newTwitterProfileImageURL;
+- (void)setTwitterFriendIds:(NSArray *)newTwitterFriendIds;
 - (void)setFacebookUserId:(FBUID)newFacebookUserId fullName:(NSString *)newFacebookFullName profileImageURL:(NSString *)newFacebookProfileImageURL;
+- (void)setFacebookFriendIds:(NSArray *)newFacebookFriendIds;
 - (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission;
 - (void)setLastMessage:(NSString *)newLastMessage;
 - (void)clearTwitterCredentials;
