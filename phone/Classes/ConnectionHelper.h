@@ -12,7 +12,7 @@
 #import "FBConnect/FBRequest.h"
 
 #define TWITTER_USER_ID @"id"
-#define TWITTER_FULL_NAME @"name"
+#define TWITTER_DISPLAY_NAME @"name"
 #define TWITTER_ACCOUNT_NAME @"screen_name"
 #define TWITTER_PROFILE_IMAGE_URL @"profile_image_url"
 #define TWITTER_BIO @"description"

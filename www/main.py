@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import datetime
+import logging
 
 import wsgiref.handlers
 from django.utils import simplejson
@@ -16,7 +17,20 @@ def BREAKPOINT():
   import pdb
   p = pdb.Pdb(None, sys.__stdin__, sys.__stdout__)
   p.set_trace()
+  
+def _typename(t):
+    if t:
+        return str(t).split("'")[1]
+    else:
+        return "{type: None}"
 
+def exception_string():
+    exc = sys.exc_info()
+    exc_type = _typename(exc[0])
+    exc_message = str(exc[1])
+    exc_contents = "".join(traceback.format_exception(*sys.exc_info()))
+    return "[%s]\n %s" % (exc_type, exc_contents)
+  
 def get_rid_of_microseconds(dt):
     return datetime.datetime(year=dt.year, month=dt.month, day=dt.day, hour=dt.hour, minute=dt.minute, second=dt.second)
 
@@ -50,7 +64,7 @@ class UserService(db.Model):
     
     @staticmethod
     def get_or_insert_for_service_and_id(service_type, id_on_service):
-        if service_type not in KNOWN_SERVICE_TYPES:
+        if service_type not in UserService.KNOWN_SERVICE_TYPES:
             raise Exception("Invalid service_type")
         key_name = 'us-%s-%s' % (service_type, str(id_on_service))
         user_service = UserService.get_or_insert(key_name = key_name)
@@ -108,7 +122,9 @@ class UpdateHandler(webapp.RequestHandler):
             user = None
 
             # Read data and basic sandity check
-            data = simplejson.loads(self.request.body.decode('utf8'))            
+            data = simplejson.loads(self.request.body.decode('utf8'))
+            logging.info("\n\n*** REQUEST: \n%s\n" % data)
+            
             services = data.get('services', None)
             if not services:
                 raise Exception('You must include service information in your post.')                         
@@ -126,7 +142,8 @@ class UpdateHandler(webapp.RequestHandler):
                 if user is None:
                     user = user_service.user                
                     if user is None: 
-                        user = User()                        
+                        user = User()
+                        user.put() # TODO error handling!                 
                 user_service.user = user
                 
                 if info_from != "twitter":
@@ -169,11 +186,12 @@ class UpdateHandler(webapp.RequestHandler):
             else:
                 updates = []                
         except Exception, message:
-            result = {'success': False, 'message': 'Encountered an unexpected exception (%s)' % message}            
+            result = {'success': False, 'message': 'Encountered an unexpected exception (%s %s)' % (message, exception_string)}            
         else:
             result = {'success': True, 'message': 'OK', 'updates': updates}
         finally:
             self.response.headers['Content-Type'] = 'application/json'
+            logging.info("\n\n*** RESPONSE: \n%s\n" % simplejson.dumps(result))
             self.response.out.write(simplejson.dumps(result))
 
 

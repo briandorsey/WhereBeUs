@@ -46,5 +46,5 @@ class LocationUpdateJSON(DefaultingDict):
                     ('longitude', None),
                     ('message', None),
                     ('message_time', None),
-                    ('update_datetime', None),
+                    ('update_time', None),
             ]

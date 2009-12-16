@@ -162,7 +162,7 @@
 		[self transitionToCollapsed:NO];
 		
 		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
-		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.twitterProfileImageURL delegate:self];		
+		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.profileImageURL delegate:self];		
 		
 		self.canShowCallout = NO; /* we are the callout! */
 		initializing = NO;
@@ -407,7 +407,7 @@ CGFloat GetRectRight(CGRect rect)
 
 	// remember this image, if it corresponds to the expected URL
 	UpdateAnnotation *updateAnnotation = (UpdateAnnotation *) self.annotation;
-	if (image != nil && [url isEqualToString:updateAnnotation.twitterProfileImageURL])
+	if (image != nil && [url isEqualToString:updateAnnotation.profileImageURL])
 	{
 		twitterUserIcon = [image retain];
 		[self fadeInNewUserIcon];

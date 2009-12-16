@@ -12,11 +12,11 @@ static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
 static NSString *const kTwitterUserIdKey = @"twitter_user_id";
 static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
-static NSString *const kTwitterFullNameKey = @"twitter_full_name";
+static NSString *const kTwitterDisplayNameKey = @"twitter_display_name";
 static NSString *const kTwitterFriendIdsKey = @"twitter_friend_ids";
 static NSString *const kTwitterProfileImageURLKey = @"twitter_profile_image_url";
 static NSString *const kFacebookUserIdKey = @"facebook_user_id";
-static NSString *const kFacebookFullNameKey = @"facebook_full_name";
+static NSString *const kFacebookDisplayNameKey = @"facebook_display_name";
 static NSString *const kFacebookProfileImageURLKey = @"facebook_profile_image_url";
 static NSString *const kHasFacebookStatusUpdatePermissionKey = @"has_facebook_status_update_permission";
 static NSString *const kFacebookFriendIdsKey = @"facebook_friend_ids";
@@ -140,10 +140,10 @@ static NSString *const kLastMessageKey = @"last_message";
 	twitterUserId = (TwitterId) 0;
 	twitterUsername = nil;
 	twitterPassword = nil;
-	twitterFullName = nil;
+	twitterDisplayName = nil;
 	twitterProfileImageURL = nil;
 	facebookUserId = (FBUID) 0;
-	facebookFullName = nil;
+	facebookDisplayName = nil;
 	facebookProfileImageURL = nil;
 	hasFacebookStatusUpdatePermission = NO;
 	twitterFriendIds = nil;
@@ -168,9 +168,9 @@ static NSString *const kLastMessageKey = @"last_message";
 {	
 	[twitterUsername release];
 	[twitterPassword release];
-	[twitterFullName release];
+	[twitterDisplayName release];
 	[twitterProfileImageURL release];
-	[facebookFullName release];
+	[facebookDisplayName release];
 	[facebookProfileImageURL release];
 	[lastMessage release];
 	[twitterFriendIds release];
@@ -202,14 +202,14 @@ static NSString *const kLastMessageKey = @"last_message";
 }
 
 // current name and profile image (preference is for twitter if both twitter and facebook are logged in)
-- (NSString *)preferredFullName
+- (NSString *)preferredDisplayName
 {
 	if (self.hasTwitterCredentials)
 	{
-		return self.twitterFullName;
+		return self.twitterDisplayName;
 	}
 	
-	return self.facebookFullName;
+	return self.facebookDisplayName;
 }
 
 - (NSString *)preferredProfileImageURL
@@ -238,9 +238,9 @@ static NSString *const kLastMessageKey = @"last_message";
 	return twitterPassword;
 }
 
-- (NSString *)twitterFullName
+- (NSString *)twitterDisplayName
 {
-	return twitterFullName;
+	return twitterDisplayName;
 }
 
 - (NSString *)twitterProfileImageURL
@@ -258,9 +258,9 @@ static NSString *const kLastMessageKey = @"last_message";
 	return facebookUserId;
 }
 
-- (NSString *)facebookFullName
+- (NSString *)facebookDisplayName
 {
-	return facebookFullName;
+	return facebookDisplayName;
 }
 
 - (NSString *)facebookProfileImageURL
@@ -286,15 +286,15 @@ static NSString *const kLastMessageKey = @"last_message";
 
 #pragma mark Property Setters
 
-- (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword fullName:(NSString *)newTwitterFullName profileImageURL:(NSString *)newTwitterProfileImageURL
+- (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword displayName:(NSString *)newTwitterDisplayName profileImageURL:(NSString *)newTwitterProfileImageURL
 {
 	twitterUserId = newTwitterUserId;
 	[twitterUsername autorelease];
 	twitterUsername = [newTwitterUsername retain];
 	[twitterPassword autorelease];
 	twitterPassword = [newTwitterPassword retain];
-	[twitterFullName autorelease];
-	twitterFullName = [newTwitterFullName retain];
+	[twitterDisplayName autorelease];
+	twitterDisplayName = [newTwitterDisplayName retain];
 	[twitterProfileImageURL autorelease];
 	twitterProfileImageURL = [newTwitterProfileImageURL retain];
 
@@ -311,11 +311,11 @@ static NSString *const kLastMessageKey = @"last_message";
 	twitterFriendIds = [newTwitterFriendIds retain];
 }
 
-- (void)setFacebookUserId:(FBUID)newFacebookUserId fullName:(NSString *)newFacebookFullName profileImageURL:(NSString *)newFacebookProfileImageURL
+- (void)setFacebookUserId:(FBUID)newFacebookUserId displayName:(NSString *)newFacebookDisplayName profileImageURL:(NSString *)newFacebookProfileImageURL
 {
 	facebookUserId = newFacebookUserId;
-	[facebookFullName autorelease];
-	facebookFullName = [newFacebookFullName retain];
+	[facebookDisplayName autorelease];
+	facebookDisplayName = [newFacebookDisplayName retain];
 	[facebookProfileImageURL autorelease];
 	facebookProfileImageURL = [newFacebookProfileImageURL retain];
 
@@ -341,12 +341,12 @@ static NSString *const kLastMessageKey = @"last_message";
 
 - (void)clearTwitterCredentials
 {
-	[self setTwitterUserId:(TwitterId)0 username:nil password:nil fullName:nil profileImageURL:nil];
+	[self setTwitterUserId:(TwitterId)0 username:nil password:nil displayName:nil profileImageURL:nil];
 }
 
 - (void)clearFacebookCredentials
 {
-	[self setFacebookUserId:(FBUID)0 fullName:nil profileImageURL:nil];
+	[self setFacebookUserId:(FBUID)0 displayName:nil profileImageURL:nil];
 }
 
 - (void)setLastMessage:(NSString *)newLastMessage
@@ -363,11 +363,11 @@ static NSString *const kLastMessageKey = @"last_message";
 	[encoder encodeInt32:(int32_t)twitterUserId forKey:kTwitterUserIdKey];
 	[encoder encodeObject:twitterUsername forKey:kTwitterUsernameKey];
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
-	[encoder encodeObject:twitterFullName forKey:kTwitterFullNameKey];
+	[encoder encodeObject:twitterDisplayName forKey:kTwitterDisplayNameKey];
 	[encoder encodeObject:twitterProfileImageURL forKey:kTwitterProfileImageURLKey];
 	[encoder encodeObject:twitterFriendIds forKey:kTwitterFriendIdsKey];
 	[encoder encodeInt64:(int64_t)facebookUserId forKey:kFacebookUserIdKey];
-	[encoder encodeObject:facebookFullName forKey:kFacebookFullNameKey];
+	[encoder encodeObject:facebookDisplayName forKey:kFacebookDisplayNameKey];
 	[encoder encodeObject:facebookProfileImageURL forKey:kFacebookProfileImageURLKey];
 	[encoder encodeObject:facebookFriendIds forKey:kFacebookFriendIdsKey];
 	[encoder encodeBool:hasFacebookStatusUpdatePermission forKey:kHasFacebookStatusUpdatePermissionKey];
@@ -384,11 +384,11 @@ static NSString *const kLastMessageKey = @"last_message";
 		twitterUserId = (TwitterId) [decoder decodeInt32ForKey:kTwitterUserIdKey];
 		twitterUsername = [[decoder decodeObjectForKey:kTwitterUsernameKey] retain];
 		twitterPassword = [[decoder decodeObjectForKey:kTwitterPasswordKey] retain];
-		twitterFullName = [[decoder decodeObjectForKey:kTwitterFullNameKey] retain];
+		twitterDisplayName = [[decoder decodeObjectForKey:kTwitterDisplayNameKey] retain];
 		twitterProfileImageURL = [[decoder decodeObjectForKey:kTwitterProfileImageURLKey] retain];
 		twitterFriendIds = [[decoder decodeObjectForKey:kTwitterFriendIdsKey] retain];
 		facebookUserId = (FBUID) [decoder decodeInt64ForKey:kFacebookUserIdKey];
-		facebookFullName = [[decoder decodeObjectForKey:kFacebookFullNameKey] retain];
+		facebookDisplayName = [[decoder decodeObjectForKey:kFacebookDisplayNameKey] retain];
 		facebookProfileImageURL = [[decoder decodeObjectForKey:kFacebookProfileImageURLKey] retain];
 		facebookFriendIds = [[decoder decodeObjectForKey:kFacebookFriendIdsKey] retain];
 		hasFacebookStatusUpdatePermission = [decoder decodeBoolForKey:kHasFacebookStatusUpdatePermissionKey];
@@ -407,12 +407,12 @@ static NSString *const kLastMessageKey = @"last_message";
 	[copy setTwitterUserId:twitterUserId
 				  username:[[twitterUsername copy] autorelease]
 				  password:[[twitterPassword copy] autorelease]
-				  fullName:[[twitterFullName copy] autorelease]
+				  displayName:[[twitterDisplayName copy] autorelease]
 		   profileImageURL:[[twitterProfileImageURL copy] autorelease]];
 	[copy setTwitterFriendIds:[[twitterFriendIds copy] autorelease]];
 	
 	[copy setFacebookUserId:facebookUserId
-				   fullName:[[facebookFullName copy] autorelease]
+				   displayName:[[facebookDisplayName copy] autorelease]
 			profileImageURL:[[facebookProfileImageURL copy] autorelease]];
 	[copy setFacebookFriendIds:[[facebookFriendIds copy] autorelease]];
 	[copy setHasFacebookStatusUpdatePermission:hasFacebookStatusUpdatePermission];

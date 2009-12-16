@@ -112,23 +112,23 @@ static NSString *const kServiceBaseURL = @"http://localhost:8080";
 	
 	// Build up information about services...
 	NSMutableArray *services = [NSMutableArray arrayWithCapacity:1];
-	if (state.hasTwitterCredentials)
+	if (state.hasFacebookCredentials)
 	{
 		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 							 @"facebook", @"service_type",
 							 [NSNumber numberWithUnsignedLongLong:state.facebookUserId], @"id_on_service",
-							 state.facebookFullName, @"display_name",
+							 state.facebookDisplayName, @"display_name",
 							 state.facebookProfileImageURL, @"profile_image_url",
 							 state.facebookFriendIds, @"friends",
 							 nil]];
 	}
 	
-	if (state.hasFacebookCredentials)
+	if (state.hasTwitterCredentials)
 	{
 		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 							 @"twitter", @"service_type",
 							 [NSNumber numberWithUnsignedLongLong:state.twitterUserId], @"id_on_service",
-							 state.twitterFullName, @"display_name",
+							 state.twitterDisplayName, @"display_name",
 							 state.twitterProfileImageURL, @"profile_image_url",
 							 state.twitterFriendIds, @"friends",
 							 nil]];

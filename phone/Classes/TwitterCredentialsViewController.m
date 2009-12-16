@@ -76,7 +76,7 @@
 	[state setTwitterUserId:(TwitterId) [(NSNumber *)[dictionary valueForKey:TWITTER_USER_ID] longValue] 
 				   username:[[[usernameController.textField text] copy] autorelease]
 				   password:[[[passwordController.textField text] copy] autorelease]
-				   fullName:[dictionary valueForKey:TWITTER_FULL_NAME]
+				   displayName:[dictionary valueForKey:TWITTER_DISPLAY_NAME]
 			profileImageURL:[dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL]];
 	[state save];
 	

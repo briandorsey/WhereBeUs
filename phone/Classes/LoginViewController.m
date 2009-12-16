@@ -241,7 +241,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 		{
 			if (row == LoginInfoRow)
 			{
-				cell.textLabel.text = [NSString stringWithFormat:@"signed in as %@", state.facebookFullName];
+				cell.textLabel.text = [NSString stringWithFormat:@"signed in as %@", state.facebookDisplayName];
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
 			}		

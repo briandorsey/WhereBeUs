@@ -100,7 +100,7 @@ def test_post_update():
     for key in sharedutil.LocationUpdateJSON().__allowed_attributes__:
         print key
         assert key in update_data
-    assert update_data['update_datetime'].endswith('Z')
+    assert update_data['update_time'].endswith('Z')
     """
 
 # TODO: add a test for malformed update json - make sure it returns 400 or 500

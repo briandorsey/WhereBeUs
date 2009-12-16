@@ -11,9 +11,8 @@
 
 @implementation UpdateAnnotation
 
-@synthesize twitterUsername;
-@synthesize twitterFullName;
-@synthesize twitterProfileImageURL;
+@synthesize displayName;
+@synthesize profileImageURL;
 @synthesize message;
 @synthesize lastUpdate;
 @synthesize coordinate;
@@ -36,9 +35,8 @@
 
 - (void)dealloc
 {
-	self.twitterUsername = nil;
-	self.twitterFullName = nil;
-	self.twitterProfileImageURL = nil;
+	self.displayName = nil;
+	self.profileImageURL = nil;
 	self.message = nil;
 	self.lastUpdate = nil;
 	[super dealloc];
@@ -46,9 +44,8 @@
 
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
-	self.twitterUsername = (NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_username"];
-	self.twitterFullName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_full_name"];
-	self.twitterProfileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"twitter_profile_image_url"];
+	self.displayName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"display_name"];
+	self.profileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"profile_image_url"];
 	self.message = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message"];
 	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"latitude"] doubleValue];
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"longitude"] doubleValue];
@@ -56,20 +53,20 @@
 	NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
 	[dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
-	NSString *update_datetime = (NSString *)[dictionary objectForKeyOrNilIfNull:@"update_datetime"];
-	if (update_datetime == nil)
+	NSString *update_time = (NSString *)[dictionary objectForKeyOrNilIfNull:@"update_time"];
+	if (update_time == nil)
 	{
 		self.lastUpdate = nil;
 	}
 	else
 	{
-		self.lastUpdate = [dateFormatter dateFromString:update_datetime];
+		self.lastUpdate = [dateFormatter dateFromString:update_time];
 	}
 }
 
 - (NSString *)title
 {
-	return self.twitterFullName;
+	return self.displayName;
 }
 
 + (NSString *)prettyPrintInterval:(NSTimeInterval)interval
@@ -118,7 +115,6 @@
 
 - (NSString *)subtitle
 {
-	// TODO XXX pretty print this stuff
 	NSDate *now = [NSDate date];
 	NSTimeInterval interval = [now timeIntervalSinceDate:self.lastUpdate];
 	return [NSString stringWithFormat:@"(updated %@)", [UpdateAnnotation prettyPrintInterval:interval]];

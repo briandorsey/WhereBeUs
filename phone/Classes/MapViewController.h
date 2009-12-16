@@ -26,16 +26,14 @@
 	
 	// location management
 	CLLocationManager *locationManager;
-	BOOL updatingLocation;
-	BOOL gettingLocationUpdates;
-	NSTimer *updateWatchingTimer;
+	NSTimer *serviceSyncTimer;
 	
 	CLLocationAccuracy bestHorizontalAccuracy;
 	CLLocationCoordinate2D currentCoordinate;
 	BOOL hasCoordinate;
 
 	// neato!
-	NSMutableDictionary *twitterUsernameToAnnotation;
+	NSMutableDictionary *displayNameToAnnotation;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;
@@ -45,7 +43,5 @@
 // actions
 - (IBAction)backSideButtonPushed:(id)sender;
 - (IBAction)chatButtonPushed:(id)sender;
-
-- (void)updateServiceWithLocation;
 
 @end
