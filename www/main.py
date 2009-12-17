@@ -67,10 +67,14 @@ class UserService(db.Model):
     friend_ids = db.ListProperty(int)   # [12345, 6789]
     
     @staticmethod
+    def key_for_service_and_id(service_type, id_on_service):
+        return 'us-%s-%s' % (service_type, str(id_on_service))
+    
+    @staticmethod
     def get_or_insert_for_service_and_id(service_type, id_on_service):
         if service_type not in UserService.KNOWN_SERVICE_TYPES:
             raise Exception("Invalid service_type")
-        key_name = 'us-%s-%s' % (service_type, str(id_on_service))
+        key_name = UserService.key_for_service_and_id(service_type, id_on_service)
         user_service = UserService.get_or_insert(key_name = key_name)
         user_service.service_type = service_type
         user_service.id_on_service = id_on_service
@@ -78,11 +82,12 @@ class UserService(db.Model):
             user_service.friend_ids = []
         return user_service
         
-    def iter_friend_services(self):
-        return UserService.all().filter('service_type =', self.service_type).filter('id_on_service IN', self.friend_ids)
+    def get_friend_services(self):
+        keys = [UserService.key_for_service_and_id(service_type = self.service_type, friend_id) for friend_id in self.friend_ids]
+        return UserService.get(keys)
     
     def iter_friend_users(self):
-        for friend_service in self.iter_friend_services():
+        for friend_service in self.get_friend_services():
             yield friend_service.user
         
     def iter_friend_updates(self):
