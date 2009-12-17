@@ -83,14 +83,12 @@ class UserService(db.Model):
         return user_service
         
     def iter_friend_services(self):
-        # TODO davepeck :: clearly we need a very different data model
-        for friend_id in self.friend_ids:
-            try:
-                key = db.Key(UserService.key_for_service_and_id(service_type = self.service_type, id_on_service = friend_id))
-            except db.BadKeyError:
-                pass
-            else:
-                yield UserService.get(key)
+        # TODO davepeck :: do we need a different data model?
+        key_names = [UserService.key_for_service_and_id(service_type = self.service_type, id_on_service = friend_id) for friend_id in self.friend_ids]
+        user_services = UserService.get_by_key_name(key_names)
+        for user_service in user_services:
+            if user_service:
+                yield user_service
     
     def iter_friend_users(self):
         for friend_service in self.iter_friend_services():

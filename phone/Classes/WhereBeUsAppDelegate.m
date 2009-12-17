@@ -173,10 +173,17 @@
 	if ((result != nil) && ([result isKindOfClass:[NSArray class]]))
 	{
 		NSMutableArray *array = [NSMutableArray arrayWithCapacity:[result count]];
+		
+		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+		[formatter setNumberStyle:NSNumberFormatterNoStyle];
 		for (id uid_container in result)
 		{
-			[array addObject:[uid_container objectForKey:@"uid"]];
+			NSString *string_friend_id = [uid_container objectForKey:@"uid"];
+			NSNumber *number_friend_id = [formatter numberFromString:string_friend_id];
+			[array addObject:number_friend_id];
 		}
+		[formatter release];		
+		
 		NSArray *finalArray = [NSArray arrayWithArray:array];
 		
 		WhereBeUsState *state = [WhereBeUsState shared];
