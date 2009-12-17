@@ -83,7 +83,7 @@ class UserService(db.Model):
         return user_service
         
     def iter_friend_services(self):
-        # TODO davepeck :: do we need a different data model?
+        # TODO davepeck :: the performance here stinks. We need a different data model.
         key_names = [UserService.key_for_service_and_id(service_type = self.service_type, id_on_service = friend_id) for friend_id in self.friend_ids]
         user_services = UserService.get_by_key_name(key_names)
         for user_service in user_services:
