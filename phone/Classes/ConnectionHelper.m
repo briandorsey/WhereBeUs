@@ -14,10 +14,10 @@
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
-//static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
+static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 // use this base URL instead for local testing (useful for debugging from simulator!)
-static NSString *const kServiceBaseURL = @"http://localhost:8080";
+//static NSString *const kServiceBaseURL = @"http://localhost:8080";
 
 
 @implementation ConnectionHelper
