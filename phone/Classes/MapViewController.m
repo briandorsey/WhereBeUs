@@ -133,8 +133,18 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 
 - (void)serviceSyncTimerFired:(NSTimer *)timer
 {
-	// hold on to serviceSyncTimer for a little longer...
-	[ConnectionHelper wbu_updateWithTarget:self action:@selector(gotSyncResponseFromWhereBeUsServer:) coordinate:currentCoordinate];
+	WhereBeUsState *state = [WhereBeUsState shared];
+	
+	if (state.hasAnyCredentials)
+	{
+		// hold on to serviceSyncTimer for a little longer...
+		[ConnectionHelper wbu_updateWithTarget:self action:@selector(gotSyncResponseFromWhereBeUsServer:) coordinate:currentCoordinate];
+	}
+	else
+	{
+		// we sanity checked and found we had no credentials. So... that's not ideal.
+		[self restartServiceSyncTimer];
+	}
 }
 
 - (void)startSyncingWithService
@@ -353,8 +363,7 @@ CGFloat fsign(CGFloat f)
 	currentCoordinate = newLocation.coordinate;
 	[self updateUserAnnotationWithCoordinate:currentCoordinate];
 	
-	// STEP 4: if it's a good time, let the service know
-	// about our new location.
+	// STEP 4: if necessary, kick off syncing with the service
 	[self startSyncingWithService];
 }
 
@@ -390,6 +399,7 @@ CGFloat fsign(CGFloat f)
 {
 	[super viewWillAppear:animated];	
 	[locationManager startUpdatingLocation];
+	[self startSyncingWithService];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
