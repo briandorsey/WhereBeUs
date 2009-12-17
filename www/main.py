@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+import os
 import sys
 import datetime
 import logging
+import traceback
 
 import wsgiref.handlers
 from django.utils import simplejson
@@ -12,6 +14,8 @@ from google.appengine.ext import webapp
 #------------------------------------------------------------------------------
 # Helper Methods
 #------------------------------------------------------------------------------
+
+RUNNING_APPENGINE_LOCAL_SERVER = True # For now, so we can see behavior in production too... -- later = os.environ.get('SERVER_SOFTWARE', 'Dev').startswith('Dev')
 
 def BREAKPOINT():
   import pdb
@@ -96,7 +100,7 @@ class UserService(db.Model):
                 yield update
                 
     @staticmethod
-    def updates_for_user_services(user_services):
+    def iter_updates_for_user_services(user_services):
         seen = {}
         for user_service in user_services:
             for update in user_service.iter_friend_updates():
@@ -104,6 +108,10 @@ class UserService(db.Model):
                 if key not in seen:
                     seen[key] = True
                     yield update
+                    
+    @staticmethod
+    def updates_for_user_services(user_services):
+        return [update for update in UserService.iter_updates_for_user_services(user_services)]
         
 class LocationUpdate(db.Model):
     user = db.ReferenceProperty(User, collection_name = "location_updates")
@@ -123,7 +131,8 @@ class UpdateHandler(webapp.RequestHandler):
 
             # Read data and basic sandity check
             data = simplejson.loads(self.request.body.decode('utf8'))
-            logging.info("\n\n*** REQUEST: \n%s\n" % data)
+            if RUNNING_APPENGINE_LOCAL_SERVER:
+                logging.info("\n\n*** REQUEST: \n%s\n" % data)
             
             services = data.get('services', None)
             if not services:
@@ -148,7 +157,7 @@ class UpdateHandler(webapp.RequestHandler):
                 
                 if info_from != "twitter":
                     user.display_name = user_service.display_name
-                    user.profile_image_url = user_serivce.profile_image_url
+                    user.profile_image_url = user_service.profile_image_url
                     info_from = user_service.service_type
                 user_services.append(user_service)
                 
@@ -159,8 +168,9 @@ class UpdateHandler(webapp.RequestHandler):
             horizontal_accuracy = float(data.get('horizontal_accuracy', 0.0))
             if latitude and longitude:
                 # For now, only keep the most recent location
-                if user.location_updates:
-                    location_update = user.location_updates[0]
+                all_location_updates = [location_update for location_update in user.location_updates]
+                if all_location_updates:
+                    location_update = all_location_updates[0]
                 else:
                     location_update = LocationUpdate(user = user)
                 location_update.location = db.GeoPt(latitude, longitude)
@@ -186,12 +196,13 @@ class UpdateHandler(webapp.RequestHandler):
             else:
                 updates = []                
         except Exception, message:
-            result = {'success': False, 'message': 'Encountered an unexpected exception (%s %s)' % (message, exception_string)}            
+            result = {'success': False, 'message': 'Encountered an unexpected exception (%s %s)' % (message, exception_string())}            
         else:
             result = {'success': True, 'message': 'OK', 'updates': updates}
         finally:
             self.response.headers['Content-Type'] = 'application/json'
-            logging.info("\n\n*** RESPONSE: \n%s\n" % simplejson.dumps(result))
+            if RUNNING_APPENGINE_LOCAL_SERVER:            
+                logging.info("\n\n*** RESPONSE: \n%s\n" % simplejson.dumps(result))
             self.response.out.write(simplejson.dumps(result))
 
 
