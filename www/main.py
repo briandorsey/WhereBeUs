@@ -16,6 +16,7 @@ from google.appengine.ext import webapp
 #------------------------------------------------------------------------------
 
 RUNNING_APPENGINE_LOCAL_SERVER = True # For now, so we can see behavior in production too... -- later = os.environ.get('SERVER_SOFTWARE', 'Dev').startswith('Dev')
+TIME_HORIZON = datetime.timedelta(hours = 2)
 
 def BREAKPOINT():
   import pdb
@@ -98,15 +99,17 @@ class UserService(db.Model):
         for friend_user in self.iter_friend_users():
             if friend_user.location_updates:
                 location_update = friend_user.location_updates[0]
-                update = {
-                    "display_name": friend_user.display_name,
-                    "profile_image_url": friend_user.profile_image_url,
-                    "latitude": location_update.location.lat,
-                    "longitude": location_update.location.lon,
-                    "update_time": iso_utc_string(location_update.update_time),
-                    "message": friend_user.message if friend_user.message else ""
-                }
-                yield update
+                # Only provide an update if it is recent...
+                if (datetime.datetime.now() - location_update.update_time) <= TIME_HORIZON:
+                    update = {
+                        "display_name": friend_user.display_name,
+                        "profile_image_url": friend_user.profile_image_url,
+                        "latitude": location_update.location.lat,
+                        "longitude": location_update.location.lon,
+                        "update_time": iso_utc_string(location_update.update_time),
+                        "message": friend_user.message if friend_user.message else ""
+                    }
+                    yield update
                 
     @staticmethod
     def iter_updates_for_user_services(user_services):
