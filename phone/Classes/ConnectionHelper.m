@@ -107,48 +107,103 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 + (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate
 {
+	// Hold onto information about what we've communicated to the service previously --
+	// this can substantially reduce the size of our network communications.
+	// We don't do deep equality tests -- reference tests are fine.
+	static NSString *previousFacebookDisplayName = nil;
+	static NSString *previousFacebookProfileImageURL = nil;
+	static NSArray *previousFacebookFriendIds = nil;
+	static NSString *previousTwitterDisplayName = nil;
+	static NSString *previousTwitterProfileImageURL = nil;
+	static NSArray *previousTwitterFriendIds = nil;
+	static NSString *previousMessage = nil;
+
+	// Prepare to sync with service
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
-	WhereBeUsState *state = [WhereBeUsState shared];	
-	
-	// Build up information about services...
+	WhereBeUsState *state = [WhereBeUsState shared];
 	NSMutableArray *services = [NSMutableArray arrayWithCapacity:1];
+		
+	// Build up information about the facebook service
 	if (state.hasFacebookCredentials)
 	{
-		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							 @"facebook", @"service_type",
-							 [NSNumber numberWithUnsignedLongLong:state.facebookUserId], @"id_on_service",
-							 state.facebookDisplayName, @"display_name",
-							 state.facebookProfileImageURL, @"profile_image_url",
-							 state.facebookFriendIds, @"friends",
-							 nil]];
+		NSMutableDictionary *facebookService = [NSMutableDictionary dictionaryWithObjectsAndKeys:							 
+												@"facebook", @"service_type",
+												[NSNumber numberWithUnsignedLongLong:state.facebookUserId], @"id_on_service",
+												nil];
+		
+		if (state.facebookDisplayName != previousFacebookDisplayName)
+		{
+			[facebookService setObject:state.facebookDisplayName forKey:@"display_name"];
+			previousFacebookDisplayName = state.facebookDisplayName;
+		}
+		
+		if (state.facebookProfileImageURL != previousFacebookProfileImageURL)
+		{
+			[facebookService setObject:state.facebookProfileImageURL forKey:@"profile_image_url"];
+			previousFacebookProfileImageURL = state.facebookProfileImageURL;
+		}
+		
+		if (state.facebookFriendIds != previousFacebookFriendIds)
+		{
+			[facebookService setObject:state.facebookFriendIds forKey:@"friends"];
+			previousFacebookFriendIds = state.facebookFriendIds;
+		}
+		
+		[services addObject:[NSDictionary dictionaryWithDictionary:facebookService]];
 	}
-	
+		
+	// Build up information about the twitter service
 	if (state.hasTwitterCredentials)
 	{
-		[services addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							 @"twitter", @"service_type",
-							 [NSNumber numberWithUnsignedLongLong:state.twitterUserId], @"id_on_service",
-							 state.twitterDisplayName, @"display_name",
-							 state.twitterProfileImageURL, @"profile_image_url",
-							 state.twitterFriendIds, @"friends",
-							 nil]];
+		NSMutableDictionary *twitterService = [NSMutableDictionary dictionaryWithObjectsAndKeys:							 
+												@"twitter", @"service_type",
+												[NSNumber numberWithUnsignedLongLong:state.twitterUserId], @"id_on_service",
+												nil];
+		
+		if (state.twitterDisplayName != previousTwitterDisplayName)
+		{
+			[twitterService setObject:state.twitterDisplayName forKey:@"display_name"];
+			previousTwitterDisplayName = state.twitterDisplayName;
+		}
+		
+		if (state.twitterProfileImageURL != previousTwitterProfileImageURL)
+		{
+			[twitterService setObject:state.twitterProfileImageURL forKey:@"profile_image_url"];
+			previousTwitterProfileImageURL = state.twitterProfileImageURL;
+		}
+		
+		if (state.twitterFriendIds != previousTwitterFriendIds)
+		{
+			[twitterService setObject:state.twitterFriendIds forKey:@"friends"];
+			previousTwitterFriendIds = state.twitterFriendIds;
+		}
+		
+		[services addObject:[NSDictionary dictionaryWithDictionary:twitterService]];
 	}
-	
+		
+	// What "message" is current?
 	NSString *safeMessage = state.lastMessage;
 	if (safeMessage == nil)
 	{
 		safeMessage = @"";
 	}
+
+	// Build final information to send to service
+	NSMutableDictionary *postDictionary = 
+	[NSMutableDictionary dictionaryWithObjectsAndKeys:
+	 services, @"services",
+	 [NSNumber numberWithFloat:coordinate.latitude], @"latitude",
+	 [NSNumber numberWithFloat:coordinate.longitude], @"longitude",
+	 [NSNumber numberWithBool:YES], @"want_updates",
+	 nil];
 	
-	NSDictionary *postDictionary = 
-		[NSDictionary dictionaryWithObjectsAndKeys:
-		 services, @"services",
-		 [NSNumber numberWithFloat:coordinate.latitude], @"latitude",
-		 [NSNumber numberWithFloat:coordinate.longitude], @"longitude",
-		 [NSNumber numberWithBool:YES], @"want_updates",
-		 safeMessage, @"message",
-		 nil];
-		
+	if (safeMessage != previousMessage)
+	{
+		[postDictionary setObject:safeMessage forKey:@"message"];
+		previousMessage = safeMessage;
+	}
+
+	// Kick off the network request
 	NSString *postJson = [postDictionary JSONRepresentation];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
 }
