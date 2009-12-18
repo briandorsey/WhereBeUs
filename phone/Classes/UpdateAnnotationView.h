@@ -17,6 +17,10 @@
 	BOOL initializing;
 	NSTimer *fadeTimer;
 	
+	CGRect pressRect;
+	BOOL pressed;
+	BOOL trackingPress;
+	
 	id<WhereBeUsAnnotationManager> annotationManager;
 	
 	// where should the "down arrow" be located in our expanded

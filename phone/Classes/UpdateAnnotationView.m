@@ -29,6 +29,12 @@
 #define FIXED_EXPANDED_HEIGHT 70.0
 #define FIXED_EXPANDED_CENTEROFFSET_Y -22.0
 
+#define DISCLOSURE_WIDTH 29.0
+#define DISCLOSURE_HEIGHT 31.0
+#define DISCLOSURE_LEFT_MARGIN 7.0
+#define DISCLOSURE_RIGHT_MARGIN -2.0
+#define DISCLOSURE_TOP 8.0
+
 #define FILL_WIDTH 1.0
 #define FILL_HEIGHT 57.0
 #define CENTER_WIDTH 41.0
@@ -143,6 +149,36 @@
 	return _fillImage;
 }
 
++ (UIImage *)disclosureImage
+{
+	static UIImage *_disclosureImage;
+	
+	@synchronized (self)
+	{
+		if (_disclosureImage == nil)
+		{
+			_disclosureImage = [[UIImage imageNamed:@"disclosure.png"] retain];
+		}
+	}
+	
+	return _disclosureImage;
+}
+
++ (UIImage *)disclosurePressedImage
+{
+	static UIImage *_disclosurePressedImage;
+	
+	@synchronized (self)
+	{
+		if (_disclosurePressedImage == nil)
+		{
+			_disclosurePressedImage = [[UIImage imageNamed:@"disclosure-pressed.png"] retain];
+		}
+	}
+	
+	return _disclosurePressedImage;
+}
+
 
 //---------------------------------------------------------------------
 // Initialization & Destruction
@@ -154,6 +190,8 @@
 	if (self != nil)
 	{
 		initializing = YES;		
+		pressed = NO;
+		trackingPress = NO;
 		self.opaque = NO;
 		annotationManager = theAnnotationManager;		
 		twitterUserIcon = nil;
@@ -315,6 +353,22 @@ CGFloat GetRectRight(CGRect rect)
 	
 	CGPoint subtitlePoint = CGPointMake(titlePoint.x, 26.0);
 	[updateAnnotation.subtitle drawAtPoint:subtitlePoint withFont:[UIFont systemFontOfSize:12.0]];		
+	
+	
+	//------------------------------------------------
+	// Draw Disclosure Rectangle
+	//------------------------------------------------
+	
+	CGRect disclosureIconRect = CGRectMake(rightCapRect.origin.x - DISCLOSURE_RIGHT_MARGIN - DISCLOSURE_WIDTH, DISCLOSURE_TOP, DISCLOSURE_WIDTH, DISCLOSURE_HEIGHT);
+	pressRect = disclosureIconRect;
+	if (pressed)
+	{
+		[[UpdateAnnotationView disclosurePressedImage] drawInRect:disclosureIconRect blendMode:kCGBlendModeScreen alpha:1.0];	
+	}
+	else 
+	{
+		[[UpdateAnnotationView disclosureImage] drawInRect:disclosureIconRect blendMode:kCGBlendModeScreen alpha:1.0];	
+	}
 }
 
 - (void)drawCollapsedRect:(CGRect)rect
@@ -429,7 +483,7 @@ CGFloat GetRectRight(CGRect rect)
 	CGSize titleSize = [updateAnnotation.title sizeWithFont:[UIFont boldSystemFontOfSize:16.0]];
 	CGSize subtitleSize = [updateAnnotation.subtitle sizeWithFont:[UIFont systemFontOfSize:12.0]];
 	CGFloat maxTextWidth = (titleSize.width > subtitleSize.width) ? titleSize.width : subtitleSize.width;
-	CGFloat contentWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + maxTextWidth;
+	CGFloat contentWidth = (LEFT_WIDTH - 6.0) + (RIGHT_WIDTH - 2.0) + (LEFT_WIDTH - 8.0) + (IMAGE_STROKE_WIDTH) + (DISCLOSURE_WIDTH + DISCLOSURE_LEFT_MARGIN + DISCLOSURE_RIGHT_MARGIN) + maxTextWidth;
 	
 	// where are we currently displayed on screen?
 	CGRect currentScreenBounds = [annotationManager getScreenBoundsForRect:self.bounds fromView:self];
@@ -531,22 +585,66 @@ CGFloat GetRectRight(CGRect rect)
 	[super setSelected:newSelected animated:animated];
 }
 
-// For now, we require that you touch outside _all_ annotations
-// to collapse the currently expanded annotation.
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (self.selected)
+	{
+		UITouch *touch = [touches anyObject];
+		
+		// If they touched down in the pressRect then definitely pay attention
+		if (CGRectContainsPoint(pressRect, [touch locationInView:self]))
+		{
+			pressed = YES;
+			trackingPress = YES;
+			[self setNeedsDisplay];
+		}
+	}
+}
 
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	UITouch *touch = [touches anyObject];
-//	if ([self pointInside:[touch locationInView:self] withEvent:event])
-//	{
-//		if ([touch tapCount] == 1)
-//		{
-//			if (self.selected)
-//			{
-//				[annotationManager deselectAnnotation:self.annotation animated:YES];
-//			}
-//		}
-//	}
-//}
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (trackingPress)
+	{
+		UITouch *trackingTouch = [touches anyObject];
+		
+		if (!pressed && CGRectContainsPoint(pressRect, [trackingTouch locationInView:self]))
+		{
+			pressed = YES;
+			[self setNeedsDisplay];
+		}
+		else if (pressed && !CGRectContainsPoint(pressRect, [trackingTouch locationInView:self]))
+		{
+			pressed = NO;
+			[self setNeedsDisplay];
+		}
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (trackingPress)
+	{
+		pressed = NO;
+		trackingPress = NO;
+		UITouch *trackingTouch = [touches anyObject];
+		[self setNeedsDisplay];		
+		
+		if (CGRectContainsPoint(pressRect, [trackingTouch locationInView:self]))
+		{
+			[annotationManager discloseAnnotation:self.annotation animated:YES];
+		}
+			
+	}
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (trackingPress)
+	{
+		pressed = NO;
+		trackingPress = NO;
+		[self setNeedsDisplay];		
+	}
+}
 
 @end

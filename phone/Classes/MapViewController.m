@@ -289,6 +289,10 @@ CGFloat fsign(CGFloat f)
 	[mapView deselectAnnotation:annotation animated:animated];
 }
 
+- (void)discloseAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated
+{
+	// TODO davepeck: something...
+}
 
 //------------------------------------------------------------------
 // Location Management for the current user, including annotations
