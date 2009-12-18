@@ -90,22 +90,50 @@
 	else if (interval < 3600.0)
 	{
 		int minutes = (int) (long int) lround(interval / 60.0);
-		return [NSString stringWithFormat:@"%d minutes ago", minutes];
+		if (minutes == 1)
+		{
+			return @"1 minute ago";
+		}
+		else
+		{			
+			return [NSString stringWithFormat:@"%d minutes ago", minutes];
+		}
 	}
 	else if (interval < 86400.0)
 	{
 		int hours = (int) (long int) lround(interval / 3600.0);
-		return [NSString stringWithFormat:@"%d hours ago", hours];
+		if (hours == 1)
+		{
+			return @"1 hour ago";
+		}
+		else
+		{
+			return [NSString stringWithFormat:@"%d hours ago", hours];
+		}
 	}
 	else if (interval < 604800.0)
 	{
 		int days = (int) (long int) lround(interval / 86400.0);
-		return [NSString stringWithFormat:@"%d days ago", days];
+		if (days == 1)
+		{
+			return @"1 day ago";
+		}
+		else 
+		{
+			return [NSString stringWithFormat:@"%d days ago", days];
+		}
 	}
 	else if (interval < 2419200.0)
 	{
 		int weeks = (int) (long int) lround(interval / 604800.0);
-		return [NSString stringWithFormat:@"%d weeks ago", weeks];
+		if (weeks == 1)
+		{
+			return @"1 week ago";
+		}
+		else 
+		{
+			return [NSString stringWithFormat:@"%d weeks ago", weeks];
+		}
 	}
 	else
 	{
