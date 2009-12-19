@@ -137,8 +137,8 @@
 		55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionHelper.m; sourceTree = "<group>"; };
 		55D1CCC71098211A00FD9606 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		55D1CCC81098211A00FD9606 /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilities.m; sourceTree = "<group>"; };
-		55D919A41098046F008CB1BF /* JsonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonConnection.h; sourceTree = "<group>"; };
-		55D919A51098046F008CB1BF /* JsonConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonConnection.m; sourceTree = "<group>"; };
+		55D919A41098046F008CB1BF /* JsonConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonConnection.h; sourceTree = "<group>"; usesTabs = 1; };
+		55D919A51098046F008CB1BF /* JsonConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonConnection.m; sourceTree = "<group>"; usesTabs = 1; };
 		55D919A61098046F008CB1BF /* JsonResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JsonResponse.h; sourceTree = "<group>"; };
 		55D919A71098046F008CB1BF /* JsonResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JsonResponse.m; sourceTree = "<group>"; };
 		55D919D0109804C7008CB1BF /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = JSON/JSON.h; sourceTree = "<group>"; };

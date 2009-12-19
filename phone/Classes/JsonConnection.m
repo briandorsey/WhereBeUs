@@ -64,7 +64,7 @@ static NSString *const kREFERER_HEADER = @"Referer";
 		{		
 			connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 			// NSLog(@"JsonConnection: started loading (%@)", connection);
-            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+			[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 		}
 		else
 		{
@@ -117,13 +117,13 @@ static NSString *const kREFERER_HEADER = @"Referer";
 	[response release];
 	response = nil;
 	
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	[delegate jsonConnection:self didFailWithError:[NSError errorWithDomain:@"JsonConnection" code:JsonConnectionError_Network_Failure userInfo:nil] userData:userData];	
 }
  
 - (void)connectionDidFinishLoading:(NSURLConnection*)theConnection 
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+	[UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 	if (data == nil || response == nil)
 	{
 		NSLog(@"data was: %@ and response was: %@", data, response);
