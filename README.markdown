@@ -9,7 +9,7 @@ WhereBeUs makes this a breeze! Just log in with your Facebook or Twitter account
 Who? What? Why?
 ---------------
 
-This app was written by Dave Peck (http://davepeck.org/) and Brian Dorsey (http://dorseys.org/).
+This app was written by Dave Peck (http://davepeck.org/) and Brian Dorsey (http://briandorsey.info/).
 
 We wrote it for fun, and because we felt that just about every other similar app out there wasn't very good.
 
