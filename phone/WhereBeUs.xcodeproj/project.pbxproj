@@ -16,6 +16,7 @@
 		550721DB109B98BC0025B4FA /* WhereBeUsState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* WhereBeUsState.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
+		553C934810DDE218002EB459 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 553C934710DDE218002EB459 /* icon.png */; };
 		553E2D1610DB0E2E00EB997D /* disclosure-pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 553E2D1410DB0E2E00EB997D /* disclosure-pressed.png */; };
 		553E2D1710DB0E2E00EB997D /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 553E2D1510DB0E2E00EB997D /* disclosure.png */; };
 		55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55491EE310C734D7007A811F /* EditCellViewController.xib */; };
@@ -88,6 +89,7 @@
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
 		550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CleanObject.m"; sourceTree = "<group>"; };
+		553C934710DDE218002EB459 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = images/icon.png; sourceTree = "<group>"; };
 		553E2D1410DB0E2E00EB997D /* disclosure-pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "disclosure-pressed.png"; path = "images/disclosure-pressed.png"; sourceTree = "<group>"; };
 		553E2D1510DB0E2E00EB997D /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = disclosure.png; path = images/disclosure.png; sourceTree = "<group>"; };
 		55491EE310C734D7007A811F /* EditCellViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditCellViewController.xib; sourceTree = "<group>"; };
@@ -305,6 +307,7 @@
 		559A0B6410A3620F005921E7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				553C934710DDE218002EB459 /* icon.png */,
 				553E2D1410DB0E2E00EB997D /* disclosure-pressed.png */,
 				553E2D1510DB0E2E00EB997D /* disclosure.png */,
 				556B2F2F10D3114E00D20C19 /* dark-info.png */,
@@ -466,6 +469,7 @@
 				556B2F3010D3114E00D20C19 /* dark-info.png in Resources */,
 				553E2D1610DB0E2E00EB997D /* disclosure-pressed.png in Resources */,
 				553E2D1710DB0E2E00EB997D /* disclosure.png in Resources */,
+				553C934810DDE218002EB459 /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
