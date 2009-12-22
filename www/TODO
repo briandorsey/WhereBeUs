@@ -1,5 +1,0 @@
-change server to return Z on dates to indicate that timezone is UTC. 
-add cron to expire updates over 2 hours old
-
-======================================
-2009/11/03 CANCELLED - client will calculate from UTC date: add update_age (in seconds) calculated from update_datetime

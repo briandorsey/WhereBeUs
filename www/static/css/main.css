@@ -1,0 +1,80 @@
+html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,p,blockquote,fieldset,input { margin: 0; padding: 0; }
+pre,code,address,caption,cite,code,em,strong,th { font-size: 1em; font-weight: normal; font-style: normal; }
+h1,h2,h3,h4,h5,h6,strong { font-weight: bold; margin: 0; padding: 0; }
+cite, em { font-style:italic; }
+ul, ol { margin: 0 0 0 0; list-style-type: none; }
+fieldset,img { border: 0; }
+caption,th { text-align: left; }
+table { border-collapse: collapse; border-spacing: 0; }
+
+body
+{
+    background-color: #181818;
+    color: #ddd;
+    font-size: 20px;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    line-height: 30px;
+    text-align: center;
+}
+
+div.page
+{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+.header
+{
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.content
+{
+    padding-top: 50px;
+}
+
+.content p
+{
+    padding-bottom: 20px;
+}
+
+a, a:visited, a:link
+{
+    color: #E3AD30;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: #E3AD30;
+    text-decoration: underline;
+}
+
+.footer
+{
+    padding-top: 30px;
+    color: #555;
+}
+
+.footer a, .footer a:visited, .footer a:link
+{
+    color: #555;
+    text-decoration: underline;
+}
+
+.footer a:hover
+{
+    color: #E3AD30;
+    text-decoration: underline;
+}
+
+.copyright
+{
+    font-size: small;
+}
+
+
+
