@@ -4,6 +4,14 @@ runtime: python
 api_version: 1
 
 handlers:
+- url: /favicon.ico
+  static_files: static/images/favicon.ico
+  upload: static/images/favicon.ico 
+
+- url: /robots.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt 
+
 - url: /images
   static_dir: static/images
   
@@ -16,4 +24,3 @@ handlers:
 - url: .*
   script: bootstrap.py
   
-
