@@ -15,20 +15,8 @@
 	UIImage *twitterUserIcon;
 	CGFloat twitterIconPercent; /* for when we're fading between the default icon and the twitter user icon */
 	BOOL initializing;
-	NSTimer *fadeTimer;
-	
-	CGRect pressRect;
-	BOOL pressed;
-	BOOL trackingPress;
-	
-	id<WhereBeUsAnnotationManager> annotationManager;
-	
-	// where should the "down arrow" be located in our expanded
-	// annotation? by default, we want to center it, but if the
-	// expanded annotation doesn't fit on the map when centered,
-	// then we'll draw the downArrow somewhere else (and set
-	// our annotation view's centerOffset accordingly, too)
-	CGFloat expansion_downArrowX;
+	NSTimer *fadeTimer;	
+	id<WhereBeUsAnnotationManager> annotationManager;	
 }
 
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager;
