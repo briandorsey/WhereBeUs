@@ -65,6 +65,11 @@
 // Initialization & Destruction
 //---------------------------------------------------------------------
 
+- (void)disclosureButtonPressed:(id)sender event:(UIEvent *)event
+{
+	[annotationManager showDetailViewForAnnotation:self.annotation animated:YES];
+}
+
 - (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager
 {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
@@ -87,6 +92,11 @@
 		// for too little visual gain. Removing our expand/collapse visuals from this file allowed me 
 		// to remove probably 90% of the code here! --davepeck
 		self.canShowCallout = YES; 
+		
+		UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+		[button addTarget:self action:@selector(disclosureButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+		self.rightCalloutAccessoryView = button;
+		
 		initializing = NO;
 	}
 	return self;

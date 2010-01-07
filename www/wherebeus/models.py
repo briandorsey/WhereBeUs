@@ -5,7 +5,9 @@ from .utils import get_rid_of_microseconds, iso_utc_string
 
 class User(db.Model):
     display_name = db.StringProperty()
-    profile_image_url = db.LinkProperty()    
+    profile_image_url = db.LinkProperty()
+    large_profile_image_url = db.LinkProperty()
+    service_url = db.LinkProperty() 
     message = db.StringProperty()
     message_time = db.DateTimeProperty()
 
@@ -14,7 +16,9 @@ class UserService(db.Model):
     
     user = db.ReferenceProperty(User, collection_name = "services")
     display_name = db.StringProperty()
-    profile_image_url = db.LinkProperty()    
+    profile_image_url = db.LinkProperty()
+    large_profile_image_url = db.LinkProperty()
+    service_url = db.LinkProperty()
     service_type = db.StringProperty()  # "twitter"
     id_on_service = db.IntegerProperty() # 12345
     friend_ids = db.ListProperty(int)   # [12345, 6789]

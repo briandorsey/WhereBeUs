@@ -21,6 +21,8 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	NSString *twitterPassword;
 	NSString *twitterDisplayName;
 	NSString *twitterProfileImageURL;	
+	NSString *twitterLargeProfileImageURL;
+	NSString *twitterServiceURL;
 	NSArray *twitterFriendIds;
 	
 	// these are for convenience -- but they must be kept 
@@ -28,6 +30,8 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	FBUID facebookUserId;
 	NSString *facebookDisplayName;
 	NSString *facebookProfileImageURL;
+	NSString *facebookLargeProfileImageURL;
+	NSString *facebookServiceURL;
 	NSArray *facebookFriendIds;
 	BOOL hasFacebookStatusUpdatePermission;
 	
@@ -48,6 +52,8 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 // current name and profile image (preference is for twitter if both twitter and facebook are logged in)
 - (NSString *)preferredDisplayName;
 - (NSString *)preferredProfileImageURL;
+- (NSString *)preferredLargeProfileImageURL;
+- (NSString *)preferredServiceURL;
 
 // fine-grained credential information
 - (TwitterId)twitterUserId;
@@ -55,21 +61,39 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)twitterPassword;
 - (NSString *)twitterDisplayName;
 - (NSString *)twitterProfileImageURL;
+- (NSString *)twitterLargeProfileImageURL;
+- (NSString *)twitterServiceURL;
 - (NSArray *)twitterFriendIds;
 
 - (FBUID)facebookUserId;
 - (NSString *)facebookDisplayName;
 - (NSString *)facebookProfileImageURL;
+- (NSString *)facebookLargeProfileImageURL;
+- (NSString *)facebookServiceURL;
 - (BOOL)hasFacebookStatusUpdatePermission;
 - (NSArray *)facebookFriendIds;
 
 - (NSString *)lastMessage;
 
 // you must set your credentials all-at-once
-- (void)setTwitterUserId:(TwitterId)newTwitterUserId username:(NSString *)newTwitterUsername password:(NSString *)newTwitterPassword displayName:(NSString *)newTwitterDisplayName profileImageURL:(NSString *)newTwitterProfileImageURL;
+- (void)setTwitterUserId:(TwitterId)newTwitterUserId 
+				username:(NSString *)newTwitterUsername 
+				password:(NSString *)newTwitterPassword 
+			 displayName:(NSString *)newTwitterDisplayName 
+		 profileImageURL:(NSString *)newTwitterProfileImageURL
+	largeProfileImageURL:(NSString *)newTwitterLargeProfileImageURL
+			  serviceURL:(NSString *)newTwitterServiceURL;
+
 - (void)setTwitterFriendIds:(NSArray *)newTwitterFriendIds;
-- (void)setFacebookUserId:(FBUID)newFacebookUserId displayName:(NSString *)newFacebookDisplayName profileImageURL:(NSString *)newFacebookProfileImageURL;
+
+- (void)setFacebookUserId:(FBUID)newFacebookUserId 
+			  displayName:(NSString *)newFacebookDisplayName 
+		  profileImageURL:(NSString *)newFacebookProfileImageURL
+	 largeProfileImageURL:(NSString *)newFacebookLargeProfileImageURL
+			   serviceURL:(NSString *)newFacebookServiceURL;
+
 - (void)setFacebookFriendIds:(NSArray *)newFacebookFriendIds;
+
 - (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission;
 - (void)setLastMessage:(NSString *)newLastMessage;
 - (void)clearTwitterCredentials;

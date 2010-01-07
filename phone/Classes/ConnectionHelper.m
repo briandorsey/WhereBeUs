@@ -112,9 +112,13 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	// We don't do deep equality tests -- reference tests are fine.
 	static NSString *previousFacebookDisplayName = nil;
 	static NSString *previousFacebookProfileImageURL = nil;
+	static NSString *previousFacebookLargeProfileImageURL = nil;
+	static NSString *previousFacebookServiceURL = nil;
 	static NSArray *previousFacebookFriendIds = nil;
 	static NSString *previousTwitterDisplayName = nil;
 	static NSString *previousTwitterProfileImageURL = nil;
+	static NSString *previousTwitterLargeProfileImageURL = nil;
+	static NSString *previousTwitterServiceURL = nil;
 	static NSArray *previousTwitterFriendIds = nil;
 	static NSString *previousMessage = nil;
 
@@ -141,6 +145,18 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 		{
 			[facebookService setObject:state.facebookProfileImageURL forKey:@"profile_image_url"];
 			previousFacebookProfileImageURL = state.facebookProfileImageURL;
+		}
+		
+		if (state.facebookLargeProfileImageURL != previousFacebookLargeProfileImageURL)
+		{
+			[facebookService setObject:state.facebookLargeProfileImageURL forKey:@"large_profile_image_url"];
+			previousFacebookLargeProfileImageURL = state.facebookLargeProfileImageURL;
+		}
+		
+		if (state.facebookServiceURL != previousFacebookServiceURL)
+		{
+			[facebookService setObject:state.facebookServiceURL forKey:@"service_url"];
+			previousFacebookServiceURL = state.facebookServiceURL;
 		}
 		
 		if (state.facebookFriendIds != previousFacebookFriendIds)
@@ -170,6 +186,18 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 		{
 			[twitterService setObject:state.twitterProfileImageURL forKey:@"profile_image_url"];
 			previousTwitterProfileImageURL = state.twitterProfileImageURL;
+		}
+		
+		if (state.twitterLargeProfileImageURL != previousTwitterLargeProfileImageURL)
+		{
+			[twitterService setObject:state.twitterLargeProfileImageURL forKey:@"service_url"];
+			previousTwitterLargeProfileImageURL = state.twitterLargeProfileImageURL;
+		}
+		
+		if (state.twitterServiceURL != previousTwitterServiceURL)
+		{
+			[twitterService setObject:state.twitterServiceURL forKey:@"service_url"];
+			previousTwitterServiceURL = state.twitterServiceURL;
 		}
 		
 		if (state.twitterFriendIds != previousTwitterFriendIds)

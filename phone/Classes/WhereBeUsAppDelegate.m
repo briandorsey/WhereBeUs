@@ -199,7 +199,11 @@
 	if (result != nil)
 	{
   		NSDictionary* user = [result objectAtIndex:0];
-		[state setFacebookUserId:(FBUID)[FBSession session].uid displayName:[user objectForKey:@"name"] profileImageURL:[user objectForKey:@"pic_square"]];
+		[state setFacebookUserId:(FBUID)[FBSession session].uid 
+					 displayName:[user objectForKey:@"name"] 
+				 profileImageURL:[user objectForKey:@"pic_square"]
+			largeProfileImageURL:[user objectForKey:@"pic"]
+					  serviceURL:[user objectForKey:@"profile_url"]];
 		
 		// Query to see if they've given us status_update permissions in the past
 		NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", @"status_update", @"ext_perm", nil];

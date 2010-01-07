@@ -17,6 +17,7 @@
 - (void)moveMapByDeltaX:(CGFloat)deltaX deltaY:(CGFloat)deltaY forView:(UIView *)view;
 - (void)deselectAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
 - (void)discloseAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
+- (void)showDetailViewForAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated;
 @end
 
 @interface MapViewController : UIViewController<MKMapViewDelegate, WhereBeUsAnnotationManager, UITextFieldDelegate, CLLocationManagerDelegate> {

@@ -291,7 +291,12 @@ CGFloat fsign(CGFloat f)
 
 - (void)discloseAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated
 {
-	// TODO davepeck: something...
+	// currently no-op
+}
+
+- (void)showDetailViewForAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated
+{
+	// TODO DAVEPECK: something good!
 }
 
 //------------------------------------------------------------------

@@ -6,6 +6,7 @@
 //  Copyright 2009 Code Orange. All rights reserved.
 //
 
+#import "TwitterUtilities.h"
 #import "TwitterCredentialsViewController.h"
 #import "ConnectionHelper.h"
 #import "Utilities.h"
@@ -77,7 +78,9 @@
 				   username:[[[usernameController.textField text] copy] autorelease]
 				   password:[[[passwordController.textField text] copy] autorelease]
 				   displayName:[dictionary valueForKey:TWITTER_DISPLAY_NAME]
-			profileImageURL:[dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL]];
+			profileImageURL:[dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL]
+	   largeProfileImageURL:[TwitterUtilities largeProfileImageURLFromSmall:[dictionary valueForKey:TWITTER_PROFILE_IMAGE_URL]]
+				 serviceURL:[TwitterUtilities serviceURLFromScreenName:[dictionary valueForKey:TWITTER_ACCOUNT_NAME]]];
 	[state save];
 	
 	[delegate twitterCredentialsViewControllerDidFinish:self];
