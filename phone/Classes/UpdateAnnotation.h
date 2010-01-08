@@ -12,7 +12,10 @@
 @interface UpdateAnnotation : NSObject<MKAnnotation> {
 	NSString *displayName;
 	NSString *profileImageURL;
+	NSString *largeProfileImageURL;
 	NSString *message;
+	NSString *serviceType;
+	NSString *serviceURL;
 	NSDate *lastUpdate;
 	CLLocationCoordinate2D coordinate;
 	
@@ -31,7 +34,10 @@
 
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *profileImageURL;
+@property (nonatomic, retain) NSString *largeProfileImageURL;
 @property (nonatomic, retain) NSString *message;
+@property (nonatomic, retain) NSString *serviceType;
+@property (nonatomic, retain) NSString *serviceURL;
 @property (nonatomic, retain) NSDate *lastUpdate;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property BOOL visited;

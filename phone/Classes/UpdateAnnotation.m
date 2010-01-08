@@ -13,6 +13,9 @@
 
 @synthesize displayName;
 @synthesize profileImageURL;
+@synthesize largeProfileImageURL;
+@synthesize serviceType;
+@synthesize serviceURL;
 @synthesize message;
 @synthesize lastUpdate;
 @synthesize coordinate;
@@ -37,6 +40,9 @@
 {
 	self.displayName = nil;
 	self.profileImageURL = nil;
+	self.largeProfileImageURL = nil;
+	self.serviceType = nil;
+	self.serviceURL = nil;
 	self.message = nil;
 	self.lastUpdate = nil;
 	[super dealloc];
@@ -46,6 +52,9 @@
 {
 	self.displayName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"display_name"];
 	self.profileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"profile_image_url"];
+	self.largeProfileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"large_profile_image_url"];
+	self.serviceType = (NSString *)[dictionary objectForKeyOrNilIfNull:@"service_type"];
+	self.serviceURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"service_url"];
 	self.message = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message"];
 	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"latitude"] doubleValue];
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"longitude"] doubleValue];

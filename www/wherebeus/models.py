@@ -7,10 +7,12 @@ from google.appengine.ext import db
 from .utils import get_rid_of_microseconds, iso_utc_string
 
 class User(db.Model):
+    # All values on User are "preferred" values, if they're using multiple services.
     display_name = db.StringProperty()
     profile_image_url = db.LinkProperty()
     large_profile_image_url = db.LinkProperty()
     service_url = db.LinkProperty() 
+    service_type = db.StringProperty()
     message = db.StringProperty()
     message_time = db.DateTimeProperty()
 
@@ -29,6 +31,11 @@ class UserService(db.Model):
     @staticmethod
     def key_for_service_and_id(service_type, id_on_service):
         return 'us-%s-%s' % (service_type, str(id_on_service))
+    
+    @staticmethod
+    def get_for_service_and_id(service_type, id_on_service):
+        key_name = UserService.key_for_service_and_id(service_type, id_on_service)
+        return UserService.get_by_key_name(key_name)
     
     @staticmethod
     def get_or_insert_for_service_and_id(service_type, id_on_service):
@@ -63,10 +70,13 @@ class UserService(db.Model):
                     update = {
                         "display_name": friend_user.display_name,
                         "profile_image_url": friend_user.profile_image_url,
+                        "large_profile_image_url": friend_user.large_profile_image_url,
                         "latitude": location_update.location.lat,
                         "longitude": location_update.location.lon,
                         "update_time": iso_utc_string(location_update.update_time),
-                        "message": friend_user.message if friend_user.message else ""
+                        "message": friend_user.message if friend_user.message else "",
+                        "service_type": friend_user.service_type,
+                        "service_url": friend_user.service_url,
                     }
                     yield update
                 
@@ -75,6 +85,7 @@ class UserService(db.Model):
         seen = {}
         for user_service in user_services:
             for update in user_service.iter_friend_updates():
+                # get rid of duplicates, _independent_ of service
                 key = (update["display_name"], update["profile_image_url"])
                 if key not in seen:
                     seen[key] = True
@@ -83,6 +94,23 @@ class UserService(db.Model):
     @staticmethod
     def updates_for_user_services(user_services):
         return [update for update in UserService.iter_updates_for_user_services(user_services)]
+        
+    def details(self):        
+        details = {
+            "display_name": self.display_name,
+            "profile_image_url": self.profile_image_url,
+            "large_profile_image_url": self.large_profile_image_url,
+            "service_url": self.service_url,
+            "message": self.user.message if self.user.message else "",
+        }
+        
+        if self.user.location_updates:
+            location_update = self.user.location_updates[0]
+            details["latitude"] = location_update.location.lat
+            details["longitude"] = location_update.location.lon
+            details["update_time"] = iso_utc_string(location_update.update_time)
+        
+        return details
         
 class LocationUpdate(db.Model):
     user = db.ReferenceProperty(User, collection_name = "location_updates")

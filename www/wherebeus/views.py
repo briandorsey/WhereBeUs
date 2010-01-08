@@ -16,6 +16,21 @@ from .decorators import requires_GET, requires_POST
 @requires_GET
 def static(request, template):
     return render_to_response(request, template)
+    
+@requires_GET
+def api_1_user_service_details(request, service_type, id_on_service):
+    result = {'success': False, 'message': 'Did not compute a result.'}
+    try:
+        if settings.RUNNING_APP_ENGINE_LOCAL_SERVER:            
+            logging.info("\n\n*** REQUEST service_type, id_on_service: %s, %s\n" % (service_type, id_on_service)) 
+        user_service = UserService.get_for_Service_and_id(service_type, id_on_service)
+        result = {'success': True, 'message': 'OK', 'details': user_service.details()}
+    except Exception, message:
+        result = {'success': False, 'message': 'Encountered an unexpected exception (%s %s)' % (message, exception_string())}
+    finally:       
+        if settings.RUNNING_APP_ENGINE_LOCAL_SERVER:            
+            logging.info("\n\n*** RESPONSE: \n%s\n" % json.dumps(result))                                                                                                               
+        return render_json(result)
 
 @requires_POST
 def api_1_update(request):
@@ -38,6 +53,8 @@ def api_1_update(request):
             user_service = UserService.get_or_insert_for_service_and_id(service['service_type'], service['id_on_service'])
             user_service.display_name = service.get('display_name', user_service.display_name)
             user_service.profile_image_url = service.get('profile_image_url', user_service.profile_image_url)
+            user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)
+            user_service.service_url = service.get('service_url', user_service.service_url)
             user_service.friend_ids = service.get('friends', user_service.friend_ids)
             user_services.append(user_service)
 
@@ -51,6 +68,9 @@ def api_1_update(request):
             if info_from != "twitter":
                 user.display_name = user_service.display_name
                 user.profile_image_url = user_service.profile_image_url
+                user.large_profile_image_url = user_service.large_profile_image_url
+                user.service_url = user_service.service_url
+                user.service_type = user_service.service_type
                 info_from = user_service.service_type
             user_services.append(user_service)
             

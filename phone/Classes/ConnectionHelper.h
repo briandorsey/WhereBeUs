@@ -33,6 +33,7 @@
 + (void)twitter_getFriendsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
 
 + (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate;
++ (void)wbu_getUserServiceDetailsWithTarget:(id)target action:(SEL)action serviceType:(NSString *)serviceType idOnService:(NSString *)idOnService;
 
 // facebook session must be opened for this to work.
 + (void)fb_requestWithTarget:(id)target action:(SEL)action call:(NSString *)method params:(NSDictionary *)params;

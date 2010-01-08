@@ -190,7 +190,7 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 		
 		if (state.twitterLargeProfileImageURL != previousTwitterLargeProfileImageURL)
 		{
-			[twitterService setObject:state.twitterLargeProfileImageURL forKey:@"service_url"];
+			[twitterService setObject:state.twitterLargeProfileImageURL forKey:@"large_profile_image_url"];
 			previousTwitterLargeProfileImageURL = state.twitterLargeProfileImageURL;
 		}
 		
@@ -234,6 +234,12 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	// Kick off the network request
 	NSString *postJson = [postDictionary JSONRepresentation];
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
+}
+
++ (void)wbu_getUserServiceDetailsWithTarget:(id)target action:(SEL)action serviceType:(NSString *)serviceType idOnService:(NSString *)idOnService
+{
+	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/user_service/%@/%@/", kServiceBaseURL, serviceType, idOnService] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
 }
 
 + (void)fb_requestWithTarget:(id)target action:(SEL)action call:(NSString *)method params:(NSDictionary *)params
