@@ -1,4 +1,7 @@
 import logging
+import datetime
+
+from django.conf import settings
 
 from google.appengine.ext import db
 from .utils import get_rid_of_microseconds, iso_utc_string
@@ -56,7 +59,7 @@ class UserService(db.Model):
             if friend_user.location_updates:
                 location_update = friend_user.location_updates[0]
                 # Only provide an update if it is recent...
-                if (datetime.datetime.now() - location_update.update_time) <= TIME_HORIZON:
+                if (datetime.datetime.now() - location_update.update_time) <= settings.TIME_HORIZON:
                     update = {
                         "display_name": friend_user.display_name,
                         "profile_image_url": friend_user.profile_image_url,

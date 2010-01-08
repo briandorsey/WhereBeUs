@@ -1,7 +1,7 @@
 import os
 import datetime
 
-RUNNING_APP_ENGINE_LOCAL_SERVER = os.environ.get('SERVER_SOFTWARE', 'Dev').startswith('Dev')
+RUNNING_APP_ENGINE_LOCAL_SERVER = os.environ.get('SERVER_SOFTWARE', 'Dev').startswith('Dev') # set this to TRUE to get debug output
 
 DEBUG = RUNNING_APP_ENGINE_LOCAL_SERVER # For now
 
