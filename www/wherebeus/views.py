@@ -10,7 +10,7 @@ from google.appengine.ext import db
 
 from bootstrap import exception_string
 from .models import User, UserService, LocationUpdate
-from .utils import render_json, render_to_response
+from .utils import render_json, render_to_response, bad_request
 from .decorators import requires_GET, requires_POST
 
 @requires_GET
@@ -34,6 +34,7 @@ def api_1_user_service_details(request, service_type, id_on_service):
 
 @requires_POST
 def api_1_update(request):
+    result = {'success': False, 'message': 'Did not compute a result.'}
     try:
         user = None
 
@@ -44,7 +45,8 @@ def api_1_update(request):
         
         services = data.get('services', None)
         if not services:
-            raise Exception('You must include service information in your post.')                         
+            result['message'] = 'You must include service information in your post.'
+            return render_json(result, status=400)
         
         # Handle information for each service
         info_from = None 
@@ -109,12 +111,19 @@ def api_1_update(request):
         else:
             updates = []                
     except Exception, message:
-        result = {'success': False, 'message': 'Encountered an unexpected exception (%s %s)' % (message, exception_string())}            
-    else:
-        result = {'success': True, 'message': 'OK', 'updates': updates}
-    finally:
-        if settings.RUNNING_APP_ENGINE_LOCAL_SERVER:            
+        result['message'] = 'Encountered an unexpected exception (%s %s)' % (message, exception_string())            
+        if not settings.RUNNING_APP_ENGINE_LOCAL_SERVER:
+            logging.info("\n\n*** REQUEST: \n%s\n" % data)
             logging.info("\n\n*** RESPONSE: \n%s\n" % json.dumps(result))
-        return render_json(result)
+        logging.error("\n\n*** ERROR: \n%s\n" % result['message'])
+        return render_json(result, status=500)
+    else:
+        result['success'] = True
+        result['message'] = 'OK'
+        result['updates'] = updates
+
+    if settings.RUNNING_APP_ENGINE_LOCAL_SERVER:            
+        logging.info("\n\n*** RESPONSE: \n%s\n" % json.dumps(result))
+    return render_json(result)
 
         

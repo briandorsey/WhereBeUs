@@ -69,23 +69,48 @@ def test_post_update():
     assert json_response['success'] == True
 
 
+def test_post_update_bad():
+    h = httplib2.Http()
+    # a bad update
+    json_data = simplejson.dumps({})
+    print json_data
+    resp, content = h.request(UPDATE_URL,
+                            'POST', body=json_data,
+                            headers={'content-type':'application/json'} )
+    print UPDATE_URL
+    print resp
+    print content
+    # we want a non-200 status code for errors
+    assert resp['status'] == '400'
+    # but, we should still get our standard JSON back
+    json_response = simplejson.loads(content)
+    check_json_response(json_response)
+    assert json_response['success'] == False
+
+
 def test_friends_can_see_each_other():
     h = httplib2.Http()
     user_a = copy.deepcopy(TEMPLATE_DATA)
     user_a['services'][0]['id_on_service'] = 123
     user_a['services'][0]['display_name'] = 'User A'
     user_a['services'][0]['friends'].append(321)
-    # test with just one service defined
-    del(user_a['services'][1])
+    
     user_b = copy.deepcopy(TEMPLATE_DATA)
     user_b['services'][0]['id_on_service'] = 321
     user_b['services'][0]['display_name'] = 'User B'
     user_b['services'][0]['friends'].append(123)
-    del(user_b['services'][1])
 
     json_a = simplejson.dumps(user_a)
     json_b = simplejson.dumps(user_b)
 
+    resp_a, content_a = h.request(UPDATE_URL,
+                            'POST', body=json_a,
+                            headers={'content-type':'application/json'} )
+    resp_b, content_b = h.request(UPDATE_URL,
+                            'POST', body=json_b,
+                            headers={'content-type':'application/json'} )
+
+    # do the updates again, the first response for A may not have B in it. 
     resp_a, content_a = h.request(UPDATE_URL,
                             'POST', body=json_a,
                             headers={'content-type':'application/json'} )
@@ -103,5 +128,3 @@ def test_friends_can_see_each_other():
     assert content_b['success'] == True
     assert content_b['updates'][0]['display_name'] == 'User A'
 
-# TODO: add a test for malformed update json - make sure it returns 400 or 500
-# http codes for errors
