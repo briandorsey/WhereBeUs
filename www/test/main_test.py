@@ -1,3 +1,4 @@
+import copy
 import datetime
 import simplejson
 
@@ -31,7 +32,7 @@ TEMPLATE_DATA = {
         },
     ],
 
-    "want_updates": False,
+    "want_updates": True,
     "latitude": 77.33,
     "longitude": 99.22,
     "message": "My current message.",
@@ -67,25 +68,40 @@ def test_post_update():
     check_json_response(json_response)
     assert json_response['success'] == True
 
-    """
-    url = BASE_URL + 'api/1/hashtag/posttag/'
-    resp, content = h.request(url, 'GET')
-    print url
-    assert resp['status'] == '200'
-    print resp
-    print content
-    json_response = simplejson.loads(content)
-    print json_response
-    check_json_response(json_response)
-    assert 'call_again_seconds' in json_response
-    assert 'updates' in json_response
-    assert len(json_response['updates']) == 1
-    update_data = json_response['updates'][0]
-    for key in sharedutil.LocationUpdateJSON().__allowed_attributes__:
-        print key
-        assert key in update_data
-    assert update_data['update_time'].endswith('Z')
-    """
+
+def test_friends_can_see_each_other():
+    h = httplib2.Http()
+    user_a = copy.deepcopy(TEMPLATE_DATA)
+    user_a['services'][0]['id_on_service'] = 123
+    user_a['services'][0]['display_name'] = 'User A'
+    user_a['services'][0]['friends'].append(321)
+    # test with just one service defined
+    del(user_a['services'][1])
+    user_b = copy.deepcopy(TEMPLATE_DATA)
+    user_b['services'][0]['id_on_service'] = 321
+    user_b['services'][0]['display_name'] = 'User B'
+    user_b['services'][0]['friends'].append(123)
+    del(user_b['services'][1])
+
+    json_a = simplejson.dumps(user_a)
+    json_b = simplejson.dumps(user_b)
+
+    resp_a, content_a = h.request(UPDATE_URL,
+                            'POST', body=json_a,
+                            headers={'content-type':'application/json'} )
+    resp_b, content_b = h.request(UPDATE_URL,
+                            'POST', body=json_b,
+                            headers={'content-type':'application/json'} )
+
+    content_a = simplejson.loads(content_a)
+    check_json_response(content_a)
+    assert content_a['success'] == True
+    assert content_a['updates'][0]['display_name'] == 'User B'
+
+    content_b = simplejson.loads(content_b)
+    check_json_response(content_b)
+    assert content_b['success'] == True
+    assert content_b['updates'][0]['display_name'] == 'User A'
 
 # TODO: add a test for malformed update json - make sure it returns 400 or 500
 # http codes for errors
