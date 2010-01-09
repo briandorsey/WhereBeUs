@@ -66,6 +66,8 @@
 		55E77F0810C383C400F49D91 /* FacebookKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E77F0710C383C400F49D91 /* FacebookKeys.plist */; };
 		55E77F0A10C3855700F49D91 /* FacebookKeysActual.plist in Resources */ = {isa = PBXBuildFile; fileRef = 55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */; };
 		55F8071610F5838D009ED48D /* TwitterUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8071510F5838D009ED48D /* TwitterUtilities.m */; };
+		55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */; };
+		55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -171,6 +173,9 @@
 		55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FacebookKeysActual.plist; sourceTree = "<group>"; };
 		55F8071410F5838D009ED48D /* TwitterUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterUtilities.h; sourceTree = "<group>"; };
 		55F8071510F5838D009ED48D /* TwitterUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterUtilities.m; sourceTree = "<group>"; };
+		55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateDetailsViewController.xib; sourceTree = "<group>"; };
+		55F8077310F6C65B009ED48D /* UpdateDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDetailsViewController.h; sourceTree = "<group>"; };
+		55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDetailsViewController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -250,6 +255,7 @@
 				5553976110C350FC00126892 /* LoginViewController.xib */,
 				55E77F0710C383C400F49D91 /* FacebookKeys.plist */,
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
+				55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -364,6 +370,8 @@
 				5557336410CF4C9700CFDE43 /* FrontSideNavigationController.m */,
 				5557336010CF4BA800CFDE43 /* BackSideNavigationController.h */,
 				5557336110CF4BA800CFDE43 /* BackSideNavigationController.m */,
+				55F8077310F6C65B009ED48D /* UpdateDetailsViewController.h */,
+				55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -451,6 +459,7 @@
 				55A6F0FF10D300860041E914 /* chat.png in Resources */,
 				556B2F3010D3114E00D20C19 /* dark-info.png in Resources */,
 				553C934810DDE218002EB459 /* icon.png in Resources */,
+				55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -501,6 +510,7 @@
 				5557336210CF4BA800CFDE43 /* BackSideNavigationController.m in Sources */,
 				5557336510CF4C9700CFDE43 /* FrontSideNavigationController.m in Sources */,
 				55F8071610F5838D009ED48D /* TwitterUtilities.m in Sources */,
+				55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,6 +8,7 @@
 
 #import "FrontSideNavigationController.h"
 #import "MapViewController.h"
+#import "UpdateDetailsViewController.h"
 #import "SendMessageViewController.h"
 
 @implementation FrontSideNavigationController
@@ -29,6 +30,12 @@
 - (void)hideModalSendMessage
 {
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)showUpdateDetailView:(UpdateAnnotation *)annotation animated:(BOOL)animated
+{
+	UpdateDetailsViewController *updateDetailsViewController = [[[UpdateDetailsViewController alloc] initWithNibName:@"UpdateDetailsViewController" bundle:nil annotation:annotation] autorelease];
+	[self pushViewController:updateDetailsViewController animated:animated];
 }
 
 - (void)viewDidLoad 

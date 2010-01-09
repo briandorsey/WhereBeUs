@@ -294,10 +294,12 @@ CGFloat fsign(CGFloat f)
 	// currently no-op
 }
 
-- (void)showDetailViewForAnnotation:(id<MKAnnotation>)annotation animated:(BOOL)animated
+- (void)showDetailViewForAnnotation:(UpdateAnnotation *)annotation animated:(BOOL)animated
 {
-	// TODO DAVEPECK: something good!
+	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	[[appDelegate frontSideNavigationController] showUpdateDetailView:annotation animated:animated];
 }
+
 
 //------------------------------------------------------------------
 // Location Management for the current user, including annotations

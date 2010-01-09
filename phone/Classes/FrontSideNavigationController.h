@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UpdateAnnotation.h"
 
 @interface FrontSideNavigationController : UINavigationController {
 
@@ -15,5 +16,6 @@
 - (void)showMapViewController:(BOOL)animated;
 - (void)showModalSendMessage;
 - (void)hideModalSendMessage;
+- (void)showUpdateDetailView:(UpdateAnnotation *)annotation animated:(BOOL)animated;
 
 @end
