@@ -319,6 +319,8 @@ CGFloat fsign(CGFloat f)
 	
 	annotation.displayName = state.preferredDisplayName;
 	annotation.profileImageURL = state.preferredProfileImageURL;
+	annotation.largeProfileImageURL = state.preferredLargeProfileImageURL;
+	annotation.serviceURL = state.preferredServiceURL;
 	[annotation setLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude];
 	annotation.lastUpdate = [NSDate date];
 	annotation.visited = NO;

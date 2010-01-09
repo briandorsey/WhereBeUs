@@ -8,17 +8,18 @@
 
 #import <UIKit/UIKit.h>
 #import "UpdateAnnotation.h"
+#import "AsyncImageView.h"
 
 
 @interface UpdateDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
-	IBOutlet UIImageView *profileImageView;
+	IBOutlet AsyncImageView *profileImageView;
 	IBOutlet UILabel *displayNameView;
 	IBOutlet UITableView *infoTableView;
 	
 	UpdateAnnotation *annotation;
 }
 
-@property (nonatomic, retain) UIImageView *profileImageView;
+@property (nonatomic, retain) AsyncImageView *profileImageView;
 @property (nonatomic, retain) UILabel *displayNameView;
 @property (nonatomic, retain) UITableView *infoTableView;
 

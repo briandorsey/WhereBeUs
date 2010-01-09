@@ -252,6 +252,15 @@ static NSString *const kLastMessageKey = @"last_message";
 	return self.facebookServiceURL;
 }
 
+- (NSString *)preferredServiceType
+{
+	if (self.hasTwitterCredentials)
+	{
+		return @"twitter";
+	}
+	return @"facebook";
+}
+
 
 // fine-grained credential information
 - (TwitterId)twitterUserId

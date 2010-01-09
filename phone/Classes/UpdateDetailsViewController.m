@@ -16,6 +16,25 @@
 @synthesize displayNameView;
 @synthesize infoTableView;
 
+//---------------------------------------------------------------------
+// Static methods for accessing frequently-used images
+//---------------------------------------------------------------------
+
++ (UIImage *)defaultUserImage
+{
+	static UIImage *_defaultUserImage;
+	
+	@synchronized (self)
+	{
+		if (_defaultUserImage == nil)
+		{
+			_defaultUserImage = [[UIImage imageNamed:@"default100.png"] retain];
+		}		
+	}
+	
+	return _defaultUserImage;
+}
+
 
 //--------------------------------------------------------------------------------
 // UITableViewDelegate
@@ -66,11 +85,17 @@
 	if (annotation != nil)
 	{
 		self.displayNameView.text = annotation.displayName;
-		// TODO
+		if (annotation.largeProfileImageURL != nil)
+		{
+			[self.profileImageView setDefaultImage:[UpdateDetailsViewController defaultUserImage] urlToLoad:annotation.largeProfileImageURL alternateUrlToLoad:annotation.profileImageURL];			
+		}
+		else
+		{
+			[self.profileImageView setDefaultImage:[UpdateDetailsViewController defaultUserImage] urlToLoad:annotation.profileImageURL alternateUrlToLoad:annotation.profileImageURL];
+		}
 	}
 	
-	[super viewWillAppear:animated];
-	
+	[super viewWillAppear:animated];	
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -85,6 +110,5 @@
 	[annotation release];
     [super dealloc];
 }
-
 
 @end

@@ -54,6 +54,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)preferredProfileImageURL;
 - (NSString *)preferredLargeProfileImageURL;
 - (NSString *)preferredServiceURL;
+- (NSString *)preferredServiceType;
 
 // fine-grained credential information
 - (TwitterId)twitterUserId;

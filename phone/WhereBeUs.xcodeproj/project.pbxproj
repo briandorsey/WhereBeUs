@@ -68,6 +68,8 @@
 		55F8071610F5838D009ED48D /* TwitterUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8071510F5838D009ED48D /* TwitterUtilities.m */; };
 		55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */; };
 		55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */; };
+		55F807E410F7FFE5009ED48D /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F807E310F7FFE5009ED48D /* AsyncImageView.m */; };
+		55F807EC10F80167009ED48D /* default100.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F807EB10F80167009ED48D /* default100.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -176,6 +178,9 @@
 		55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UpdateDetailsViewController.xib; sourceTree = "<group>"; };
 		55F8077310F6C65B009ED48D /* UpdateDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateDetailsViewController.h; sourceTree = "<group>"; };
 		55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateDetailsViewController.m; sourceTree = "<group>"; };
+		55F807E210F7FFE5009ED48D /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
+		55F807E310F7FFE5009ED48D /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
+		55F807EB10F80167009ED48D /* default100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default100.png; path = images/default100.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -309,6 +314,7 @@
 				55A6F0FE10D300860041E914 /* chat.png */,
 				559A0B6510A3621E005921E7 /* bubble.png */,
 				559A0B6610A3621E005921E7 /* default37.png */,
+				55F807EB10F80167009ED48D /* default100.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -354,6 +360,8 @@
 		55AC0FE1109E8CDF00101F7F /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				55F807E210F7FFE5009ED48D /* AsyncImageView.h */,
+				55F807E310F7FFE5009ED48D /* AsyncImageView.m */,
 				55A127CD1097F53200B79AB5 /* TwitterCredentialsViewController.h */,
 				55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */,
 				5571917B1098F5B60059E40F /* MapViewController.h */,
@@ -460,6 +468,7 @@
 				556B2F3010D3114E00D20C19 /* dark-info.png in Resources */,
 				553C934810DDE218002EB459 /* icon.png in Resources */,
 				55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */,
+				55F807EC10F80167009ED48D /* default100.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,6 +520,7 @@
 				5557336510CF4C9700CFDE43 /* FrontSideNavigationController.m in Sources */,
 				55F8071610F5838D009ED48D /* TwitterUtilities.m in Sources */,
 				55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */,
+				55F807E410F7FFE5009ED48D /* AsyncImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
