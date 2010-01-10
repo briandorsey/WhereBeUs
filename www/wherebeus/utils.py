@@ -51,11 +51,13 @@ def bad_request(message = ''):
 def method_not_allowed(message = ''):
     return HttpResponseNotAllowed(message)
     
-def render_json(jsonable):
+def render_json(jsonable, status = 200):
     # For sanity's sake, when debugging use text/x-json...
     # ...but in production, the one true JSON mimetype is application/json. 
     # Ask IANA if you don't believe me.
-    return HttpResponse(json.dumps(jsonable), mimetype = 'text/x-json' if settings.DEBUG else 'application/json' )
+    return HttpResponse(json.dumps(jsonable), 
+                        mimetype = 'text/x-json' if settings.DEBUG else 'application/json', 
+                        status = status)
 
 def render_text(text):
     return HttpResponse(text, mimetype = 'text/plain')
