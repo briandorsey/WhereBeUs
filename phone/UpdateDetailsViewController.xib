@@ -54,7 +54,7 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="IBUIText">Stuff With Stuff</string>
 						<object class="NSFont" key="IBUIFont">
-							<string key="NSName">Helvetica</string>
+							<string key="NSName">Helvetica-Bold</string>
 							<double key="NSSize">21</double>
 							<int key="NSfFlags">16</int>
 						</object>
@@ -74,7 +74,7 @@
 					<object class="IBUITableView" id="590466564">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{20, 128}, {280, 312}}</string>
+						<string key="NSFrame">{{0, 128}, {320, 332}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -88,10 +88,10 @@
 						<float key="IBUISectionHeaderHeight">10</float>
 						<float key="IBUISectionFooterHeight">10</float>
 					</object>
-					<object class="IBUIView" id="942497755">
+					<object class="IBUIView" id="990082341">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 20}, {100, 100}}</string>
+						<string key="NSFrame">{{10, 20}, {100, 100}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
@@ -159,7 +159,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">profileImageView</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="942497755"/>
+						<reference key="destination" ref="990082341"/>
 					</object>
 					<int key="connectionID">13</int>
 				</object>
@@ -180,7 +180,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="924351041"/>
 							<reference ref="590466564"/>
-							<reference ref="942497755"/>
+							<reference ref="990082341"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -207,7 +207,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
-						<reference key="object" ref="942497755"/>
+						<reference key="object" ref="990082341"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</object>

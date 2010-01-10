@@ -17,6 +17,7 @@
 	NSString *serviceType;
 	NSString *serviceURL;
 	NSDate *lastUpdate;
+	NSDate *lastMessageUpdate;
 	CLLocationCoordinate2D coordinate;
 	
 	BOOL visited;	
@@ -39,6 +40,7 @@
 @property (nonatomic, retain) NSString *serviceType;
 @property (nonatomic, retain) NSString *serviceURL;
 @property (nonatomic, retain) NSDate *lastUpdate;
+@property (nonatomic, retain) NSDate *lastMessageUpdate;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 @property BOOL visited;
 
