@@ -67,37 +67,41 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 {
 	CGFloat height = kEmpiricallyDeterminedCellMinimumHeight;	
 	NSUInteger section = [indexPath indexAtPosition:0];
+	NSUInteger row = [indexPath indexAtPosition:1];
 	
 	if (section == kMessageSection)
 	{
-		NSString *annotationMessage = [self annotationMessage];
-		CGSize size = [annotationMessage sizeWithFont:[UIFont systemFontOfSize:13.0] constrainedToSize:CGSizeMake(kEmpiricallyDeterminedCellContentWidth, CGFLOAT_MAX) lineBreakMode:UILineBreakModeWordWrap];
-		height = size.height + (kEmpiricallyDeterminedHeightMargin * 2.0);
+		if (row == 0)
+		{
+			NSString *annotationMessage = [self annotationMessage];
+			CGSize size = [annotationMessage sizeWithFont:[UIFont systemFontOfSize:13.0] constrainedToSize:CGSizeMake(kEmpiricallyDeterminedCellContentWidth, CGFLOAT_MAX) lineBreakMode:UILineBreakModeWordWrap];
+			height = size.height + (kEmpiricallyDeterminedHeightMargin * 2.0);			
+		}
 	}
 	
 	if (height < kEmpiricallyDeterminedCellMinimumHeight)
 	{
 		height = kEmpiricallyDeterminedCellMinimumHeight;
-	}
+	}			
 	
 	return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSUInteger section = [indexPath indexAtPosition:0];
-	
-	if (section == kMessageSection)
-	{
-		UITableViewCell *cell = (UITableViewCell *) [tableView cellForRowAtIndexPath: indexPath];
-		UIView *contentView = [cell contentView];
-		CGRect bounds = contentView.bounds;
-
-		NSLog(@"Origin x: %f", bounds.origin.x);
-		NSLog(@"Origin y: %f", bounds.origin.y);
-		NSLog(@"Size width: %f", bounds.size.width);
-		NSLog(@"Size height: %f", bounds.size.height);
-	}
+//	NSUInteger section = [indexPath indexAtPosition:0];
+//	
+//	if (section == kMessageSection)
+//	{
+//		UITableViewCell *cell = (UITableViewCell *) [tableView cellForRowAtIndexPath: indexPath];
+//		UIView *contentView = [cell contentView];
+//		CGRect bounds = contentView.bounds;
+//
+//		NSLog(@"Origin x: %f", bounds.origin.x);
+//		NSLog(@"Origin y: %f", bounds.origin.y);
+//		NSLog(@"Size width: %f", bounds.size.width);
+//		NSLog(@"Size height: %f", bounds.size.height);
+//	}
 }
 
 
@@ -129,7 +133,7 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 		}
 		else if (row == 1)
 		{
-			NSString *interval = [[NSDate date] prettyPrintTimeIntervalSinceDate:annotation.lastUpdate];
+			NSString *interval = [[NSDate date] prettyPrintTimeIntervalSinceDate:annotation.lastMessageUpdate];
 			cell.textLabel.text = [NSString stringWithFormat:@"(message written %@)", interval];
 			cell.textLabel.font = [UIFont systemFontOfSize:13.0];
 			cell.textLabel.textColor = [UIColor grayColor];

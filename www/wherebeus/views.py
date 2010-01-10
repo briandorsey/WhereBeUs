@@ -94,9 +94,12 @@ def api_1_update(request):
         
         # Handle message, if any:
         message = data.get('message', None)
-        if message:
-            user.message = message
-            user.message_time = datetime.datetime.utcnow()
+        if message is not None:
+            clean_message = message.strip()
+            if len(clean_message) > 0:
+                if user.message != clean_message:
+                    user.message = clean_message
+                    user.message_time = datetime.datetime.utcnow()
             
         # Attempt to save everything in the datastore... (failure will get caught)
         user.put()

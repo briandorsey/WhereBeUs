@@ -75,14 +75,14 @@
 		self.lastUpdate = [dateFormatter dateFromString:update_time];
 	}
 	
-	NSString *message_update_time = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message_update_time"];
-	if (message_update_time == nil)
+	NSString *message_time = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message_time"];
+	if (message_time == nil)
 	{
 		self.lastMessageUpdate = nil;
 	}
 	else
 	{
-		self.lastMessageUpdate = [dateFormatter dateFromString:message_update_time];
+		self.lastMessageUpdate = [dateFormatter dateFromString:message_time];
 	}
 }
 

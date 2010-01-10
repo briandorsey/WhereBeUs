@@ -75,6 +75,7 @@ class UserService(db.Model):
                         "longitude": location_update.location.lon,
                         "update_time": iso_utc_string(location_update.update_time),
                         "message": friend_user.message if friend_user.message else "",
+                        "message_time": iso_utc_string(friend_user.message_time) if friend_user.message else None,
                         "service_type": friend_user.service_type,
                         "service_url": friend_user.service_url,
                     }
