@@ -78,6 +78,9 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
+    // Disable auto-lock, since location updates stop when locked.
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
+    
 	// Set up the facebook session.
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"FacebookKeysActual" ofType:@"plist"];
 	NSDictionary *keys = [[NSDictionary alloc] initWithContentsOfFile:path];	

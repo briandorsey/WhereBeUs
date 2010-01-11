@@ -58,7 +58,6 @@ def api_1_update(request):
             user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)
             user_service.service_url = service.get('service_url', user_service.service_url)
             user_service.friend_ids = service.get('friends', user_service.friend_ids)
-            user_services.append(user_service)
 
             if user is None:
                 user = user_service.user                
