@@ -22,6 +22,7 @@
 	defaultImageView = [[UIImageView alloc] initWithImage:theDefaultImage];
 	defaultImageView.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.height);
 	defaultImageView.contentMode = UIViewContentModeScaleAspectFill;
+	defaultImageView.clipsToBounds = YES;
 	[defaultImageView setOpaque:NO];
 	[defaultImageView setAlpha:1.0];
 	[self addSubview:defaultImageView];
@@ -73,6 +74,7 @@
 	loadedImageView = [[UIImageView alloc] initWithImage:image];
 	loadedImageView.frame = CGRectMake(0.0, 0.0, self.frame.size.width, self.frame.size.height);
 	loadedImageView.contentMode = UIViewContentModeScaleAspectFill;
+	loadedImageView.clipsToBounds = YES;
 	[loadedImageView setOpaque:NO];
 	[loadedImageView setAlpha:0.0];
 	[self addSubview:loadedImageView];

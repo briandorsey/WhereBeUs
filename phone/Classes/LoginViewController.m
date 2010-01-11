@@ -244,6 +244,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 				cell.textLabel.text = [NSString stringWithFormat:@"signed in as %@", state.facebookDisplayName];
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			}		
 			else if (row == LoginActionRow)
 			{
@@ -269,6 +270,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 				cell.textLabel.text = @"not signed in";
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			}		
 			else if (row == LoginActionRow)
 			{
@@ -297,6 +299,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 				cell.textLabel.text = [NSString stringWithFormat:@"signed in as @%@", state.twitterUsername];
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			}
 			else if (row == LoginActionRow)
 			{
@@ -322,6 +325,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 				cell.textLabel.text = @"not signed in";
 				cell.textLabel.font = [UIFont systemFontOfSize:17.0];			
 				cell.textLabel.textColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			}
 			else if (row == LoginActionRow)
 			{

@@ -36,6 +36,7 @@
 		55A127C91097F42600B79AB5 /* TwitterCredentialsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55A127C81097F42600B79AB5 /* TwitterCredentialsViewController.xib */; };
 		55A127CF1097F53200B79AB5 /* TwitterCredentialsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */; };
 		55A3804210FA917A005671FD /* NSDate+PrettyPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A3804110FA917A005671FD /* NSDate+PrettyPrint.m */; };
+		55A380E910FAAA7A005671FD /* MKPlacemark+PrettyPrint.m in Sources */ = {isa = PBXBuildFile; fileRef = 55A380E810FAAA7A005671FD /* MKPlacemark+PrettyPrint.m */; };
 		55A6F0FF10D300860041E914 /* chat.png in Resources */ = {isa = PBXBuildFile; fileRef = 55A6F0FE10D300860041E914 /* chat.png */; };
 		55AC0F8B109E841200101F7F /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0F8A109E841200101F7F /* NSString+URLEncode.m */; };
 		55AC0FA8109E875F00101F7F /* NSString+PostData.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FA7109E875F00101F7F /* NSString+PostData.m */; };
@@ -119,6 +120,8 @@
 		55A127CE1097F53200B79AB5 /* TwitterCredentialsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterCredentialsViewController.m; sourceTree = "<group>"; };
 		55A3804010FA917A005671FD /* NSDate+PrettyPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+PrettyPrint.h"; sourceTree = "<group>"; };
 		55A3804110FA917A005671FD /* NSDate+PrettyPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+PrettyPrint.m"; sourceTree = "<group>"; };
+		55A380E710FAAA7A005671FD /* MKPlacemark+PrettyPrint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKPlacemark+PrettyPrint.h"; sourceTree = "<group>"; };
+		55A380E810FAAA7A005671FD /* MKPlacemark+PrettyPrint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKPlacemark+PrettyPrint.m"; sourceTree = "<group>"; };
 		55A6F0FE10D300860041E914 /* chat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = chat.png; path = images/chat.png; sourceTree = "<group>"; };
 		55AC0F89109E841200101F7F /* NSString+URLEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncode.h"; sourceTree = "<group>"; };
 		55AC0F8A109E841200101F7F /* NSString+URLEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncode.m"; sourceTree = "<group>"; };
@@ -337,6 +340,8 @@
 				550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */,
 				55A3804010FA917A005671FD /* NSDate+PrettyPrint.h */,
 				55A3804110FA917A005671FD /* NSDate+PrettyPrint.m */,
+				55A380E710FAAA7A005671FD /* MKPlacemark+PrettyPrint.h */,
+				55A380E810FAAA7A005671FD /* MKPlacemark+PrettyPrint.m */,
 				55D1CCC71098211A00FD9606 /* Utilities.h */,
 				55D1CCC81098211A00FD9606 /* Utilities.m */,
 				557192ED109A4EAC0059E40F /* WhereBeUsWindow.h */,
@@ -527,6 +532,7 @@
 				55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */,
 				55F807E410F7FFE5009ED48D /* AsyncImageView.m in Sources */,
 				55A3804210FA917A005671FD /* NSDate+PrettyPrint.m in Sources */,
+				55A380E910FAAA7A005671FD /* MKPlacemark+PrettyPrint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

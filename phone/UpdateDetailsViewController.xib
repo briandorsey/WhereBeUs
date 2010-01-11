@@ -90,7 +90,7 @@
 					</object>
 					<object class="IBUIView" id="990082341">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
+						<int key="NSvFlags">301</int>
 						<string key="NSFrame">{{10, 20}, {100, 100}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
@@ -229,7 +229,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UpdateDetailsViewController</string>
 					<string>UIResponder</string>
-					<string>{{419, 232}, {320, 480}}</string>
+					<string>{{419, 231}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>AsyncImageView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
