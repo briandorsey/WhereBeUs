@@ -320,6 +320,7 @@ CGFloat fsign(CGFloat f)
 	annotation.displayName = state.preferredDisplayName;
 	annotation.profileImageURL = state.preferredProfileImageURL;
 	annotation.largeProfileImageURL = state.preferredLargeProfileImageURL;
+	annotation.serviceType = state.preferredServiceType;
 	annotation.serviceURL = state.preferredServiceURL;
 	annotation.message = state.lastMessage;
 	[annotation setLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude];
