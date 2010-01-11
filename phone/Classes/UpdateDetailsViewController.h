@@ -11,7 +11,7 @@
 #import "AsyncImageView.h"
 
 
-@interface UpdateDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource, MKReverseGeocoderDelegate> {
+@interface UpdateDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet AsyncImageView *profileImageView;
 	IBOutlet UILabel *displayNameView;
 	IBOutlet UITableView *infoTableView;
