@@ -93,6 +93,11 @@
 
 - (NSString *)subtitle
 {
+	if (self.lastUpdate == nil)
+	{
+		return nil;
+	}
+	
 	NSString *interval = [[NSDate date] prettyPrintTimeIntervalSinceDate:self.lastUpdate];
 	return [NSString stringWithFormat:@"(updated %@)", interval];
 }
