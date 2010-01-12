@@ -117,4 +117,13 @@
 	return [UserKey userKeyForServiceType:self.serviceType idOnService:self.idOnService];
 }
 
+- (BOOL)isTwitter
+{
+	return [@"twitter" isEqualToString:self.serviceType];
+}
+
+- (BOOL)isFacebook
+{
+	return ![self isTwitter];
+}
 @end

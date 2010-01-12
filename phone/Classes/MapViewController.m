@@ -403,7 +403,18 @@ CGFloat fsign(CGFloat f)
 
 - (void)credentialsChanged:(NSNotification*)notification
 {
+	[self stopSyncingWithService];		
+
 	[self clearAllAnnotations];
+	
+	if (currentCoordinate.latitude != 0.0 || currentCoordinate.longitude != 0.0)
+	{
+		// immediately put our user back
+		[self updateUserAnnotationWithCoordinate:currentCoordinate];
+		
+		// immediately sync
+		[self startSyncingWithService];		
+	}
 }
 
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle

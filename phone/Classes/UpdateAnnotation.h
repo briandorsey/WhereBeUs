@@ -34,6 +34,8 @@
 - (NSString *)subtitle;
 - (void)setLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
 - (NSString *)userKey;
+- (BOOL)isTwitter;
+- (BOOL)isFacebook;
 
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *profileImageURL;

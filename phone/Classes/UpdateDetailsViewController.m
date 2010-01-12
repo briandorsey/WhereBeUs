@@ -108,7 +108,15 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 	
 	if (section == kServiceSection)
 	{
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.serviceURL]];
+		NSUInteger row = [indexPath indexAtPosition:1];
+		if (row == 0)
+		{
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.serviceURL]];
+		}
+		else
+		{
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://profile/%@", annotation.idOnService]]];
+		}
 	}
 }
 
@@ -126,7 +134,6 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSUInteger section = [indexPath indexAtPosition:0];
-//	NSUInteger row = [indexPath indexAtPosition:1];
 
 	UITableViewCell *cell = nil;
 
@@ -159,13 +166,21 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 	else if (section == kServiceSection)
 	{
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"service"] autorelease];	
-		if ([@"twitter" isEqualToString:annotation.serviceType])
+		if (annotation.isTwitter)
 		{
 			cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ on Twitter", annotation.displayName];
 		}
 		else
 		{
-			cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ on Facebook", annotation.displayName];
+			NSUInteger row = [indexPath indexAtPosition:1];
+			if (row == 0)
+			{
+				cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ on Facebook Site", annotation.displayName];
+			}
+			else
+			{
+				cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ in Facebook App", annotation.displayName];
+			}
 		}
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
 		cell.textLabel.textAlignment = UITextAlignmentCenter;
@@ -177,6 +192,10 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	if (section == kServiceSection && annotation.isFacebook)
+	{
+		return 2;
+	}
 	return 1;
 }
 
