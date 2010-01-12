@@ -16,6 +16,7 @@
 	NSString *message;
 	NSString *serviceType;
 	NSString *serviceURL;
+	NSString *idOnService;
 	NSDate *lastUpdate;
 	NSDate *lastMessageUpdate;
 	CLLocationCoordinate2D coordinate;
@@ -32,6 +33,7 @@
 - (NSString *)title;
 - (NSString *)subtitle;
 - (void)setLatitude:(CLLocationDegrees)latitude longitude:(CLLocationDegrees)longitude;
+- (NSString *)userKey;
 
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *profileImageURL;
@@ -39,6 +41,7 @@
 @property (nonatomic, retain) NSString *message;
 @property (nonatomic, retain) NSString *serviceType;
 @property (nonatomic, retain) NSString *serviceURL;
+@property (nonatomic, retain) NSString *idOnService;
 @property (nonatomic, retain) NSDate *lastUpdate;
 @property (nonatomic, retain) NSDate *lastMessageUpdate;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;

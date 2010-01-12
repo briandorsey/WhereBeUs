@@ -9,6 +9,7 @@
 #import "UpdateAnnotation.h"
 #import "NSDictionary+CleanObject.h"
 #import "NSDate+PrettyPrint.h"
+#import "UserKey.h"
 
 @implementation UpdateAnnotation
 
@@ -17,6 +18,7 @@
 @synthesize largeProfileImageURL;
 @synthesize serviceType;
 @synthesize serviceURL;
+@synthesize idOnService;
 @synthesize message;
 @synthesize lastUpdate;
 @synthesize lastMessageUpdate;
@@ -45,6 +47,7 @@
 	self.largeProfileImageURL = nil;
 	self.serviceType = nil;
 	self.serviceURL = nil;
+	self.idOnService = nil;
 	self.message = nil;
 	self.lastUpdate = nil;
 	self.lastMessageUpdate = nil;
@@ -58,6 +61,7 @@
 	self.largeProfileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"large_profile_image_url"];
 	self.serviceType = (NSString *)[dictionary objectForKeyOrNilIfNull:@"service_type"];
 	self.serviceURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"service_url"];
+	self.idOnService = (NSString *)[dictionary objectForKeyOrNilIfNull:@"id_on_service"];
 	self.message = (NSString *)[dictionary objectForKeyOrNilIfNull:@"message"];
 	coordinate.latitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"latitude"] doubleValue];
 	coordinate.longitude = (CLLocationDegrees) [(NSNumber *)[dictionary objectForKeyOrNilIfNull:@"longitude"] doubleValue];
@@ -107,4 +111,10 @@
 	coordinate.latitude = latitude;
 	coordinate.longitude = longitude;
 }
+
+- (NSString *)userKey
+{
+	return [UserKey userKeyForServiceType:self.serviceType idOnService:self.idOnService];
+}
+
 @end

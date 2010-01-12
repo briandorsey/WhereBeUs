@@ -14,6 +14,7 @@
 #import "JsonResponse.h"
 #import "UpdateAnnotation.h"
 #import "UpdateAnnotationView.h"
+#import "UserKey.h"
 
 static const NSTimeInterval kServiceSyncSeconds = 15;
 #define kDefaultLatLonSpan 0.05
@@ -71,11 +72,12 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 	// ignore that here.
 	NSArray *updates = [dictionary objectForKey:@"updates"];
 	WhereBeUsState *state = [WhereBeUsState shared];
+	NSString *preferredUserKey = state.preferredUserKey;
 				
 	// STEP 1: mark all current annotations on the map as NOT VISITED
-	for (id key in displayNameToAnnotation)
+	for (id key in userKeyToAnnotation)
 	{
-		UpdateAnnotation *annotation = (UpdateAnnotation *)[displayNameToAnnotation objectForKey:key];
+		UpdateAnnotation *annotation = (UpdateAnnotation *)[userKeyToAnnotation objectForKey:key];
 		annotation.visited = NO;
 	}
 	
@@ -83,18 +85,18 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 	// or update, the corresponding map annotation
 	for (NSDictionary *update in updates)
 	{				
-		NSString *updateDisplayName = (NSString *)[update objectForKey:@"display_name"];
+		NSString *updateUserKey = [UserKey userKeyForUpdate:update];
 		
-		if (![state.preferredDisplayName isEqualToString:updateDisplayName])
+		if (![preferredUserKey isEqualToString:updateUserKey])
 		{					
-			UpdateAnnotation *annotation = (UpdateAnnotation *)[displayNameToAnnotation objectForKey:updateDisplayName];
+			UpdateAnnotation *annotation = (UpdateAnnotation *)[userKeyToAnnotation objectForKey:updateUserKey];
 			
 			if (annotation == nil)
 			{
 				// an annotation for this username doesn't yet exist. Create it.
 				annotation = [UpdateAnnotation updateAnnotationWithDictionary:update];
 				annotation.visited = YES;
-				[displayNameToAnnotation setObject:annotation forKey:updateDisplayName];
+				[userKeyToAnnotation setObject:annotation forKey:updateUserKey];
 				[self.mapView addAnnotation:annotation];
 			}
 			else
@@ -107,23 +109,24 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 	}
 	
 	// STEP 3: see if there are any annotations on the map that should go away
-	NSMutableArray *displayNamesThatWentAway = [NSMutableArray arrayWithCapacity:1];
+	NSMutableArray *userKeysThatWentAway = [NSMutableArray arrayWithCapacity:1];
 	
-	for (id key in displayNameToAnnotation)
+	for (id key in userKeyToAnnotation)
 	{
-		UpdateAnnotation *annotation = (UpdateAnnotation *)[displayNameToAnnotation objectForKey:key];
+		UpdateAnnotation *annotation = (UpdateAnnotation *)[userKeyToAnnotation objectForKey:key];
+		NSString *userKey = [annotation userKey];
 		
-		if (![state.preferredDisplayName isEqualToString:annotation.displayName] && !annotation.visited)
+		if (![preferredUserKey isEqualToString:userKey] && !annotation.visited)
 		{
 			[self.mapView removeAnnotation:annotation];
-			[displayNamesThatWentAway addObject:annotation.displayName];
+			[userKeysThatWentAway addObject:userKey];
 		}
 	}
 	
 	// (can't remove stuff from twitterUserNameToAnnotation while enumerating it!)
-	for (id key in displayNamesThatWentAway)
+	for (id key in userKeysThatWentAway)
 	{
-		[displayNameToAnnotation removeObjectForKey:key];
+		[userKeyToAnnotation removeObjectForKey:key];
 	}
 
 	// Done updating! Make sure the map reflects our changes!
@@ -300,6 +303,12 @@ CGFloat fsign(CGFloat f)
 	[[appDelegate frontSideNavigationController] showUpdateDetailView:annotation animated:animated];
 }
 
+- (void)clearAllAnnotations
+{
+	[userKeyToAnnotation removeAllObjects];
+	[self.mapView removeAnnotations:[self.mapView annotations]];
+}
+
 
 //------------------------------------------------------------------
 // Location Management for the current user, including annotations
@@ -308,7 +317,7 @@ CGFloat fsign(CGFloat f)
 - (void)updateUserAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
-	UpdateAnnotation *annotationFromDictionary = (UpdateAnnotation *) [displayNameToAnnotation objectForKey:state.preferredDisplayName];
+	UpdateAnnotation *annotationFromDictionary = (UpdateAnnotation *) [userKeyToAnnotation objectForKey:state.preferredUserKey];
 	UpdateAnnotation *annotation = annotationFromDictionary;
 	
 	if (annotationFromDictionary == nil)
@@ -322,13 +331,14 @@ CGFloat fsign(CGFloat f)
 	annotation.largeProfileImageURL = state.preferredLargeProfileImageURL;
 	annotation.serviceType = state.preferredServiceType;
 	annotation.serviceURL = state.preferredServiceURL;
+	annotation.idOnService = state.preferredServiceId;
 	annotation.message = state.lastMessage;
 	[annotation setLatitude:currentCoordinate.latitude longitude:currentCoordinate.longitude];
 	annotation.visited = NO;
 	
 	if (annotationFromDictionary == nil)
 	{
-		[displayNameToAnnotation setObject:annotation forKey:state.preferredDisplayName];
+		[userKeyToAnnotation setObject:annotation forKey:state.preferredUserKey];
 		[self.mapView addAnnotation:annotation];
 	}
 	
@@ -391,6 +401,11 @@ CGFloat fsign(CGFloat f)
 // UIViewController overrides
 //------------------------------------------------------------------
 
+- (void)credentialsChanged:(NSNotification*)notification
+{
+	[self clearAllAnnotations];
+}
+
 - (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle
 {
     self = [super initWithNibName:nibName bundle:nibBundle];
@@ -398,13 +413,15 @@ CGFloat fsign(CGFloat f)
 	{
 		// set up basic state
 		hasCoordinate = NO;
-		displayNameToAnnotation = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
+		userKeyToAnnotation = [[NSMutableDictionary dictionaryWithCapacity:1] retain];
 
 		// build our location manager
 		locationManager = [[CLLocationManager alloc] init];
 		locationManager.distanceFilter = 20.0; /* don't update unless you've moved 20 meters or more */
 		locationManager.desiredAccuracy = kCLLocationAccuracyBest; /* i think we definitely want this for our purposes, despite battery drain */
 		locationManager.delegate = self;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(credentialsChanged:) name:CREDENTIALS_CHANGED object:nil];		
     }
     return self;
 }
@@ -429,7 +446,7 @@ CGFloat fsign(CGFloat f)
 	self.backSideButton = nil;
 	self.chatButton = nil;
 	
-	[displayNameToAnnotation release];	
+	[userKeyToAnnotation release];	
 	[locationManager stopUpdatingLocation];
 	[locationManager release];
 	

@@ -13,6 +13,7 @@ class User(db.Model):
     large_profile_image_url = db.LinkProperty()
     service_url = db.LinkProperty() 
     service_type = db.StringProperty()
+    id_on_service = db.IntegerProperty()
     message = db.StringProperty()
     message_time = db.DateTimeProperty()
 
@@ -78,6 +79,7 @@ class UserService(db.Model):
                         "message_time": iso_utc_string(friend_user.message_time) if friend_user.message else None,
                         "service_type": friend_user.service_type,
                         "service_url": friend_user.service_url,
+                        "id_on_service": friend_user.id_on_service,
                     }
                     yield update
                 
@@ -86,8 +88,8 @@ class UserService(db.Model):
         seen = {}
         for user_service in user_services:
             for update in user_service.iter_friend_updates():
-                # get rid of duplicates, _independent_ of service
-                key = (update["display_name"], update["profile_image_url"])
+                # get rid of duplicates
+                key = (update["service_type"], update["id_on_service"])
                 if key not in seen:
                     seen[key] = True
                     yield update

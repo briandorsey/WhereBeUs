@@ -7,6 +7,7 @@
 //
 
 #import "WhereBeUsState.h"
+#import "UserKey.h"
 
 static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
 static NSString *const kTwitterUserIdKey = @"twitter_user_id";
@@ -259,6 +260,20 @@ static NSString *const kLastMessageKey = @"last_message";
 		return @"twitter";
 	}
 	return @"facebook";
+}
+
+- (NSString *)preferredServiceId
+{
+	if (self.hasTwitterCredentials)
+	{
+		return [NSString stringWithFormat:@"%u", self.twitterUserId];
+	}
+	return [NSString stringWithFormat:@"%qu", self.facebookUserId];
+}
+
+- (NSString *)preferredUserKey
+{
+	return [UserKey userKeyForServiceType:self.preferredServiceType idOnService:self.preferredServiceId];
 }
 
 

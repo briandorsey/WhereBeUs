@@ -35,7 +35,7 @@
 	BOOL hasCoordinate;
 
 	// neato!
-	NSMutableDictionary *displayNameToAnnotation;
+	NSMutableDictionary *userKeyToAnnotation;
 }
 
 @property (nonatomic, retain) IBOutlet MKMapView *mapView;

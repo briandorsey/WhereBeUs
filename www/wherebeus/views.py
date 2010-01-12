@@ -72,6 +72,7 @@ def api_1_update(request):
                 user.large_profile_image_url = user_service.large_profile_image_url
                 user.service_url = user_service.service_url
                 user.service_type = user_service.service_type
+                user.id_on_service = user_service.id_on_service
                 info_from = user_service.service_type
             user_services.append(user_service)
             
