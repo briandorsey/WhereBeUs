@@ -69,6 +69,13 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 	[appDelegate flip:YES];
 }
 
+- (IBAction)aboutButtonPressed:(id)sender
+{
+	// CONSIDER -- maybe do something else? Will this be a surprise to users?
+	// We shall see...
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wherebe.us/about/"]];
+}
+
 - (void)dealloc 
 {
 	self.tableView = nil;

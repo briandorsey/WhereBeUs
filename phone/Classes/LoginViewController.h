@@ -24,5 +24,6 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
 
 - (void)doneButtonPressed:(id)sender;
+- (IBAction)aboutButtonPressed:(id)sender;
 
 @end
