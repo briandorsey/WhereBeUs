@@ -66,22 +66,23 @@ class UserService(db.Model):
         for friend_user in self.iter_friend_users():
             if friend_user.location_updates:
                 location_update = friend_user.location_updates[0]
-                # Only provide an update if it is recent...
-                if (datetime.datetime.now() - location_update.update_time) <= settings.TIME_HORIZON:
-                    update = {
-                        "display_name": friend_user.display_name,
-                        "profile_image_url": friend_user.profile_image_url,
-                        "large_profile_image_url": friend_user.large_profile_image_url,
-                        "latitude": location_update.location.lat,
-                        "longitude": location_update.location.lon,
-                        "update_time": iso_utc_string(location_update.update_time),
-                        "message": friend_user.message if friend_user.message else "",
-                        "message_time": iso_utc_string(friend_user.message_time) if friend_user.message else None,
-                        "service_type": friend_user.service_type,
-                        "service_url": friend_user.service_url,
-                        "id_on_service": friend_user.id_on_service,
-                    }
-                    yield update
+                if location_update.location.lat and location_update.location.lon:
+                    # Only provide an update if it is recent...
+                    if (datetime.datetime.now() - location_update.update_time) <= settings.TIME_HORIZON:
+                        update = {
+                            "display_name": friend_user.display_name,
+                            "profile_image_url": friend_user.profile_image_url,
+                            "large_profile_image_url": friend_user.large_profile_image_url,
+                            "latitude": location_update.location.lat,
+                            "longitude": location_update.location.lon,
+                            "update_time": iso_utc_string(location_update.update_time),
+                            "message": friend_user.message if friend_user.message else "",
+                            "message_time": iso_utc_string(friend_user.message_time) if friend_user.message else None,
+                            "service_type": friend_user.service_type,
+                            "service_url": friend_user.service_url,
+                            "id_on_service": friend_user.id_on_service,
+                        }
+                        yield update
                 
     @staticmethod
     def iter_updates_for_user_services(user_services):

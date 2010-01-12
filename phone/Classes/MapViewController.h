@@ -33,6 +33,7 @@
 	CLLocationAccuracy bestHorizontalAccuracy;
 	CLLocationCoordinate2D currentCoordinate;
 	BOOL hasCoordinate;
+	BOOL encounteredLocationFailure;
 
 	// neato!
 	NSMutableDictionary *userKeyToAnnotation;

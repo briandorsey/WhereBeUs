@@ -393,7 +393,19 @@ CGFloat fsign(CGFloat f)
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-	// XXX TODO
+	// If we have yet to recieve a location, we probably got here as a result
+	// of the user saying "Don't Allow" to location updates. We should 
+	// let them know what this won't do much for them.
+	if (currentCoordinate.latitude == 0.0 && currentCoordinate.longitude == 0.0)
+	{
+		encounteredLocationFailure = YES;
+		[locationManager stopUpdatingLocation];
+		[Utilities displayModalAlertWithTitle:@"Can't Get Location" message:@"You have chosen not to share your location. Your friends won't be able to see where you are. Please consider turning on location services." buttonTitle:@"OK" delegate:nil];
+		
+		// go ahead and show me my friends, anyway -- basically, force the issue.
+		hasCoordinate = YES;
+		[self startSyncingWithService];
+	}
 }
 
 
@@ -440,7 +452,10 @@ CGFloat fsign(CGFloat f)
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];	
-	[locationManager startUpdatingLocation];
+	if (!encounteredLocationFailure)
+	{
+		[locationManager startUpdatingLocation];
+	}
 	[self startSyncingWithService];
 }
 
