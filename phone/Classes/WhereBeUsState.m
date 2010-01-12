@@ -72,7 +72,7 @@ static NSString *const kLastMessageKey = @"last_message";
 
 + (WhereBeUsState *)getDefaultState
 {
-	return [[WhereBeUsState alloc] init];
+	return [[[WhereBeUsState alloc] init] autorelease];
 }
 
 + (id)shared
@@ -86,7 +86,7 @@ static NSString *const kLastMessageKey = @"last_message";
 			_shared = [WhereBeUsState attemptToReadStateFile];
 			if (_shared == nil)
 			{
-				_shared = [WhereBeUsState getDefaultState];
+				_shared = [[WhereBeUsState getDefaultState] retain];
 			}
 		}		
 	}

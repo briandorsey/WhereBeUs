@@ -84,6 +84,7 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 + (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
 }
 
@@ -91,12 +92,14 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:message, @"status", nil];
+	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
 + (void)twitter_getFriendsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://twitter.com/friends/ids/%@.json", username]
 							   delegate:[ConnectionHelper getDelegate] 
 							   userData:d 
@@ -233,12 +236,14 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 	// Kick off the network request
 	NSString *postJson = [postDictionary JSONRepresentation];
+	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/update/", kServiceBaseURL] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:[postJson dataUsingEncoding:NSUTF8StringEncoding]];		
 }
 
 + (void)wbu_getUserServiceDetailsWithTarget:(id)target action:(SEL)action serviceType:(NSString *)serviceType idOnService:(NSString *)idOnService
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
+	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
 	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"%@/api/1/user_service/%@/%@/", kServiceBaseURL, serviceType, idOnService] delegate:[ConnectionHelper getDelegate] userData:d authUsername:nil authPassword:nil postData:nil];	
 }
 

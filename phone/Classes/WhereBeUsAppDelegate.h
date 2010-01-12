@@ -15,6 +15,7 @@
     IBOutlet WhereBeUsWindow *window;
     IBOutlet FrontSideNavigationController *frontSideNavigationController;
     IBOutlet BackSideNavigationController *backSideNavigationController; // effectively, a modal view controller to the frontSideNavController.
+	FBSession *facebookSession;
 	BOOL showingFrontSide;
 }
 

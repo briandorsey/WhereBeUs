@@ -83,10 +83,10 @@
     
 	// Set up the facebook session.
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"FacebookKeysActual" ofType:@"plist"];
-	NSDictionary *keys = [[NSDictionary alloc] initWithContentsOfFile:path];	
+	NSDictionary *keys = [[[NSDictionary alloc] initWithContentsOfFile:path] autorelease];	
 	NSString *apiKey = (NSString *)[keys objectForKey:@"FacebookApiKey"];
 	NSString *apiSecret = (NSString *)[keys objectForKey:@"FacebookApiSecret"];
-	FBSession *facebookSession = [[FBSession sessionForApplication:apiKey secret:apiSecret delegate:self] retain];
+	facebookSession = [[FBSession sessionForApplication:apiKey secret:apiSecret delegate:self] retain];
 	
 	// Load our application state (potentially from a file)
 	WhereBeUsState *state = [WhereBeUsState shared];
@@ -150,6 +150,7 @@
 	self.window = nil;
 	self.frontSideNavigationController = nil;
 	self.backSideNavigationController = nil;
+	[facebookSession release];
 	[super dealloc];
 }
 
