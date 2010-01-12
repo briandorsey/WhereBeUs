@@ -25,6 +25,23 @@ div.page
     text-align: left;
 }
 
+div.page-phone
+{
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.page-phone h1, .page-phone h2, .page-phone h3
+{
+    color: #FFF;
+}
+
 .header
 {
     padding-top: 50px;
@@ -36,9 +53,19 @@ div.page
     padding-top: 50px;
 }
 
+.content-phone
+{
+    padding-top: 10px;
+}
+
 .content p
 {
     padding-bottom: 20px;
+}
+
+.content-phone p
+{
+    padding-top: 14px;
 }
 
 a, a:visited, a:link
@@ -74,6 +101,29 @@ a:hover
 .copyright
 {
     font-size: small;
+}
+
+em
+{
+    font-weight: bold;
+}
+
+
+.phone-face
+{
+    float: left;
+}
+
+.phone-headline
+{
+    margin-left: 86px;
+    margin-top: 14px;
+}
+
+.phone-content-start
+{
+    clear: both;
+    margin-top: 28px;
 }
 
 
