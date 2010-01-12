@@ -41,5 +41,7 @@
 	<true/>
 	<key>NSMainNibFile</key>
 	<string>MainWindow</string>
+	<key>SBUsesNetwork</key>
+	<true/>
 </dict>
 </plist>
