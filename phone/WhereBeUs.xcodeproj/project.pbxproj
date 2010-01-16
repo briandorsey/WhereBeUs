@@ -44,6 +44,7 @@
 		55AC0FEF109E8D4400101F7F /* SendMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55AC0FEE109E8D4400101F7F /* SendMessageViewController.xib */; };
 		55AC0FF3109E8D7B00101F7F /* SendMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AC0FF2109E8D7B00101F7F /* SendMessageViewController.m */; };
 		55B4F32A10FBE69600BDC29F /* UserKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 55B4F32910FBE69600BDC29F /* UserKey.m */; };
+		55B4F53A110139A800BDC29F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 55B4F539110139A800BDC29F /* Default.png */; };
 		55D1CC821098190500FD9606 /* NSData+Base64Encoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */; };
 		55D1CC8510981A6F00FD9606 /* ConnectionHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CC8410981A6F00FD9606 /* ConnectionHelper.m */; };
 		55D1CCC91098211A00FD9606 /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D1CCC81098211A00FD9606 /* Utilities.m */; };
@@ -135,6 +136,7 @@
 		55AC0FF2109E8D7B00101F7F /* SendMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendMessageViewController.m; sourceTree = "<group>"; };
 		55B4F32810FBE69600BDC29F /* UserKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserKey.h; sourceTree = "<group>"; };
 		55B4F32910FBE69600BDC29F /* UserKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserKey.m; sourceTree = "<group>"; };
+		55B4F539110139A800BDC29F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		55D1CC801098190500FD9606 /* NSData+Base64Encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64Encoding.h"; sourceTree = "<group>"; };
 		55D1CC811098190500FD9606 /* NSData+Base64Encoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64Encoding.m"; sourceTree = "<group>"; };
 		55D1CC8310981A6F00FD9606 /* ConnectionHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionHelper.h; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				55E77F0710C383C400F49D91 /* FacebookKeys.plist */,
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
 				55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */,
+				55B4F539110139A800BDC29F /* Default.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				553C934810DDE218002EB459 /* icon.png in Resources */,
 				55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */,
 				55F807EC10F80167009ED48D /* default100.png in Resources */,
+				55B4F53A110139A800BDC29F /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
