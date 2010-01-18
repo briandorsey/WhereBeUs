@@ -8,6 +8,5 @@ urlpatterns += patterns(
     url(r'^$', 'static', {'template': 'index.html'}, name='index'),
     url(r'^about/$', 'static', {'template': 'about.html'}, name='about'),
     url(r'^api/1/update/$', 'api_1_update', name='api_update'),
-    url(r'^api/1/user_service/(?P<service_type>\w+)/(?P<id_on_service>\d+)/$', 'api_1_user_service_details', name='api_user_service'),
 )
 

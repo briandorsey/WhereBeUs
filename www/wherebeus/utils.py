@@ -82,3 +82,18 @@ def iso_utc_string(dt):
     # after digging around in datetime for too long, I gave up and
     # hacked the UTC mark in.
     return no_micros.isoformat() + "Z"
+
+
+#------------------------------------------------------------------------------
+# Misc.
+#------------------------------------------------------------------------------
+
+def chunk_sequence(sequence, chunk_size):
+    chunk = []
+    for item in sequence:
+        chunk.append(item)
+        if len(chunk) >= chunk_size:
+            yield chunk
+            chunk = []
+    if chunk:
+        yield chunk
