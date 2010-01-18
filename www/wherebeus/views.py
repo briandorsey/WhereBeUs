@@ -21,7 +21,7 @@ def static(request, template):
 def api_1_update(request):
     result = {'success': False, 'message': 'Did not compute a result.'}
     try:
-        update_time = datetime.datetime.utcnow()
+        request_time = datetime.datetime.utcnow()
 
         # Read data and basic sandity check
         data = json.loads(request.raw_post_data.decode('utf8'))
@@ -51,14 +51,14 @@ def api_1_update(request):
             user_service.profile_image_url = service.get('profile_image_url', user_service.profile_image_url)
             user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)
             user_service.service_url = service.get('service_url', user_service.service_url)
-            user_serivce.update_time = update_time
+            user_serivce.update_time = request_time
             
             if latitude or longitude:
                 user_service.location = db.GeoPt(latitude, longitude)
                 
             if message:
                 user_service.message = message
-                user_service.message_time = update_time
+                user_service.message_time = request_time
                 
             followers = service.get('followers', None)
             if followers is not None:
@@ -72,7 +72,7 @@ def api_1_update(request):
         # Now cons up some updates, if they're desired...
         want_updates = data.get('want_updates', False)
         if want_updates:
-            updates = UserService.updates_for_user_services(user_services)
+            updates = UserService.updates_for_user_services(user_services, request_time)
         else:
             updates = []                
     except Exception, message:

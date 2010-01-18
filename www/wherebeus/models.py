@@ -52,23 +52,24 @@ class UserService(db.Model):
         user_service_keys = [user_service_index_key.parent() for user_service_index_key in user_service_index_keys]
         return db.get(user_service_keys)
         
-    def update(self):
+    def update(self, request_time):
         if (self.location is None) or (self.location.lat == 0.0 and self.location.lon == 0.0):
             return None
-        if (datetime.datetime.now() - self.update_time) > settings.TIME_HORIZON:
+        if (request_time - self.update_time) > settings.TIME_HORIZON:
             return None
         return {
-            "display_name": friend_user.display_name,
-            "profile_image_url": friend_user.profile_image_url,
-            "large_profile_image_url": friend_user.large_profile_image_url,
-            "latitude": location_update.location.lat,
-            "longitude": location_update.location.lon,
-            "update_time": iso_utc_string(location_update.update_time),
-            "message": friend_user.message if friend_user.message else "",
-            "message_time": iso_utc_string(friend_user.message_time) if friend_user.message else None,
-            "service_type": friend_user.service_type,
-            "service_url": friend_user.service_url,
-            "id_on_service": friend_user.id_on_service,
+            "screen_name": self.screen_name,
+            "display_name": self.display_name,
+            "profile_image_url": self.profile_image_url,
+            "large_profile_image_url": self.large_profile_image_url,
+            "latitude": self.location.lat,
+            "longitude": self.location.lon,
+            "update_time": iso_utc_string(self.update_time),
+            "message": self.message if self.message else "",
+            "message_time": iso_utc_string(self.message_time) if self.message else None,
+            "service_type": self.service_type,
+            "service_url": self.service_url,
+            "id_on_service": self.id_on_service,
         }
         
     def set_followers(self, follower_ids):
@@ -99,16 +100,16 @@ class UserService(db.Model):
         return seen.values()
         
     @staticmethod
-    def iter_updates_for_user_services(user_services):
+    def iter_updates_for_user_services(user_services, request_time):
         unique_services = UserService.unique_following(user_services)
         for unique_service in unique_services:
-            update = unique_service.update()
+            update = unique_service.update(request_time)
             if update is not None:
                 yield update
     
     @staticmethod
-    def updates_for_user_services(user_services):
-        return [update for update in UserService.iter_updates_for_user_services(user_services)]
+    def updates_for_user_services(user_services, request_time):
+        return [update for update in UserService.iter_updates_for_user_services(user_services, request_time)]
 
 class UserServiceIndex(db.Model):
     # The key for this entity is always a child of a UserService
