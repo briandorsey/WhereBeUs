@@ -60,12 +60,33 @@
 // Private Overrides, etc.
 //----------------------------------------------------------------
 
-- (void)twitterFriendUpdateFinished:(JsonResponse *)response
+- (void)twitterFollowerUpdateFinished:(JsonResponse *)response
 {
-	if (response != nil && response.isArray)
+	if (response != nil && response.isDictionary)
 	{
 		WhereBeUsState *state = [WhereBeUsState shared];
-		[state setTwitterFriendIds:response.array];
+		NSDictionary *dictionary = response.dictionary;
+		NSArray *ids = [dictionary objectForKey:@"ids"];
+		NSString *previousCursor = [dictionary objectForKey:@"previous_cursor_str"];
+		NSString *nextCursor = [dictionary objectForKey:@"next_cursor_str"];
+		
+		if ([@"0" isEqualToString:previousCursor])
+		{
+			// This was our first request, so clear out our old list entirely...
+			[state setTwitterFollowerIds:ids];
+		}
+		else
+		{
+			// This was NOT our first request, so append old list with new list
+			[state setTwitterFollowerIds:[[state twitterFollowerIds] arrayByAddingObjectsFromArray:ids]];
+		}
+		
+		if (![@"0" isEqualToString:nextCursor])
+		{
+			// There are more followers to come... so request them...
+			[ConnectionHelper twitter_getFollowersWithTarget:self action:@selector(twitterFollowerUpdateFinished:) username:state.twitterUsername password:state.twitterPassword cursor:nextCursor];			
+		}
+		
 		[state save];
 	}	
 }
@@ -73,7 +94,7 @@
 - (void)updateTwitterFriends
 {
 	WhereBeUsState *state = [WhereBeUsState shared];
-	[ConnectionHelper twitter_getFriendsWithTarget:self action:@selector(twitterFriendUpdateFinished:) username:state.twitterUsername password:state.twitterPassword];
+	[ConnectionHelper twitter_getFollowersWithTarget:self action:@selector(twitterFollowerUpdateFinished:) username:state.twitterUsername password:state.twitterPassword cursor:STARTING_CURSOR];
 }
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
@@ -172,7 +193,7 @@
 	}
 }
 
-- (void)done_facebookFriendIdsQuery:(id)result
+- (void)done_facebookFollowerIdsQuery:(id)result
 {
 	if ((result != nil) && ([result isKindOfClass:[NSArray class]]))
 	{
@@ -191,7 +212,7 @@
 		NSArray *finalArray = [NSArray arrayWithArray:array];
 		
 		WhereBeUsState *state = [WhereBeUsState shared];
-		[state setFacebookFriendIds:finalArray];
+		[state setFacebookFollowerIds:finalArray];
 		[state save];		
 	}
 }
@@ -215,7 +236,7 @@
 		
 		// Also, query for the IDs of my friends...
 		params = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%qu", state.facebookUserId], @"uid", nil];
-		[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookFriendIdsQuery:) call:@"facebook.friends.get" params:params];
+		[ConnectionHelper fb_requestWithTarget:self action:@selector(done_facebookFollowerIdsQuery:) call:@"facebook.friends.get" params:params];
 	}
 	else
 	{

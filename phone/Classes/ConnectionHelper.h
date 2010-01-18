@@ -17,6 +17,7 @@
 #define TWITTER_PROFILE_IMAGE_URL @"profile_image_url"
 #define TWITTER_BIO @"description"
 #define TWITTER_ERROR @"error"
+#define STARTING_CURSOR @"-1"
 
 @interface ConnectionHelper : NSObject<JsonConnectionDelegate, FBRequestDelegate> {
 	CFMutableDictionaryRef facebookRequestToDictionary;
@@ -30,7 +31,7 @@
 
 + (void)twitter_verifyCredentialsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
 + (void)twitter_postTweetWithTarget:(id)target action:(SEL)action message:(NSString *)message username:(NSString *)username password:(NSString *)password;
-+ (void)twitter_getFriendsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password;
++ (void)twitter_getFollowersWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password cursor:(NSString *)cursor;
 
 + (void)wbu_updateWithTarget:(id)target action:(SEL)action coordinate:(CLLocationCoordinate2D)coordinate;
 + (void)wbu_getUserServiceDetailsWithTarget:(id)target action:(SEL)action serviceType:(NSString *)serviceType idOnService:(NSString *)idOnService;

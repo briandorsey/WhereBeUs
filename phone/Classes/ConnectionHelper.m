@@ -14,7 +14,7 @@
 
 static NSString *const kTarget = @"target";
 static NSString *const kActionValue = @"actionValue";
-static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
+static NSString *const kServiceBaseURL = @"http://ourtweetspot.appspot.com";
 
 // use this base URL instead for local testing (useful for debugging from simulator!)
 // static NSString *const kServiceBaseURL = @"http://localhost:8080";
@@ -96,11 +96,11 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
-+ (void)twitter_getFriendsWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password
++ (void)twitter_getFollowersWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password cursor:(NSString *)cursor
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
-	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://twitter.com/friends/ids/%@.json", username]
+	[[JsonConnection alloc] initWithURL:[NSString stringWithFormat:@"http://twitter.com/followers/ids/%@.json?cursor=%@", username, cursor]
 							   delegate:[ConnectionHelper getDelegate] 
 							   userData:d 
 						   authUsername:username 
@@ -117,12 +117,12 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	static NSString *previousFacebookProfileImageURL = nil;
 	static NSString *previousFacebookLargeProfileImageURL = nil;
 	static NSString *previousFacebookServiceURL = nil;
-	static NSArray *previousFacebookFriendIds = nil;
+	static NSArray *previousFacebookFollowerIds = nil;
 	static NSString *previousTwitterDisplayName = nil;
 	static NSString *previousTwitterProfileImageURL = nil;
 	static NSString *previousTwitterLargeProfileImageURL = nil;
 	static NSString *previousTwitterServiceURL = nil;
-	static NSArray *previousTwitterFriendIds = nil;
+	static NSArray *previousTwitterFollowerIds = nil;
 	static NSString *previousMessage = nil;
 
 	// Prepare to sync with service
@@ -162,10 +162,10 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 			previousFacebookServiceURL = state.facebookServiceURL;
 		}
 		
-		if (state.facebookFriendIds != previousFacebookFriendIds)
+		if (state.facebookFollowerIds != previousFacebookFollowerIds)
 		{
-			[facebookService setObject:state.facebookFriendIds forKey:@"friends"];
-			previousFacebookFriendIds = state.facebookFriendIds;
+			[facebookService setObject:state.facebookFollowerIds forKey:@"followers"];
+			previousFacebookFollowerIds = state.facebookFollowerIds;
 		}
 		
 		[services addObject:[NSDictionary dictionaryWithDictionary:facebookService]];
@@ -203,10 +203,10 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 			previousTwitterServiceURL = state.twitterServiceURL;
 		}
 		
-		if (state.twitterFriendIds != previousTwitterFriendIds)
+		if (state.twitterFollowerIds != previousTwitterFollowerIds)
 		{
-			[twitterService setObject:state.twitterFriendIds forKey:@"friends"];
-			previousTwitterFriendIds = state.twitterFriendIds;
+			[twitterService setObject:state.twitterFollowerIds forKey:@"followers"];
+			previousTwitterFollowerIds = state.twitterFollowerIds;
 		}
 		
 		[services addObject:[NSDictionary dictionaryWithDictionary:twitterService]];

@@ -43,8 +43,6 @@ class UserService(db.Model):
         user_service = UserService.get_or_insert(key_name = key_name)
         user_service.service_type = service_type
         user_service.id_on_service = id_on_service
-        if user_service.friend_ids is None:
-            user_service.friend_ids = []
         return user_service
         
     def following(self):

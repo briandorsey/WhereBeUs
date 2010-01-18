@@ -23,7 +23,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	NSString *twitterProfileImageURL;	
 	NSString *twitterLargeProfileImageURL;
 	NSString *twitterServiceURL;
-	NSArray *twitterFriendIds;
+	NSArray *twitterFollowerIds;
 	
 	// these are for convenience -- but they must be kept 
 	// in sync with the actual fb login/logout state.
@@ -32,7 +32,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	NSString *facebookProfileImageURL;
 	NSString *facebookLargeProfileImageURL;
 	NSString *facebookServiceURL;
-	NSArray *facebookFriendIds;
+	NSArray *facebookFollowerIds;
 	BOOL hasFacebookStatusUpdatePermission;
 	
 	NSString *lastMessage;	
@@ -66,7 +66,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)twitterProfileImageURL;
 - (NSString *)twitterLargeProfileImageURL;
 - (NSString *)twitterServiceURL;
-- (NSArray *)twitterFriendIds;
+- (NSArray *)twitterFollowerIds;
 
 - (FBUID)facebookUserId;
 - (NSString *)facebookDisplayName;
@@ -74,7 +74,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (NSString *)facebookLargeProfileImageURL;
 - (NSString *)facebookServiceURL;
 - (BOOL)hasFacebookStatusUpdatePermission;
-- (NSArray *)facebookFriendIds;
+- (NSArray *)facebookFollowerIds;
 
 - (NSString *)lastMessage;
 
@@ -87,7 +87,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	largeProfileImageURL:(NSString *)newTwitterLargeProfileImageURL
 			  serviceURL:(NSString *)newTwitterServiceURL;
 
-- (void)setTwitterFriendIds:(NSArray *)newTwitterFriendIds;
+- (void)setTwitterFollowerIds:(NSArray *)newTwitterFollowerIds;
 
 - (void)setFacebookUserId:(FBUID)newFacebookUserId 
 			  displayName:(NSString *)newFacebookDisplayName 
@@ -95,7 +95,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 	 largeProfileImageURL:(NSString *)newFacebookLargeProfileImageURL
 			   serviceURL:(NSString *)newFacebookServiceURL;
 
-- (void)setFacebookFriendIds:(NSArray *)newFacebookFriendIds;
+- (void)setFacebookFollowerIds:(NSArray *)newFacebookFollowerIds;
 
 - (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission;
 - (void)setLastMessage:(NSString *)newLastMessage;

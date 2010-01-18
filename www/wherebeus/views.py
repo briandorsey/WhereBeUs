@@ -51,7 +51,7 @@ def api_1_update(request):
             user_service.profile_image_url = service.get('profile_image_url', user_service.profile_image_url)
             user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)
             user_service.service_url = service.get('service_url', user_service.service_url)
-            user_serivce.update_time = request_time
+            user_service.update_time = request_time
             
             if latitude or longitude:
                 user_service.location = db.GeoPt(latitude, longitude)
