@@ -10,7 +10,6 @@ class UserService(db.Model):
     KNOWN_SERVICE_TYPES = ['twitter', 'facebook']
 
     # Stuff provided to us by the client
-    screen_name = db.StringProperty()               # dangerdave
     display_name = db.StringProperty()              # Dave Peck
     profile_image_url = db.LinkProperty()           # http://.../foo.jpg
     large_profile_image_url = db.LinkProperty()     # http://.../big-foo.jpg
@@ -56,7 +55,6 @@ class UserService(db.Model):
         if (request_time - self.update_time) > settings.TIME_HORIZON:
             return None
         return {
-            "screen_name": self.screen_name,
             "display_name": self.display_name,
             "profile_image_url": self.profile_image_url,
             "large_profile_image_url": self.large_profile_image_url,
@@ -73,7 +71,7 @@ class UserService(db.Model):
     def set_followers(self, follower_ids):
         follower_key_names = [UserService.key_name_for_service_and_id(self.service_type, follower_id) for follower_id in follower_ids]
         if self.index_count > 0:
-            old_index_keys = [Key.from_path('UserService', self.key().name(), 'UserServiceIndex', "index-%d" % i) for i in range(self.index_count)]
+            old_index_keys = [db.Key.from_path('UserService', self.key().name(), 'UserServiceIndex', "index-%d" % i) for i in range(self.index_count)]
             db.delete(old_index_keys)
         self.index_count = 0
         user_service_indexes = []
@@ -85,16 +83,14 @@ class UserService(db.Model):
     
     @staticmethod
     def unique_following(user_services):
-        # Shortcut for speed
-        if len(user_services) == 1:
-            return user_services[0].following()
-        
-        # This isn't terribly slow, but there is no point if the requesting user
-        # is only logged into one service. Note that this code explcitly "prefers" twitter.
-        seen = {}
+        followings = []
         for user_service in user_services:
-            if (user_service.update_guid not in seen) or (user_service.service_type == "twitter"):
-                seen[user_service.update_guid] = user_service
+            followings.extend(user_service.following())
+            
+        seen = {}
+        for following in followings:
+            if (following.update_guid not in seen) or (following.service_type == "twitter"):
+                seen[following.update_guid] = following
         return seen.values()
         
     @staticmethod
