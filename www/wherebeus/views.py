@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 import datetime
+import uuid
 
 from django.conf import settings
 from django.utils import simplejson as json
@@ -22,6 +23,7 @@ def api_1_update(request):
     result = {'success': False, 'message': 'Did not compute a result.'}
     try:
         request_time = datetime.datetime.utcnow()
+        request_guid = str(uuid.uuid4())
 
         # Read data and basic sandity check
         data = json.loads(request.raw_post_data.decode('utf8'))
@@ -52,6 +54,7 @@ def api_1_update(request):
             user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)
             user_service.service_url = service.get('service_url', user_service.service_url)
             user_service.update_time = request_time
+            user_service.update_guid = request_guid
             
             if latitude or longitude:
                 user_service.location = db.GeoPt(latitude, longitude)
