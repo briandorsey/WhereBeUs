@@ -1,5 +1,5 @@
 application: wherebeus
-version: 1
+version: 1-scalability
 runtime: python
 api_version: 1
 
