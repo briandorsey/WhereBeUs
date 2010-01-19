@@ -27,6 +27,13 @@
 	[self presentModalViewController:controller animated:YES];
 }
 
+- (void)showModalSendMessageWithCustomMessage:(NSString *)customMessage
+{
+	SendMessageViewController *controller = [[[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:nil customMessage:customMessage] autorelease];	
+	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	[self presentModalViewController:controller animated:YES];
+}
+
 - (void)hideModalSendMessage
 {
 	[self dismissModalViewControllerAnimated:YES];

@@ -113,9 +113,15 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 		{
 			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:annotation.serviceURL]];
 		}
-		else
+		else if (annotation.isFacebook)
 		{
 			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"fb://profile/%@", annotation.idOnService]]];
+		}
+		else
+		{
+			WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
+			NSString *customMessage = [NSString stringWithFormat:@"@%@ ", annotation.screenName];
+			[[appDelegate frontSideNavigationController] showModalSendMessageWithCustomMessage:customMessage];
 		}
 	}
 }
@@ -166,13 +172,20 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 	else if (section == kServiceSection)
 	{
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"service"] autorelease];	
+		NSUInteger row = [indexPath indexAtPosition:1];
 		if (annotation.isTwitter)
 		{
-			cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ on Twitter", annotation.displayName];
+			if (row == 0)
+			{
+				cell.textLabel.text = [NSString stringWithFormat:@"Visit @%@ on Twitter", annotation.screenName];
+			}
+			else
+			{
+				cell.textLabel.text = [NSString stringWithFormat:@"Send tweet to @%@", annotation.screenName];
+			}
 		}
 		else
 		{
-			NSUInteger row = [indexPath indexAtPosition:1];
 			if (row == 0)
 			{
 				cell.textLabel.text = [NSString stringWithFormat:@"Visit %@ on Facebook Site", annotation.displayName];
@@ -192,9 +205,16 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	if (section == kServiceSection && annotation.isFacebook)
+	if (section == kServiceSection)
 	{
-		return 2;
+		if (annotation.isFacebook)
+		{
+			return 2; // visit user in web browser, visit user in fb app
+		}
+		else
+		{
+			return 2; // visit user in web browser, send tweet to user
+		}
 	}
 	return 1;
 }

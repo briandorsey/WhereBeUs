@@ -10,6 +10,7 @@
 #import "UserKey.h"
 
 static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
+static NSString *const kHasEverSentMessageKey = @"has_ever_sent_message";
 static NSString *const kTwitterUserIdKey = @"twitter_user_id";
 static NSString *const kTwitterUsernameKey = @"twitter_username";
 static NSString *const kTwitterPasswordKey = @"twitter_password";
@@ -142,6 +143,7 @@ static NSString *const kLastMessageKey = @"last_message";
 
 - (void)setDefaults
 {
+	hasEverSentMessage = NO;
 	twitterUserId = (TwitterId) 0;
 	twitterUsername = nil;
 	twitterPassword = nil;
@@ -212,6 +214,17 @@ static NSString *const kLastMessageKey = @"last_message";
 - (BOOL)hasFacebookCredentials
 {
 	return (facebookUserId != (FBUID) 0);
+}
+
+- (BOOL)hasEverSentMessage
+{
+	return hasEverSentMessage;
+}
+
+- (void)setHasEverSentMessage:(BOOL)newHasEverSentMessage
+{
+	hasEverSentMessage = newHasEverSentMessage;
+	[self propertyChanged];
 }
 
 // current name and profile image (preference is for twitter if both twitter and facebook are logged in)
@@ -446,6 +459,7 @@ static NSString *const kLastMessageKey = @"last_message";
 {
 	[lastMessage autorelease];
 	lastMessage = [newLastMessage retain];
+	hasEverSentMessage = YES;
 	[self propertyChanged];
 }
 
@@ -453,6 +467,7 @@ static NSString *const kLastMessageKey = @"last_message";
 
 - (void)encodeWithCoder:(NSCoder *)encoder 
 {
+	[encoder encodeBool:hasEverSentMessage forKey:kHasEverSentMessageKey];
 	[encoder encodeInt32:(int32_t)twitterUserId forKey:kTwitterUserIdKey];
 	[encoder encodeObject:twitterUsername forKey:kTwitterUsernameKey];
 	[encoder encodeObject:twitterPassword forKey:kTwitterPasswordKey];
@@ -478,6 +493,7 @@ static NSString *const kLastMessageKey = @"last_message";
 	if (self != nil) 
 	{
 		[self setDefaults];
+		hasEverSentMessage = [decoder decodeBoolForKey:kHasEverSentMessageKey];
 		twitterUserId = (TwitterId) [decoder decodeInt32ForKey:kTwitterUserIdKey];
 		twitterUsername = [[decoder decodeObjectForKey:kTwitterUsernameKey] retain];
 		twitterPassword = [[decoder decodeObjectForKey:kTwitterPasswordKey] retain];
@@ -504,6 +520,8 @@ static NSString *const kLastMessageKey = @"last_message";
 - (id)copyWithZone:(NSZone *)zone 
 {
 	WhereBeUsState *copy = [[[self class] allocWithZone:zone] init];
+	
+	[copy setHasEverSentMessage:hasEverSentMessage];
 	
 	[copy setTwitterUserId:twitterUserId
 				  username:[[twitterUsername copy] autorelease]

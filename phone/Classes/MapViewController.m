@@ -338,6 +338,10 @@ CGFloat fsign(CGFloat f)
 		annotation = [UpdateAnnotation updateAnnotationWithDictionary:[NSDictionary dictionary]];
 	}
 	
+	if (state.hasTwitterCredentials)
+	{
+		annotation.screenName = state.twitterUsername;
+	}
 	annotation.displayName = state.preferredDisplayName;
 	annotation.profileImageURL = state.preferredProfileImageURL;
 	annotation.largeProfileImageURL = state.preferredLargeProfileImageURL;

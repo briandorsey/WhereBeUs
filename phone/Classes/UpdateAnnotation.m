@@ -13,6 +13,7 @@
 
 @implementation UpdateAnnotation
 
+@synthesize screenName;
 @synthesize displayName;
 @synthesize profileImageURL;
 @synthesize largeProfileImageURL;
@@ -42,6 +43,7 @@
 
 - (void)dealloc
 {
+	self.screenName = nil;
 	self.displayName = nil;
 	self.profileImageURL = nil;
 	self.largeProfileImageURL = nil;
@@ -56,6 +58,7 @@
 
 - (void)updateWithDictionary:(NSDictionary *)dictionary
 {
+	self.screenName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"screen_name"];
 	self.displayName = (NSString *)[dictionary objectForKeyOrNilIfNull:@"display_name"];
 	self.profileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"profile_image_url"];
 	self.largeProfileImageURL = (NSString *)[dictionary objectForKeyOrNilIfNull:@"large_profile_image_url"];

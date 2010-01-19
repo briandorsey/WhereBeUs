@@ -10,6 +10,7 @@ class UserService(db.Model):
     KNOWN_SERVICE_TYPES = ['twitter', 'facebook']
 
     # Stuff provided to us by the client
+    screen_name = db.StringProperty()               # dangerdave
     display_name = db.StringProperty()              # Dave Peck
     profile_image_url = db.LinkProperty()           # http://.../foo.jpg
     large_profile_image_url = db.LinkProperty()     # http://.../big-foo.jpg
@@ -55,6 +56,7 @@ class UserService(db.Model):
         if (request_time - self.update_time) > settings.TIME_HORIZON:
             return None
         return {
+            "screen_name": self.screen_name,
             "display_name": self.display_name,
             "profile_image_url": self.profile_image_url,
             "large_profile_image_url": self.large_profile_image_url,

@@ -24,18 +24,36 @@
 // Set Up / Tear Down
 //---------------------------------------------------------------
 
-- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle 
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle customMessage:(NSString *)theCustomMessage
 {
 	self = [super initWithNibName:nibName bundle:nibBundle];
     if (self != nil) 
 	{
+		customMessage = [theCustomMessage retain];
     }
     return self;
 }
 
+
 - (void)viewWillAppear:(BOOL)animated
 {
-	[self.messageText setText:@"I'm on the move! Follow me with http://wherebe.us/"];
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if (customMessage != nil)
+	{
+		[self.messageText setText:customMessage];
+	}
+	else
+	{
+		if (!state.hasEverSentMessage)
+		{							 
+			[self.messageText setText:@"I'm going places! Follow me with http://wherebe.us/"];
+		}
+		else
+		{
+			[self.messageText setText:@""];
+		}
+	}
+	
 	[self.messageText becomeFirstResponder];
 	[self.activityIndicator stopAnimating];
 	[super viewWillAppear:animated];
@@ -48,6 +66,7 @@
 
 - (void)dealloc 
 {
+	[customMessage release];
 	self.messageText = nil;
 	self.activityIndicator = nil;
     [super dealloc];

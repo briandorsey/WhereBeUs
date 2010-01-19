@@ -48,6 +48,7 @@ def api_1_update(request):
         user_services = []
         for service in services:
             user_service = UserService.get_or_insert_for_service_and_id(service['service_type'], service['id_on_service'])
+            user_service.screen_name = service.get('screen_name', user_service.screen_name)
             user_service.display_name = service.get('display_name', user_service.display_name)
             user_service.profile_image_url = service.get('profile_image_url', user_service.profile_image_url)
             user_service.large_profile_image_url = service.get('large_profile_image_url', user_service.large_profile_image_url)

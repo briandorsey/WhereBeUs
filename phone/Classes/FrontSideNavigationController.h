@@ -15,6 +15,7 @@
 
 - (void)showMapViewController:(BOOL)animated;
 - (void)showModalSendMessage;
+- (void)showModalSendMessageWithCustomMessage:(NSString *)customMessage;
 - (void)hideModalSendMessage;
 - (void)showUpdateDetailView:(UpdateAnnotation *)annotation animated:(BOOL)animated;
 

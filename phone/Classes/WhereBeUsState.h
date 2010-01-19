@@ -16,6 +16,8 @@
 typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter users. Seems fair enough. */
 
 @interface WhereBeUsState : NSObject<NSCoding, NSCopying> {
+	BOOL hasEverSentMessage;
+	
 	TwitterId twitterUserId;
 	NSString *twitterUsername;
 	NSString *twitterPassword;
@@ -48,6 +50,9 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 - (BOOL)hasAnyCredentials;
 - (BOOL)hasTwitterCredentials;
 - (BOOL)hasFacebookCredentials;
+
+- (BOOL)hasEverSentMessage;
+- (void)setHasEverSentMessage:(BOOL)newHasEverSentMessage;
 
 // current name and profile image (preference is for twitter if both twitter and facebook are logged in)
 - (NSString *)preferredDisplayName;

@@ -118,6 +118,7 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	static NSString *previousFacebookLargeProfileImageURL = nil;
 	static NSString *previousFacebookServiceURL = nil;
 	static NSArray *previousFacebookFollowerIds = nil;
+	static NSString *previousTwitterScreenName = nil;
 	static NSString *previousTwitterDisplayName = nil;
 	static NSString *previousTwitterProfileImageURL = nil;
 	static NSString *previousTwitterLargeProfileImageURL = nil;
@@ -178,6 +179,12 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 												@"twitter", @"service_type",
 												[NSNumber numberWithUnsignedLongLong:state.twitterUserId], @"id_on_service",
 												nil];
+		
+		if (state.twitterUsername != previousTwitterScreenName)
+		{
+			[twitterService setObject:state.twitterUsername forKey:@"screen_name"];
+			previousTwitterScreenName = state.twitterUsername;
+		}
 		
 		if (state.twitterDisplayName != previousTwitterDisplayName)
 		{

@@ -10,7 +10,8 @@
 #import "FBConnect/FBConnect.h"
 
 @interface SendMessageViewController : UIViewController<UITextViewDelegate, FBDialogDelegate, UIAlertViewDelegate> {
-	IBOutlet UITextView *messageText;
+	NSString *customMessage;	
+	IBOutlet UITextView *messageText;	
 	IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
@@ -18,5 +19,6 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 - (IBAction)cancelButtonPushed:(id)sender;
+- (id)initWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle customMessage:(NSString *)theCustomMessage;
 
 @end

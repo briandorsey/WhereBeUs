@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 
 @interface UpdateAnnotation : NSObject<MKAnnotation> {
+	NSString *screenName;
 	NSString *displayName;
 	NSString *profileImageURL;
 	NSString *largeProfileImageURL;
@@ -37,6 +38,7 @@
 - (BOOL)isTwitter;
 - (BOOL)isFacebook;
 
+@property (nonatomic, retain) NSString *screenName;
 @property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) NSString *profileImageURL;
 @property (nonatomic, retain) NSString *largeProfileImageURL;
