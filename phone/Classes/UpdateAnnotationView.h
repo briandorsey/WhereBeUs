@@ -19,6 +19,7 @@
 	id<WhereBeUsAnnotationManager> annotationManager;	
 }
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager;
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager;
+- (void)setNewAnnotation:(id<MKAnnotation>)newAnnotation;
 
 @end

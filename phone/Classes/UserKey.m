@@ -14,11 +14,7 @@
 + (NSString *)userKeyForServiceType:(NSString *)serviceType idOnService:(NSString *)idOnService
 {
 	// TODO davepeck: move this method somewhere sensible
-	NSLog(@"Generating key for us-%@-%@", serviceType, idOnService);
-	if (idOnService == nil)
-	{
-		NSLog(@"ALARMING");
-	}
+	// NSLog(@"Generating key for us-%@-%@", serviceType, idOnService);
 	return [NSString stringWithFormat:@"us-%@-%@", serviceType, idOnService];
 }
 

@@ -70,34 +70,38 @@
 	[annotationManager showDetailViewForAnnotation:self.annotation animated:YES];
 }
 
-- (id)initWithAnnotation:(id <MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager
+- (void)setNewAnnotation:(id<MKAnnotation>)newAnnotation
+{
+	initializing = YES;	
+	self.annotation = newAnnotation;	
+	self.opaque = NO;
+	twitterUserIcon = nil;
+	twitterIconPercent = 0.0;
+	UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)newAnnotation;
+	[[AsyncImageCache shared] loadImageForURL:updateAnnotation.profileImageURL delegate:self];		
+	initializing = NO;	
+}
+
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager
 {
 	self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
 	if (self != nil)
 	{
-		initializing = YES;		
-		self.opaque = NO;
-		annotationManager = theAnnotationManager;		
-		twitterUserIcon = nil;
-		twitterIconPercent = 0.0;
+		annotationManager = theAnnotationManager;
 		
 		self.bounds = CGRectMake(0.0, 0.0, BUBBLE_PNG_WIDTH, BUBBLE_PNG_HEIGHT);
 		self.centerOffset = CGPointMake(0.0, BUBBLE_PNG_CENTEROFFSET_Y);
 		
-		UpdateAnnotation *updateAnnotation = (UpdateAnnotation *)annotation;
-		[[AsyncImageCache shared] loadImageForURL:updateAnnotation.profileImageURL delegate:self];		
+		[self setNewAnnotation:annotation];
 		
 		// originally we acted as our own callout (see commit c66e5f9b28cee50bdd60294cef487e9437d98344), 
 		// but I decided that this was too much work (especially where touch interception was concerned) 
 		// for too little visual gain. Removing our expand/collapse visuals from this file allowed me 
 		// to remove probably 90% of the code here! --davepeck
-		self.canShowCallout = YES; 
-		
+		self.canShowCallout = YES; 		
 		UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 		[button addTarget:self action:@selector(disclosureButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
 		self.rightCalloutAccessoryView = button;
-		
-		initializing = NO;
 	}
 	return self;
 }

@@ -57,7 +57,6 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 		return; 
 	}
 	
-
 	NSDictionary *dictionary = [response dictionary];
 	BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
 	if (!success) 
@@ -237,7 +236,7 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 	}
 	else
 	{
-		annotationView.annotation = annotation;
+		[annotationView setNewAnnotation:annotation];
 	}
 	
 	return annotationView;
