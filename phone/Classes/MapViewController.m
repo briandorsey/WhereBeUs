@@ -44,11 +44,19 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 
 - (void)gotSyncResponseFromWhereBeUsServer:(JsonResponse *)response
 {
+	if (serviceSyncTimer == nil)
+	{
+		// protect against getting a response back from our 
+		// server _after_ we've decided to stop talking to it.
+		return;
+	}
+	
 	if (response == nil) 
 	{ 
 		[self restartServiceSyncTimer];
 		return; 
 	}
+	
 
 	NSDictionary *dictionary = [response dictionary];
 	BOOL success = [(NSNumber *)[dictionary objectForKey:@"success"] boolValue];
@@ -305,8 +313,13 @@ CGFloat fsign(CGFloat f)
 
 - (void)clearAllAnnotations
 {
+	for (id key in userKeyToAnnotation)
+	{
+		UpdateAnnotation *annotation = (UpdateAnnotation *)[userKeyToAnnotation objectForKey:key];
+		[self.mapView removeAnnotation:annotation];
+	}
+	
 	[userKeyToAnnotation removeAllObjects];
-	[self.mapView removeAnnotations:[self.mapView annotations]];
 }
 
 
@@ -355,10 +368,14 @@ CGFloat fsign(CGFloat f)
 	}
 
 	#if TARGET_IPHONE_SIMULATOR
-	CLLocationCoordinate2D university_zoka_coffee_seattle_wa;
-	university_zoka_coffee_seattle_wa.latitude = 47.665916;
-	university_zoka_coffee_seattle_wa.longitude = -122.297361;	
-	newLocation = [[[CLLocation alloc] initWithCoordinate:university_zoka_coffee_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
+	//	CLLocationCoordinate2D university_zoka_coffee_seattle_wa;
+	//	university_zoka_coffee_seattle_wa.latitude = 47.665916;
+	//	university_zoka_coffee_seattle_wa.longitude = -122.297361;	
+	//	newLocation = [[[CLLocation alloc] initWithCoordinate:university_zoka_coffee_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];	
+	CLLocationCoordinate2D middle_of_ravenna_park_seattle_wa;
+	middle_of_ravenna_park_seattle_wa.latitude = 47.67138773385131;
+	middle_of_ravenna_park_seattle_wa.longitude = -122.3053327202797;
+	newLocation = [[[CLLocation alloc] initWithCoordinate:middle_of_ravenna_park_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
 	#endif
 	
 	// STEP 1: if we have yet to see a valid coordinate, 
@@ -416,10 +433,10 @@ CGFloat fsign(CGFloat f)
 - (void)credentialsChanged:(NSNotification*)notification
 {
 	[self stopSyncingWithService];		
-
 	[self clearAllAnnotations];
 	
-	if (currentCoordinate.latitude != 0.0 || currentCoordinate.longitude != 0.0)
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if ([state hasAnyCredentials] && (currentCoordinate.latitude != 0.0 || currentCoordinate.longitude != 0.0))
 	{
 		// immediately put our user back
 		[self updateUserAnnotationWithCoordinate:currentCoordinate];
