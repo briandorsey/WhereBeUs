@@ -372,6 +372,8 @@ CGFloat fsign(CGFloat f)
 
 #if TARGET_IPHONE_SIMULATOR
 	CLLocationCoordinate2D video_location;
+	BOOL set_location = NO;
+	
 	WhereBeUsState *state = [WhereBeUsState shared];
 	if (state.hasTwitterCredentials)
 	{
@@ -380,33 +382,39 @@ CGFloat fsign(CGFloat f)
 			// Brouwer's brewpub
 			video_location.latitude = 47.651608;
 			video_location.longitude = -122.354198;
+			set_location = YES;
 		}
 		else if ([@"wbu_briandorsey" isEqualToString:state.twitterUsername])
 		{
 			// Tangletown zoka
 			video_location.latitude = 47.6686789;
 			video_location.longitude = -122.3329742;
+			set_location = YES;
 		}
 		else if ([@"wbu_amy" isEqualToString:state.twitterUsername])
 		{
 			// At Leary & NW Ballard Way, presumably on the way to Brouwer's
 			video_location.latitude = 47.662935;
 			video_location.longitude = -122.368601;
+			set_location = YES;
 		}
 		else if ([@"wbu_brad" isEqualToString:state.twitterUsername])
 		{
 			// hanging out downtown at Serious Pie
 			video_location.latitude = 47.6125175;
 			video_location.longitude = -122.3407626;
+			set_location = YES;
 		}
 		else if ([@"wbu_amanda" isEqualToString:state.twitterUsername])
 		{
 			// checking out the real deal at Blue Bottle Cafe
 			video_location.latitude = 37.782475;
 			video_location.longitude = -122.407764;
+			set_location = YES;
 		}
 	}
-	else
+	
+	if (!set_location)
 	{
 		// by default, if running in the simulator put this account
 		// at University Zoka Coffee in Seattle -- aka where much 
@@ -414,6 +422,7 @@ CGFloat fsign(CGFloat f)
 		video_location.latitude = 47.665916;
 		video_location.longitude = -122.297361;
 	}
+	
 	newLocation = [[[CLLocation alloc] initWithCoordinate:video_location altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
 #endif
 	

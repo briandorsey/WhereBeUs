@@ -17,6 +17,8 @@
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
 		553C934810DDE218002EB459 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 553C934710DDE218002EB459 /* icon.png */; };
+		5544C2DB1106C52800D6D2E6 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5544C2DA1106C52800D6D2E6 /* Entitlements.plist */; };
+		5544C2DD1106C5B200D6D2E6 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 5544C2DC1106C5B200D6D2E6 /* iTunesArtwork */; };
 		55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55491EE310C734D7007A811F /* EditCellViewController.xib */; };
 		55491EE810C735CC007A811F /* EditCellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55491EE710C735CC007A811F /* EditCellViewController.m */; };
 		5553976210C350FC00126892 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5553976110C350FC00126892 /* LoginViewController.xib */; };
@@ -93,6 +95,8 @@
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
 		550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CleanObject.m"; sourceTree = "<group>"; };
 		553C934710DDE218002EB459 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = images/icon.png; sourceTree = "<group>"; };
+		5544C2DA1106C52800D6D2E6 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		5544C2DC1106C5B200D6D2E6 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		55491EE310C734D7007A811F /* EditCellViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditCellViewController.xib; sourceTree = "<group>"; };
 		55491EE610C735CC007A811F /* EditCellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCellViewController.h; sourceTree = "<group>"; };
 		55491EE710C735CC007A811F /* EditCellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCellViewController.m; sourceTree = "<group>"; };
@@ -263,6 +267,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5544C2DC1106C5B200D6D2E6 /* iTunesArtwork */,
 				55E77F0910C3855700F49D91 /* FacebookKeysActual.plist */,
 				559A0B6410A3620F005921E7 /* Images */,
 				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
@@ -275,6 +280,7 @@
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
 				55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */,
 				55B4F539110139A800BDC29F /* Default.png */,
+				5544C2DA1106C52800D6D2E6 /* Entitlements.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -488,6 +494,8 @@
 				55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */,
 				55F807EC10F80167009ED48D /* default100.png in Resources */,
 				55B4F53A110139A800BDC29F /* Default.png in Resources */,
+				5544C2DB1106C52800D6D2E6 /* Entitlements.plist in Resources */,
+				5544C2DD1106C5B200D6D2E6 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,11 +583,47 @@
 			};
 			name = Release;
 		};
+		5544C2D81106C45400D6D2E6 /* AdHoc Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dave Peck";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = NO;
+				GCC_WARN_NON_VIRTUAL_DESTRUCTOR = YES;
+				GCC_WARN_PEDANTIC = NO;
+				GCC_WARN_SHADOW = NO;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "./Classes/**";
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
+				SDKROOT = iphoneos3.0;
+				WARNING_CFLAGS = "";
+			};
+			name = "AdHoc Release";
+		};
+		5544C2D91106C45400D6D2E6 /* AdHoc Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
+				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				PRODUCT_NAME = WhereBeUs;
+			};
+			name = "AdHoc Release";
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dave Peck";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -593,6 +637,7 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				PRODUCT_NAME = WhereBeUs;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = "";
 			};
@@ -602,7 +647,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dave Peck";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -615,6 +660,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = "";
 			};
@@ -628,6 +674,7 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+				5544C2D91106C45400D6D2E6 /* AdHoc Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -637,6 +684,7 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+				5544C2D81106C45400D6D2E6 /* AdHoc Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

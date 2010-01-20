@@ -73,7 +73,7 @@ const NSInteger kServiceSection = 2;
 //const CGFloat kEmpiricallyDeterminedCellContentWidth = 300.0;
 //const CGFloat kEmpiricallyDeterminedCellMinimumHeight = 43.0;
 //const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
-const CGFloat kEmpiricallyDeterminedCellContentWidth = 207.0;
+const CGFloat kEmpiricallyDeterminedCellContentWidth = 190.0; //207.0;
 const CGFloat kEmpiricallyDeterminedCellMinimumHeight = 43.0;
 const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
