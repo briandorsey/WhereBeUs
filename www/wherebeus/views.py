@@ -59,13 +59,9 @@ def api_1_update(request):
             if latitude or longitude:
                 user_service.location = db.GeoPt(latitude, longitude)
                 
-            if message is not None:
-                if len(message) > 0:
-                    user_service.message = message
-                    user_service.message_time = request_time
-            elif user_service.message:
-                user_service.message = None
-                user_service.message_time = None
+            if message:
+                user_service.message = message
+                user_service.message_time = request_time
                 
             followers = service.get('followers', None)
             if followers is not None:
