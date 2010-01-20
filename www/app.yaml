@@ -20,6 +20,9 @@ handlers:
   
 - url: /css
   static_dir: static/css
+
+- url: /movies
+  static_dir: static/movies
     
 - url: .*
   script: bootstrap.py

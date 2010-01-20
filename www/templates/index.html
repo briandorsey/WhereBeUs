@@ -8,16 +8,35 @@
 <body>
     <div class="page">
         <div class="header">
-            <img src="{% static_url /images/wherebeus-textlogo.png %}" />
+            <img src="{% static_url /images/wherebeus-textlogo-small.png %}" />
         </div>
         
+        <div class="demo-movie">
+            <!-- shamelessly lifted from http://ego-app.com/, which you should go buy because it is AWESOME. -->
+            <object classid="clsid:02bf25d5-8c17-4b23-bc80-d3488abddc6b" width="228" height="340" codebase="http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0" id="video_object">
+                <param name="src" value="{% static_url /movies/wherebeus-demo-low-quality.mov %}"/>
+                <param name="loop" value="false"/>
+                <param name="controller" value="false"/>
+                <param name="align" value="middle"/>
+                <embed name="video_qt" enablejavascript="true" type="video/quicktime" width="228" height="340" src="{% static_url /movies/wherebeus-demo-low-quality.mov %}" controller="false" loop="false" align="middle"></embed>
+            </object>
+        </div>
+
         <div class="content">
-            <p>Coming in early 2010. Follow our progress on <a href="http://github.com/davepeck/WhereBeUs/">GitHub</a>.</p>
+            <p><span class="notable">WhereBeUs</span> is the easiest way to find out where your friends are <span class="notable">right now</span>.</p>
+            <ul class="sell-me">
+                <li><span>Sign in with Facebook or Twitter and instantly see your friends on the map.</span></li>
+                <li><span>No need to create a new account.</span></li>
+                <li><span>Completely free and open source.</span></li>
+            </ul>
+            <p><a href="http://itunes.com/apps/WhereBeUs" class="download-link">Download WhereBeUs today!</a></p>
         </div>
         
         <div class="footer">
-            <div class="copyright">&copy; 2009-2010 <a href="http://davepeck.org/">Dave Peck</a> and <a href="http://briandorsey.info/">Brian Dorsey</a>, All Rights Reserved.</div>
+            <div class="copyright">&copy; 2010 <a href="http://davepeck.org/">Dave Peck</a> and <a href="http://briandorsey.info/">Brian Dorsey</a>, All Rights Reserved.<br /><a href="javascript:document.location=['mxilto',':dxv','zpzck','@','gm','xi','l.co', 'm, brix', 'ndors', 'zy@gmxi', 'l.com'].join('').replace(/x/g,'a').replace(/z/g,%20'e');">Get in touch</a> or check out the code on <a href="http://github.com/davepeck/WhereBeUs/">Github</a>.</div>
         </div>
+        
+        
     </div>
 </body>
 </html>

@@ -6,7 +6,7 @@ urlpatterns = patterns('')
 urlpatterns += patterns(
     'wherebeus.views',
     url(r'^$', 'static', {'template': 'index.html'}, name='index'),
-    url(r'^about/$', 'static', {'template': 'about.html'}, name='about'),
+    url(r'^about/iphone/$', 'static', {'template': 'about-iphone.html'}, name='about-iphone'),
     url(r'^api/1/update/$', 'api_1_update', name='api_update'),
 )
 

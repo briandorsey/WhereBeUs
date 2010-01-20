@@ -19,7 +19,7 @@ body
 
 div.page
 {
-    width: 600px;
+    width: 680px;
     margin-left: auto;
     margin-right: auto;
     text-align: left;
@@ -44,13 +44,20 @@ div.page-phone
 
 .header
 {
-    padding-top: 50px;
+    padding-top: 30px;
     padding-bottom: 30px;
 }
 
 .content
 {
-    padding-top: 50px;
+    padding-top: 30px;
+    width: 344px;
+}
+
+.mid-content
+{
+    color: #999;
+    font-size: 18px;
 }
 
 .content-phone
@@ -60,7 +67,7 @@ div.page-phone
 
 .content p
 {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
 }
 
 .content-phone p
@@ -82,8 +89,9 @@ a:hover
 
 .footer
 {
-    padding-top: 30px;
+    padding-top: 75px;
     color: #555;
+    width: 344px;
 }
 
 .footer a, .footer a:visited, .footer a:link
@@ -96,6 +104,7 @@ a:hover
 {
     color: #E3AD30;
     text-decoration: underline;
+    clear: both;
 }
 
 .copyright
@@ -108,6 +117,11 @@ em
     font-weight: bold;
 }
 
+.notable
+{
+    color: #FFF;
+    font-weight: bold;
+}
 
 .phone-face
 {
@@ -126,5 +140,47 @@ em
     margin-top: 28px;
 }
 
+.clear
+{
+    clear: both;
+}
 
+.demo-movie
+{
+    background: url(/images/background-iphone.png) no-repeat;
+	width: 251px;
+	height: 424px;
+	padding: 85px 0 0 25px;
+	float: right;
+	position: relative;
+	top: -15px;
+	margin: 0;
+}
+
+
+ul.sell-me
+{
+    margin: 0;
+    padding: 0;
+    padding-bottom: 30px;    
+    font-size: 15px;
+    color: #AAA;
+}
+
+ul.sell-me li
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: circle;
+}
+
+a.download-link, a.download-link:visited, a.download-link:link
+{
+    text-decoration: underline;
+}
+
+a.download-link:hover
+{
+    background: #555;
+}
 

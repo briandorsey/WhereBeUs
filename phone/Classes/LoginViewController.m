@@ -73,7 +73,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 {
 	// CONSIDER -- maybe do something else? Will this be a surprise to users?
 	// We shall see...
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wherebe.us/about/"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wherebe.us/about/iphone/"]];
 }
 
 - (void)dealloc 
