@@ -219,13 +219,6 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 		[services addObject:[NSDictionary dictionaryWithDictionary:twitterService]];
 	}
 		
-	// What "message" is current?
-	NSString *safeMessage = state.lastMessage;
-	if (safeMessage == nil)
-	{
-		safeMessage = @"";
-	}
-
 	// Build final information to send to service
 	NSMutableDictionary *postDictionary = 
 	[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -235,6 +228,13 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	 [NSNumber numberWithBool:YES], @"want_updates",
 	 nil];
 	
+	// What "message" is current?
+	NSString *safeMessage = state.lastMessage;
+	if (safeMessage == nil)
+	{
+		safeMessage = @"";
+	}
+		
 	if (safeMessage != previousMessage)
 	{
 		[postDictionary setObject:safeMessage forKey:@"message"];

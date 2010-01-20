@@ -370,16 +370,52 @@ CGFloat fsign(CGFloat f)
 		return;
 	}
 
-	#if TARGET_IPHONE_SIMULATOR
-	//	CLLocationCoordinate2D university_zoka_coffee_seattle_wa;
-	//	university_zoka_coffee_seattle_wa.latitude = 47.665916;
-	//	university_zoka_coffee_seattle_wa.longitude = -122.297361;	
-	//	newLocation = [[[CLLocation alloc] initWithCoordinate:university_zoka_coffee_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];	
-	CLLocationCoordinate2D middle_of_ravenna_park_seattle_wa;
-	middle_of_ravenna_park_seattle_wa.latitude = 47.67138773385131;
-	middle_of_ravenna_park_seattle_wa.longitude = -122.3053327202797;
-	newLocation = [[[CLLocation alloc] initWithCoordinate:middle_of_ravenna_park_seattle_wa altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
-	#endif
+#if TARGET_IPHONE_SIMULATOR
+	CLLocationCoordinate2D video_location;
+	WhereBeUsState *state = [WhereBeUsState shared];
+	if (state.hasTwitterCredentials)
+	{
+		if ([@"wbu_davepeck" isEqualToString:state.twitterUsername])
+		{
+			// Brouwer's brewpub
+			video_location.latitude = 47.651608;
+			video_location.longitude = -122.354198;
+		}
+		else if ([@"wbu_briandorsey" isEqualToString:state.twitterUsername])
+		{
+			// Tangletown zoka
+			video_location.latitude = 47.6686789;
+			video_location.longitude = -122.3329742;
+		}
+		else if ([@"wbu_amy" isEqualToString:state.twitterUsername])
+		{
+			// At Leary & NW Ballard Way, presumably on the way to Brouwer's
+			video_location.latitude = 47.662935;
+			video_location.longitude = -122.368601;
+		}
+		else if ([@"wbu_brad" isEqualToString:state.twitterUsername])
+		{
+			// hanging out downtown at Serious Pie
+			video_location.latitude = 47.6125175;
+			video_location.longitude = -122.3407626;
+		}
+		else if ([@"wbu_amanda" isEqualToString:state.twitterUsername])
+		{
+			// checking out the real deal at Blue Bottle Cafe
+			video_location.latitude = 37.782475;
+			video_location.longitude = -122.407764;
+		}
+	}
+	else
+	{
+		// by default, if running in the simulator put this account
+		// at University Zoka Coffee in Seattle -- aka where much 
+		// of the coding for this app transpired.
+		video_location.latitude = 47.665916;
+		video_location.longitude = -122.297361;
+	}
+	newLocation = [[[CLLocation alloc] initWithCoordinate:video_location altitude:newLocation.altitude horizontalAccuracy:newLocation.horizontalAccuracy verticalAccuracy:newLocation.verticalAccuracy timestamp:newLocation.timestamp] autorelease];
+#endif
 	
 	// STEP 1: if we have yet to see a valid coordinate, 
 	// zoom in to that location on the map

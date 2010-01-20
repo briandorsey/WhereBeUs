@@ -10,6 +10,7 @@
 #import "WhereBeUsAppDelegate.h"
 #import "NSDate+PrettyPrint.h"
 #import "MKPlacemark+PrettyPrint.h"
+#import "WhereBeUsState.h"
 
 @implementation UpdateDetailsViewController
 
@@ -44,10 +45,20 @@
 
 - (NSString *)annotationMessage
 {
-	if (annotation.message.length > 0)
+	NSString *theMessage = annotation.message;
+	
+	// make sure the annotation is always up to date.
+	if (annotation.isCurrentUser)
 	{
-		return annotation.message;
+		WhereBeUsState *state = [WhereBeUsState shared];
+		theMessage = state.lastMessage;
 	}
+	
+	if (theMessage != nil && (theMessage.length > 0))
+	{
+		return theMessage;
+	}
+	
 	return [NSString stringWithFormat:@"(no message from %@)", annotation.displayName];
 }
 
@@ -297,6 +308,7 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 		reverseGeocoder.delegate = self;
 		[reverseGeocoder start];
 	}
+	[self.infoTableView reloadData];
 	
 	[super viewWillAppear:animated];	
 }

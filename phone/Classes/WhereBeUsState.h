@@ -104,6 +104,7 @@ typedef uint32_t TwitterId; /* 4 bytes on phone, enough for 4.3 billion twitter 
 
 - (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission;
 - (void)setLastMessage:(NSString *)newLastMessage;
+- (void)clearLastMessage;
 - (void)clearTwitterCredentials;
 - (void)clearFacebookCredentials;
 

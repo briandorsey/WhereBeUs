@@ -37,6 +37,7 @@
 - (NSString *)userKey;
 - (BOOL)isTwitter;
 - (BOOL)isFacebook;
+- (BOOL)isCurrentUser;
 
 @property (nonatomic, retain) NSString *screenName;
 @property (nonatomic, retain) NSString *displayName;

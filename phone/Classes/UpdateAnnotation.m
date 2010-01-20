@@ -10,6 +10,7 @@
 #import "NSDictionary+CleanObject.h"
 #import "NSDate+PrettyPrint.h"
 #import "UserKey.h"
+#import "WhereBeUsState.h"
 
 @implementation UpdateAnnotation
 
@@ -129,4 +130,11 @@
 {
 	return ![self isTwitter];
 }
+
+- (BOOL)isCurrentUser
+{
+	WhereBeUsState *state = [WhereBeUsState shared];
+	return [state.preferredUserKey isEqualToString:[self userKey]];
+}
+
 @end

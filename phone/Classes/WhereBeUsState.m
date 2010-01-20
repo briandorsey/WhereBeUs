@@ -121,6 +121,7 @@ static NSString *const kLastMessageKey = @"last_message";
 
 - (void)sendCredentialsNotification
 {
+	[self clearLastMessage]; /* message always gets cleared when things change. */
 	NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 	[defaultCenter postNotificationName:CREDENTIALS_CHANGED object:self userInfo:nil];
 }
@@ -461,6 +462,12 @@ static NSString *const kLastMessageKey = @"last_message";
 	lastMessage = [newLastMessage retain];
 	hasEverSentMessage = YES;
 	[self propertyChanged];
+}
+
+- (void)clearLastMessage
+{
+	[lastMessage autorelease];
+	lastMessage = nil;
 }
 
 #pragma mark NSCoding Implementation
