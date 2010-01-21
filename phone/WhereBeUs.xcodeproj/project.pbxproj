@@ -58,6 +58,7 @@
 		55D919E0109804C7008CB1BF /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919D8109804C7008CB1BF /* SBJsonBase.m */; };
 		55D919E1109804C7008CB1BF /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919DA109804C7008CB1BF /* SBJsonParser.m */; };
 		55D919E2109804C7008CB1BF /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 55D919DC109804C7008CB1BF /* SBJsonWriter.m */; };
+		55DD6EF211090F270093B2D5 /* libFlurryWithLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55DD6EF111090F270093B2D5 /* libFlurryWithLocation.a */; };
 		55E77EB510C3803E00F49D91 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 55E77E9F10C3803E00F49D91 /* FBConnect.bundle */; };
 		55E77EB610C3803E00F49D91 /* FBConnectGlobal.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EA210C3803E00F49D91 /* FBConnectGlobal.m */; };
 		55E77EB710C3803E00F49D91 /* FBDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 55E77EA410C3803E00F49D91 /* FBDialog.m */; };
@@ -164,6 +165,8 @@
 		55D919DA109804C7008CB1BF /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = JSON/SBJsonParser.m; sourceTree = "<group>"; };
 		55D919DB109804C7008CB1BF /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = JSON/SBJsonWriter.h; sourceTree = "<group>"; };
 		55D919DC109804C7008CB1BF /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = JSON/SBJsonWriter.m; sourceTree = "<group>"; };
+		55DD6EF011090F270093B2D5 /* FlurryAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAPI.h; sourceTree = "<group>"; };
+		55DD6EF111090F270093B2D5 /* libFlurryWithLocation.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryWithLocation.a; sourceTree = "<group>"; };
 		55E77E9F10C3803E00F49D91 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FBConnect.bundle; path = FBConnect/FBConnect.bundle; sourceTree = "<group>"; };
 		55E77EA010C3803E00F49D91 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBConnect.h; path = FBConnect/FBConnect.h; sourceTree = "<group>"; };
 		55E77EA110C3803E00F49D91 /* FBConnectGlobal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FBConnectGlobal.h; path = FBConnect/FBConnectGlobal.h; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
 				557191CC109913490059E40F /* CoreLocation.framework in Frameworks */,
 				557191EE1099137C0059E40F /* MapKit.framework in Frameworks */,
+				55DD6EF211090F270093B2D5 /* libFlurryWithLocation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,6 +250,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				55DD6EEF11090F270093B2D5 /* FlurryLibWithLocation */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -428,6 +433,15 @@
 			name = JSON;
 			sourceTree = "<group>";
 		};
+		55DD6EEF11090F270093B2D5 /* FlurryLibWithLocation */ = {
+			isa = PBXGroup;
+			children = (
+				55DD6EF011090F270093B2D5 /* FlurryAPI.h */,
+				55DD6EF111090F270093B2D5 /* libFlurryWithLocation.a */,
+			);
+			path = FlurryLibWithLocation;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -567,6 +581,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
 				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlurryLibWithLocation\"",
+				);
 				PRODUCT_NAME = WhereBeUs;
 			};
 			name = Debug;
@@ -579,6 +597,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
 				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlurryLibWithLocation\"",
+				);
 				PRODUCT_NAME = WhereBeUs;
 			};
 			name = Release;
@@ -589,6 +611,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dave Peck";
+				CURRENT_PROJECT_VERSION = 1.0;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -615,6 +638,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
 				INFOPLIST_FILE = "WhereBeUs-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/FlurryLibWithLocation\"",
+				);
 				PRODUCT_NAME = WhereBeUs;
 			};
 			name = "AdHoc Release";

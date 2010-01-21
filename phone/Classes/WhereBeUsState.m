@@ -8,6 +8,7 @@
 
 #import "WhereBeUsState.h"
 #import "UserKey.h"
+#import "FlurryAPI.h"
 
 static NSString *const kWhereBeUsStateFileName = @"wherebeus.state";
 static NSString *const kHasEverSentMessageKey = @"has_ever_sent_message";
@@ -402,6 +403,11 @@ static NSString *const kLastMessageKey = @"last_message";
 	
 	[self propertyChanged];
 	[self sendTwitterCredentialsNotification];
+	
+	if (self.hasTwitterCredentials)
+	{
+		[FlurryAPI logEvent:@"sign_in_with_twitter"];
+	}
 }
 
 - (void)setTwitterFollowerIds:(NSArray *)newTwitterFollowerIds
@@ -432,6 +438,11 @@ static NSString *const kLastMessageKey = @"last_message";
 	
 	[self propertyChanged];
 	[self sendFacebookCredentialsNotification];
+	
+	if (self.hasFacebookCredentials)
+	{
+		[FlurryAPI logEvent:@"sign_in_with_facebook"];
+	}	
 }
 
 - (void)setHasFacebookStatusUpdatePermission:(BOOL)newHasFacebookStatusUpdatePermission

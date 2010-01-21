@@ -12,6 +12,7 @@
 #import "WhereBeUsAppDelegate.h"
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
+#import "FlurryAPI.h"
 
 
 @implementation SendMessageViewController
@@ -91,6 +92,7 @@
 
 - (void)doneWithDialog
 {
+	[FlurryAPI logEvent:@"sent_message"];	
 	[self.activityIndicator stopAnimating];
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *) [UIApplication sharedApplication].delegate;
 	[[appDelegate frontSideNavigationController] hideModalSendMessage];		

@@ -11,6 +11,7 @@
 #import "NSDate+PrettyPrint.h"
 #import "MKPlacemark+PrettyPrint.h"
 #import "WhereBeUsState.h"
+#import "FlurryAPI.h"
 
 @implementation UpdateDetailsViewController
 
@@ -264,6 +265,7 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 	{
 		annotation = [theAnnotation retain];
 		self.title = @"User Details";
+		[FlurryAPI logEvent:@"show_details"];		
     }
     return self;
 }

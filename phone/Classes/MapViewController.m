@@ -15,6 +15,7 @@
 #import "UpdateAnnotation.h"
 #import "UpdateAnnotationView.h"
 #import "UserKey.h"
+#import "FlurryAPI.h"
 
 static const NSTimeInterval kServiceSyncSeconds = 15;
 #define kDefaultLatLonSpan 0.05
@@ -451,6 +452,7 @@ CGFloat fsign(CGFloat f)
 	// STEP 3: update our internal notion of where the user is
 	currentCoordinate = newLocation.coordinate;
 	[self updateUserAnnotationWithCoordinate:currentCoordinate];
+	[FlurryAPI setLocation:newLocation];
 	
 	// STEP 4: if necessary, kick off syncing with the service
 	[self startSyncingWithService];

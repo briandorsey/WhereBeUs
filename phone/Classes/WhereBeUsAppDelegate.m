@@ -13,7 +13,7 @@
 #import "LoginViewController.h"
 #import "ConnectionHelper.h"
 #import "JsonResponse.h"
-
+#import "FlurryAPI.h"
 
 @implementation WhereBeUsAppDelegate
 
@@ -97,6 +97,11 @@
 	[ConnectionHelper twitter_getFollowersWithTarget:self action:@selector(twitterFollowerUpdateFinished:) username:state.twitterUsername password:state.twitterPassword cursor:STARTING_CURSOR];
 }
 
+void uncaughtExceptionHandler(NSException *exception) 
+{
+    [FlurryAPI logError:@"Uncaught" message:@"Crash!" exception:exception];
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {   
     // Disable auto-lock, since location updates stop when locked.
@@ -108,6 +113,14 @@
 	NSString *apiKey = (NSString *)[keys objectForKey:@"FacebookApiKey"];
 	NSString *apiSecret = (NSString *)[keys objectForKey:@"FacebookApiSecret"];
 	facebookSession = [[FBSession sessionForApplication:apiKey secret:apiSecret delegate:self] retain];
+	
+	// Start up Flurry analytics, if we have a key
+	NSString *flurryKey = (NSString *)[keys objectForKey:@"FlurryApiKey"];
+	if (![@"missing_key" isEqualToString:flurryKey])
+	{
+		[FlurryAPI startSession:flurryKey];
+		NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);		
+	}
 	
 	// Load our application state (potentially from a file)
 	WhereBeUsState *state = [WhereBeUsState shared];
