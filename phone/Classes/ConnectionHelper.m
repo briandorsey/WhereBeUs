@@ -85,7 +85,7 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 {
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
-	[[JsonConnection alloc] initWithURL:@"http://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
+	[[JsonConnection alloc] initWithURL:@"https://twitter.com/account/verify_credentials.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:nil];	
 }
 
 + (void)twitter_postTweetWithTarget:(id)target action:(SEL)action message:(NSString *)message username:(NSString *)username password:(NSString *)password
@@ -93,7 +93,7 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 	NSDictionary *d = [ConnectionHelper dictionaryFromTarget:target action:action];
 	NSDictionary *postDictionary = [NSDictionary dictionaryWithObjectsAndKeys:message, @"status", nil];
 	// this is NOT a leak -- connection is released in callback. How to silence the analyzer?
-	[[JsonConnection alloc] initWithURL:@"http://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
+	[[JsonConnection alloc] initWithURL:@"https://twitter.com/statuses/update.json" delegate:[ConnectionHelper getDelegate] userData:d authUsername:username authPassword:password postData:[postDictionary postData]];
 }
 
 + (void)twitter_getFollowersWithTarget:(id)target action:(SEL)action username:(NSString *)username password:(NSString *)password cursor:(NSString *)cursor
