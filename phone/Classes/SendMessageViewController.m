@@ -15,6 +15,8 @@
 #import "FlurryAPI.h"
 
 
+static NSString *const WHEREBEUS_HASHTAG = @" #wherebeus";
+
 @implementation SendMessageViewController
 
 @synthesize messageText;
@@ -194,19 +196,31 @@
 	// Action!
 	[self.activityIndicator startAnimating];
 	
-	// get and store the message
+	// get the message to send
 	WhereBeUsState *state = [WhereBeUsState shared];
-	state.lastMessage = [self.messageText text];
+	NSString *cleanMessage = [[self.messageText text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	NSString *postMessage = cleanMessage;
+	
+	// add #wherebeus to it if necessary
+	NSRange wherebeus_range = [postMessage rangeOfString:@"wherebeus" options:NSCaseInsensitiveSearch];
+	NSRange wherebe_us_range = [postMessage rangeOfString:@"wherebe.us" options:NSCaseInsensitiveSearch];
+	if ((wherebeus_range.location == NSNotFound) && (wherebe_us_range.location == NSNotFound))
+	{
+		postMessage = [postMessage stringByAppendingString:WHEREBEUS_HASHTAG];
+	}
+		
+	// hold on to the message in state -- without #wherebeus
+	state.lastMessage = cleanMessage;
 	[state save];
 	
 	// start by sending the message to twitter...
 	if (state.hasTwitterCredentials)
 	{
-		[self sendMessageToTwitterThenIfNecessaryToFacebook:state.lastMessage];
+		[self sendMessageToTwitterThenIfNecessaryToFacebook:postMessage];
 	}
 	else if (state.hasFacebookCredentials)
 	{
-		[self prepareToSendMessageToFacebook:state.lastMessage];
+		[self prepareToSendMessageToFacebook:postMessage];
 	}
 }
 
@@ -227,7 +241,7 @@
 	
 	// make sure the edited text won't be too long.
 	// XXX TODO real interface/feedback for this
-	if ([[textView.text stringByReplacingCharactersInRange:range withString:text] length] > 140)
+	if ([[textView.text stringByReplacingCharactersInRange:range withString:text] length] >= (139 - [WHEREBEUS_HASHTAG length]))
 	{
 		return NO;
 	}
