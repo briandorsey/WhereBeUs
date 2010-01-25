@@ -22,6 +22,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 
 @synthesize tableView;
 @synthesize doneButton;
+@synthesize aboutButton;
 
 - (void)showFacebookCredentials
 {
@@ -80,6 +81,7 @@ const NSTimeInterval SpinnerSeconds = 0.75;
 {
 	self.tableView = nil;
 	self.doneButton = nil;
+	self.aboutButton = nil;
 	[twitterTimer invalidate];
 	[facebookTimer invalidate];
     [super dealloc];

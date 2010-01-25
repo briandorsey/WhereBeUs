@@ -13,6 +13,7 @@
 @interface LoginViewController : UIViewController<UITableViewDelegate, UITableViewDataSource> {
 	IBOutlet UITableView *tableView;
 	IBOutlet UIBarButtonItem *doneButton;
+	IBOutlet UIButton *aboutButton;
 	
 	NSTimer *facebookTimer;
 	NSTimer *twitterTimer;
@@ -22,6 +23,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *doneButton;
+@property (nonatomic, retain) IBOutlet UIButton *aboutButton;
 
 - (void)doneButtonPressed:(id)sender;
 - (IBAction)aboutButtonPressed:(id)sender;

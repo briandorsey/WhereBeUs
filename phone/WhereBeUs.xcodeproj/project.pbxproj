@@ -14,6 +14,7 @@
 		2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2892E40F0DC94CBA00A64D0F /* CoreGraphics.framework */; };
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		550721DB109B98BC0025B4FA /* WhereBeUsState.m in Sources */ = {isa = PBXBuildFile; fileRef = 550721DA109B98BC0025B4FA /* WhereBeUsState.m */; };
+		550CC346110D13FA00C3703B /* UnderlineButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 550CC345110D13FA00C3703B /* UnderlineButton.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
 		553C934810DDE218002EB459 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 553C934710DDE218002EB459 /* icon.png */; };
@@ -91,6 +92,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		550721D9109B98BC0025B4FA /* WhereBeUsState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhereBeUsState.h; sourceTree = "<group>"; };
 		550721DA109B98BC0025B4FA /* WhereBeUsState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhereBeUsState.m; sourceTree = "<group>"; };
+		550CC344110D13FA00C3703B /* UnderlineButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnderlineButton.h; sourceTree = "<group>"; };
+		550CC345110D13FA00C3703B /* UnderlineButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderlineButton.m; sourceTree = "<group>"; };
 		550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAnnotation.h; sourceTree = "<group>"; };
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
@@ -369,6 +372,8 @@
 				559A0BD710A37B2F005921E7 /* AsyncImageCache.m */,
 				55F8071410F5838D009ED48D /* TwitterUtilities.h */,
 				55F8071510F5838D009ED48D /* TwitterUtilities.m */,
+				550CC344110D13FA00C3703B /* UnderlineButton.h */,
+				550CC345110D13FA00C3703B /* UnderlineButton.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -565,6 +570,7 @@
 				55A3804210FA917A005671FD /* NSDate+PrettyPrint.m in Sources */,
 				55A380E910FAAA7A005671FD /* MKPlacemark+PrettyPrint.m in Sources */,
 				55B4F32A10FBE69600BDC29F /* UserKey.m in Sources */,
+				550CC346110D13FA00C3703B /* UnderlineButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
