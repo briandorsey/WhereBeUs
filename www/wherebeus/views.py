@@ -59,7 +59,7 @@ def api_1_update(request):
             if latitude or longitude:
                 user_service.location = db.GeoPt(latitude, longitude)
                 
-            if message:
+            if message and (user_service.message != message):
                 user_service.message = message
                 user_service.message_time = request_time
                 

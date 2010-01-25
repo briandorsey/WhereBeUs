@@ -50,11 +50,15 @@ class UserService(db.Model):
         user_service_keys = [user_service_index_key.parent() for user_service_index_key in user_service_index_keys]
         return db.get(user_service_keys)
         
+    def has_recent_message(self, request_time):
+        return (self.message) and ((request_time - self.message_time) <= settings.TIME_HORIZON)
+        
     def update(self, request_time):
         if (self.location is None) or (self.location.lat == 0.0 and self.location.lon == 0.0):
             return None
         if (request_time - self.update_time) > settings.TIME_HORIZON:
-            return None
+            return None      
+        has_recent_message = self.has_recent_message(request_time)  
         return {
             "screen_name": self.screen_name,
             "display_name": self.display_name,
@@ -63,8 +67,8 @@ class UserService(db.Model):
             "latitude": self.location.lat,
             "longitude": self.location.lon,
             "update_time": iso_utc_string(self.update_time),
-            "message": self.message if self.message else "",
-            "message_time": iso_utc_string(self.message_time) if self.message else None,
+            "message": self.message if has_recent_message else "",
+            "message_time": iso_utc_string(self.message_time) if has_recent_message else None,
             "service_type": self.service_type,
             "service_url": self.service_url,
             "id_on_service": self.id_on_service,
