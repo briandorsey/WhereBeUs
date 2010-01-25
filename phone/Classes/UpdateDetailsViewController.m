@@ -51,8 +51,7 @@
 	// make sure the annotation is always up to date.
 	if (annotation.isCurrentUser)
 	{
-		WhereBeUsState *state = [WhereBeUsState shared];
-		theMessage = state.lastMessage;
+		theMessage = @"That's you!";
 	}
 	
 	if (theMessage != nil && (theMessage.length > 0))
@@ -157,12 +156,23 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 	if (section == kMessageSection)
 	{	
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"message"] autorelease];	
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		cell.textLabel.text = @"message";		
-		cell.detailTextLabel.text = [self annotationMessage];
-		cell.detailTextLabel.numberOfLines = 0;
-		cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+		if (annotation.isCurrentUser)
+		{
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"service"] autorelease];	
+			cell.textLabel.text = @"That's you!";
+			cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+			cell.textLabel.textAlignment = UITextAlignmentCenter;
+			cell.textLabel.textColor = [UIColor colorWithRed:0.322 green:0.4 blue:0.569 alpha:1.0];			
+		}
+		else
+		{
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"message"] autorelease];	
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.textLabel.text = @"message";		
+			cell.detailTextLabel.text = [self annotationMessage];
+			cell.detailTextLabel.numberOfLines = 0;
+			cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
+		}
 	}
 	else if (section == kLocationSection)
 	{
