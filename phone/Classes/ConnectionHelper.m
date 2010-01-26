@@ -296,10 +296,10 @@ static NSString *const kServiceBaseURL = @"http://www.wherebe.us";
 
 - (void)request:(FBRequest*)request didFailWithError:(NSError*)error
 {
-	for (id key in [error userInfo])
-	{
-		NSLog(@"Facebook request error: %@: %@", key, [[error userInfo] objectForKey:key]);
-	}
+//	for (id key in [error userInfo])
+//	{
+//		NSLog(@"Facebook request error: %@: %@", key, [[error userInfo] objectForKey:key]);
+//	}
 	
 	id target;
 	SEL action;	

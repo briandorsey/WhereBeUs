@@ -256,7 +256,7 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 - (void)reverseGeocoder:(MKReverseGeocoder *)geocoder didFailWithError:(NSError *)error
 {
-	NSLog(@"Geocoder error: %@", [error localizedDescription]);
+//	NSLog(@"Geocoder error: %@", [error localizedDescription]);
 	friendlyLocation = [[NSString stringWithString:@"(unable to get address)"] retain];
 	[self.infoTableView reloadData];
 	[reverseGeocoder release];

@@ -56,7 +56,7 @@
 - (void)asyncImageCacheLoadedImage:(UIImage *)image forURL:(NSString *)url
 {
 	// sanity check
-	NSAssert(loadedImageView == nil, @"Loaded image view must be nil here.");
+//	NSAssert(loadedImageView == nil, @"Loaded image view must be nil here.");
 	
 	// did we fail? go ahead and try our alternate URL, if provided.
 	if (image == nil && [url isEqualToString:urlToLoad])
