@@ -54,6 +54,36 @@ div.page-phone
     width: 344px;
 }
 
+.faq-content
+{
+    padding-top: 30px;
+    font-size: 14px;
+    width: 450px;
+}
+
+.faq-content h2
+{
+    font-size: 20px;
+    color: #FFF;
+    padding-bottom: 30px;
+}
+
+.faq-content div
+{
+    padding-bottom: 30px;
+}
+
+.qa
+{
+    color: #E3AD30;
+}
+
+.faq-content .q
+{
+    font-weight: bold;
+    color: #FFF;
+}
+
 .mid-content
 {
     color: #999;
@@ -89,7 +119,7 @@ a:hover
 
 .footer
 {
-    padding-top: 75px;
+    padding-top: 45px;
     color: #555;
     width: 344px;
 }
