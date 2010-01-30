@@ -95,8 +95,9 @@ class UserService(db.Model):
             
         seen = {}
         for following in followings:
-            if (following.update_guid not in seen) or (following.service_type == "twitter"):
-                seen[following.update_guid] = following
+            if following is not None:
+                if (following.update_guid not in seen) or (following.service_type == "twitter"):
+                    seen[following.update_guid] = following
         return seen.values()
         
     @staticmethod
