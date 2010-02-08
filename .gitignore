@@ -1,4 +1,14 @@
 #--------------------------------
+# Android Build Crazy!
+#--------------------------------
+
+android/bin
+android/gen
+android/bin/
+android/gen/
+
+
+#--------------------------------
 # Web Site Config Excludes
 #--------------------------------
 
