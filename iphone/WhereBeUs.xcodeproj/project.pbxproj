@@ -78,6 +78,9 @@
 		55F8077510F6C65B009ED48D /* UpdateDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F8077410F6C65B009ED48D /* UpdateDetailsViewController.m */; };
 		55F807E410F7FFE5009ED48D /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 55F807E310F7FFE5009ED48D /* AsyncImageView.m */; };
 		55F807EC10F80167009ED48D /* default100.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F807EB10F80167009ED48D /* default100.png */; };
+		D359A02F117274C100E7F045 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A02E117274C100E7F045 /* Default-Portrait.png */; };
+		D359A03311727BF200E7F045 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A03211727BF200E7F045 /* Default-Landscape.png */; };
+		D3B97FA6116C47EF00A82C50 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3B97FA5116C47EF00A82C50 /* MainWindow-iPad.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -203,6 +206,9 @@
 		55F807E310F7FFE5009ED48D /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		55F807EB10F80167009ED48D /* default100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = default100.png; path = images/default100.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		D359A02E117274C100E7F045 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
+		D359A03211727BF200E7F045 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		D3B97FA5116C47EF00A82C50 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +263,7 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				D3B97FA4116C47EE00A82C50 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -288,6 +295,8 @@
 				55491EE310C734D7007A811F /* EditCellViewController.xib */,
 				55F8076F10F6C62F009ED48D /* UpdateDetailsViewController.xib */,
 				55B4F539110139A800BDC29F /* Default.png */,
+				D359A02E117274C100E7F045 /* Default-Portrait.png */,
+				D359A03211727BF200E7F045 /* Default-Landscape.png */,
 				5544C2DA1106C52800D6D2E6 /* Entitlements.plist */,
 			);
 			name = Resources;
@@ -447,6 +456,14 @@
 			path = FlurryLibWithLocation;
 			sourceTree = "<group>";
 		};
+		D3B97FA4116C47EE00A82C50 /* Resources-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				D3B97FA5116C47EF00A82C50 /* MainWindow-iPad.xib */,
+			);
+			name = "Resources-iPad";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -515,6 +532,9 @@
 				55B4F53A110139A800BDC29F /* Default.png in Resources */,
 				5544C2DB1106C52800D6D2E6 /* Entitlements.plist in Resources */,
 				5544C2DD1106C5B200D6D2E6 /* iTunesArtwork in Resources */,
+				D3B97FA6116C47EF00A82C50 /* MainWindow-iPad.xib in Resources */,
+				D359A02F117274C100E7F045 /* Default-Portrait.png in Resources */,
+				D359A03311727BF200E7F045 /* Default-Landscape.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +601,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -592,6 +613,8 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -599,6 +622,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
@@ -608,6 +632,8 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -640,6 +666,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
@@ -649,6 +676,8 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "AdHoc Release";
 		};
@@ -681,6 +710,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WhereBeUs_Prefix.pch;
@@ -690,6 +720,8 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "AppStore Release";
 		};
@@ -697,7 +729,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dave Peck";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Brian Dorsey (HZ44H3V83C)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -711,7 +743,6 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				PRODUCT_NAME = WhereBeUs;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = "";
 			};
