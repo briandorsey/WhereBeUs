@@ -145,9 +145,23 @@ void uncaughtExceptionHandler(NSException *exception)
 		[self updateTwitterFriends];
 	}
 
-	// Get our frontside/backside transitions set up
-	frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-	backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		{
+			Class FrontSideNavigationControllerPad = NSClassFromString(@"FrontSideNavigationControllerPad");
+			if (FrontSideNavigationControllerPad) {
+				self.frontSideNavigationController = [[FrontSideNavigationControllerPad alloc] init];
+			}
+			// Get our frontside/backside transitions set up
+			frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+			backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+		}
+	else
+		{
+			// TODO: decide - should we just use the CoverVertical style for both?
+			// Get our frontside/backside transitions set up
+			frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+			backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+		}
 	
 	// Show the frontside opportunistically
 	showingFrontSide = YES;

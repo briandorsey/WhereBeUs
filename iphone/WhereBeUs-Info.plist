@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>icon29.png</string>
+		<string>icon50.png</string>
+		<string>icon57.png</string>
+		<string>icon72.png</string>
+		<string>icon512.png</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
@@ -9,7 +17,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>icon.png</string>
+	<string>icon57.png</string>
 	<key>CFBundleIdentifier</key>
 	<string>us.wherebe.wbu1</string>
 	<key>CFBundleInfoDictionaryVersion</key>

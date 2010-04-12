@@ -17,7 +17,7 @@
 		550CC346110D13FA00C3703B /* UnderlineButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 550CC345110D13FA00C3703B /* UnderlineButton.m */; };
 		550E9431109EAE0E0012CA01 /* UpdateAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */; };
 		550E963110A22E360012CA01 /* NSDictionary+CleanObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */; };
-		553C934810DDE218002EB459 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 553C934710DDE218002EB459 /* icon.png */; };
+		553C934810DDE218002EB459 /* icon57.png in Resources */ = {isa = PBXBuildFile; fileRef = 553C934710DDE218002EB459 /* icon57.png */; };
 		5544C2DB1106C52800D6D2E6 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5544C2DA1106C52800D6D2E6 /* Entitlements.plist */; };
 		5544C2DD1106C5B200D6D2E6 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 5544C2DC1106C5B200D6D2E6 /* iTunesArtwork */; };
 		55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55491EE310C734D7007A811F /* EditCellViewController.xib */; };
@@ -80,6 +80,10 @@
 		55F807EC10F80167009ED48D /* default100.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F807EB10F80167009ED48D /* default100.png */; };
 		D359A02F117274C100E7F045 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A02E117274C100E7F045 /* Default-Portrait.png */; };
 		D359A03311727BF200E7F045 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A03211727BF200E7F045 /* Default-Landscape.png */; };
+		D359A056117287BC00E7F045 /* FrontSideNavigationControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */; };
+		D359A0A91172A2A300E7F045 /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A51172A2A300E7F045 /* icon29.png */; };
+		D359A0AA1172A2A300E7F045 /* icon50.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A61172A2A300E7F045 /* icon50.png */; };
+		D359A0AC1172A2A300E7F045 /* icon512.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A81172A2A300E7F045 /* icon512.png */; };
 		D3B97FA6116C47EF00A82C50 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3B97FA5116C47EF00A82C50 /* MainWindow-iPad.xib */; };
 /* End PBXBuildFile section */
 
@@ -101,7 +105,7 @@
 		550E9430109EAE0E0012CA01 /* UpdateAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAnnotation.m; sourceTree = "<group>"; };
 		550E962F10A22E360012CA01 /* NSDictionary+CleanObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+CleanObject.h"; sourceTree = "<group>"; };
 		550E963010A22E360012CA01 /* NSDictionary+CleanObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+CleanObject.m"; sourceTree = "<group>"; };
-		553C934710DDE218002EB459 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = images/icon.png; sourceTree = "<group>"; };
+		553C934710DDE218002EB459 /* icon57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon57.png; path = images/icon57.png; sourceTree = "<group>"; };
 		5544C2DA1106C52800D6D2E6 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		5544C2DC1106C5B200D6D2E6 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		55491EE310C734D7007A811F /* EditCellViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditCellViewController.xib; sourceTree = "<group>"; };
@@ -208,6 +212,11 @@
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		D359A02E117274C100E7F045 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		D359A03211727BF200E7F045 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		D359A054117287BC00E7F045 /* FrontSideNavigationControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontSideNavigationControllerPad.h; sourceTree = "<group>"; };
+		D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontSideNavigationControllerPad.m; sourceTree = "<group>"; };
+		D359A0A51172A2A300E7F045 /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = images/icon29.png; sourceTree = "<group>"; };
+		D359A0A61172A2A300E7F045 /* icon50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon50.png; path = images/icon50.png; sourceTree = "<group>"; };
+		D359A0A81172A2A300E7F045 /* icon512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon512.png; path = images/icon512.png; sourceTree = "<group>"; };
 		D3B97FA5116C47EF00A82C50 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -236,6 +245,7 @@
 				55AC0FDF109E8CB400101F7F /* Utilities */,
 				55AC0FE0109E8CC800101F7F /* Networking */,
 				55AC0FE1109E8CDF00101F7F /* Interface */,
+				D359A053117287BC00E7F045 /* Interface-iPad */,
 				55B4F32810FBE69600BDC29F /* UserKey.h */,
 				55B4F32910FBE69600BDC29F /* UserKey.m */,
 				550E942F109EAE0E0012CA01 /* UpdateAnnotation.h */,
@@ -346,7 +356,10 @@
 		559A0B6410A3620F005921E7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				553C934710DDE218002EB459 /* icon.png */,
+				D359A0A51172A2A300E7F045 /* icon29.png */,
+				D359A0A61172A2A300E7F045 /* icon50.png */,
+				553C934710DDE218002EB459 /* icon57.png */,
+				D359A0A81172A2A300E7F045 /* icon512.png */,
 				556B2F2F10D3114E00D20C19 /* dark-info.png */,
 				55A6F0FE10D300860041E914 /* chat.png */,
 				559A0B6510A3621E005921E7 /* bubble.png */,
@@ -456,6 +469,16 @@
 			path = FlurryLibWithLocation;
 			sourceTree = "<group>";
 		};
+		D359A053117287BC00E7F045 /* Interface-iPad */ = {
+			isa = PBXGroup;
+			children = (
+				D359A054117287BC00E7F045 /* FrontSideNavigationControllerPad.h */,
+				D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */,
+			);
+			name = "Interface-iPad";
+			path = iPad;
+			sourceTree = "<group>";
+		};
 		D3B97FA4116C47EE00A82C50 /* Resources-iPad */ = {
 			isa = PBXGroup;
 			children = (
@@ -526,7 +549,7 @@
 				55491EE410C734D7007A811F /* EditCellViewController.xib in Resources */,
 				55A6F0FF10D300860041E914 /* chat.png in Resources */,
 				556B2F3010D3114E00D20C19 /* dark-info.png in Resources */,
-				553C934810DDE218002EB459 /* icon.png in Resources */,
+				553C934810DDE218002EB459 /* icon57.png in Resources */,
 				55F8077010F6C62F009ED48D /* UpdateDetailsViewController.xib in Resources */,
 				55F807EC10F80167009ED48D /* default100.png in Resources */,
 				55B4F53A110139A800BDC29F /* Default.png in Resources */,
@@ -535,6 +558,9 @@
 				D3B97FA6116C47EF00A82C50 /* MainWindow-iPad.xib in Resources */,
 				D359A02F117274C100E7F045 /* Default-Portrait.png in Resources */,
 				D359A03311727BF200E7F045 /* Default-Landscape.png in Resources */,
+				D359A0A91172A2A300E7F045 /* icon29.png in Resources */,
+				D359A0AA1172A2A300E7F045 /* icon50.png in Resources */,
+				D359A0AC1172A2A300E7F045 /* icon512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -591,6 +617,7 @@
 				55A380E910FAAA7A005671FD /* MKPlacemark+PrettyPrint.m in Sources */,
 				55B4F32A10FBE69600BDC29F /* UserKey.m in Sources */,
 				550CC346110D13FA00C3703B /* UnderlineButton.m in Sources */,
+				D359A056117287BC00E7F045 /* FrontSideNavigationControllerPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,7 +640,7 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -632,7 +659,7 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -657,7 +684,7 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1C27372C-6F4D-4066-B66A-4DBE959CD432";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 				WARNING_CFLAGS = "";
 			};
 			name = "AdHoc Release";
@@ -676,7 +703,7 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "AdHoc Release";
@@ -701,7 +728,7 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4A38885D-EE45-404C-8217-39F9F23F09F4";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 				WARNING_CFLAGS = "";
 			};
 			name = "AppStore Release";
@@ -720,7 +747,7 @@
 					"\"$(SRCROOT)/FlurryLibWithLocation\"",
 				);
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphoneos3.1.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "AppStore Release";
@@ -743,7 +770,7 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 				WARNING_CFLAGS = "";
 			};
 			name = Debug;
@@ -766,7 +793,7 @@
 				HEADER_SEARCH_PATHS = "./Classes/**";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
-				SDKROOT = iphoneos3.0;
+				SDKROOT = iphoneos3.1.3;
 				WARNING_CFLAGS = "";
 			};
 			name = Release;
