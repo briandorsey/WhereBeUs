@@ -682,9 +682,10 @@
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1C27372C-6F4D-4066-B66A-4DBE959CD432";
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos3.2;
 				WARNING_CFLAGS = "";
 			};
 			name = "AdHoc Release";
@@ -726,9 +727,10 @@
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4A38885D-EE45-404C-8217-39F9F23F09F4";
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos3.2;
 				WARNING_CFLAGS = "";
 			};
 			name = "AppStore Release";
@@ -768,9 +770,10 @@
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				PRODUCT_NAME = WhereBeUs;
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos3.2;
 				WARNING_CFLAGS = "";
 			};
 			name = Debug;
@@ -791,9 +794,10 @@
 				GCC_WARN_SHADOW = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./Classes/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "04168E59-9CEB-4B0B-A7E8-982C515C0228";
-				SDKROOT = iphoneos3.1.3;
+				SDKROOT = iphoneos3.2;
 				WARNING_CFLAGS = "";
 			};
 			name = Release;
