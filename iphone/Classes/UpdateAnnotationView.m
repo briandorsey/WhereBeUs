@@ -8,6 +8,7 @@
 
 #import "UpdateAnnotationView.h"
 #import "UpdateAnnotation.h"
+#import "UpdateDetailsViewController.h"
 #import "AsyncImageCache.h"
 
 #define BUBBLE_PNG_WIDTH 55.0
@@ -98,10 +99,15 @@
 		// but I decided that this was too much work (especially where touch interception was concerned) 
 		// for too little visual gain. Removing our expand/collapse visuals from this file allowed me 
 		// to remove probably 90% of the code here! --davepeck
-		self.canShowCallout = YES; 		
-		UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-		[button addTarget:self action:@selector(disclosureButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
-		self.rightCalloutAccessoryView = button;
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		{
+			self.canShowCallout = NO; 		
+		} else {
+			self.canShowCallout = YES; 		
+			UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+			[button addTarget:self action:@selector(disclosureButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
+			self.rightCalloutAccessoryView = button;
+		}
 	}
 	return self;
 }
@@ -140,6 +146,31 @@
 	self.centerOffset = CGPointMake(0.0, BUBBLE_PNG_CENTEROFFSET_Y);
 }
 
+
+- (void)touchesEnded:touches withEvent:event
+{
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		NSLog(@"from iPad navigation controller");
+		UpdateDetailsViewController *updateDetailsViewController = [[[UpdateDetailsViewController alloc] 
+																	 initWithNibName:@"UpdateDetailsViewController" 
+																	 bundle:nil 
+																	 annotation:self.annotation] 
+																autorelease];
+		Class UIPopoverController = NSClassFromString(@"UIPopoverController");
+		if (UIPopoverController) 
+		{
+			id aPopover = [[UIPopoverController alloc]
+											 initWithContentViewController:updateDetailsViewController] ;
+			// TODO: This is attached to the wrong view somehow. Should attach to the annotation view instead.
+			[aPopover presentPopoverFromRect:self.frame
+							inView:self 
+							permittedArrowDirections:UIPopoverArrowDirectionAny 
+							animated:YES];
+			// TODO: self should become a delegate and release this popover.
+		}
+	}
+}
 
 //---------------------------------------------------------------------
 // Custom View Drawing

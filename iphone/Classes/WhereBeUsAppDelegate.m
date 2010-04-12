@@ -147,10 +147,6 @@ void uncaughtExceptionHandler(NSException *exception)
 
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 		{
-			Class FrontSideNavigationControllerPad = NSClassFromString(@"FrontSideNavigationControllerPad");
-			if (FrontSideNavigationControllerPad) {
-				self.frontSideNavigationController = [[FrontSideNavigationControllerPad alloc] init];
-			}
 			// Get our frontside/backside transitions set up
 			frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 			backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;

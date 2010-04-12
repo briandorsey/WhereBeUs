@@ -80,7 +80,6 @@
 		55F807EC10F80167009ED48D /* default100.png in Resources */ = {isa = PBXBuildFile; fileRef = 55F807EB10F80167009ED48D /* default100.png */; };
 		D359A02F117274C100E7F045 /* Default-Portrait.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A02E117274C100E7F045 /* Default-Portrait.png */; };
 		D359A03311727BF200E7F045 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A03211727BF200E7F045 /* Default-Landscape.png */; };
-		D359A056117287BC00E7F045 /* FrontSideNavigationControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */; };
 		D359A0A91172A2A300E7F045 /* icon29.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A51172A2A300E7F045 /* icon29.png */; };
 		D359A0AA1172A2A300E7F045 /* icon50.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A61172A2A300E7F045 /* icon50.png */; };
 		D359A0AC1172A2A300E7F045 /* icon512.png in Resources */ = {isa = PBXBuildFile; fileRef = D359A0A81172A2A300E7F045 /* icon512.png */; };
@@ -212,8 +211,6 @@
 		8D1107310486CEB800E47090 /* WhereBeUs-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WhereBeUs-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		D359A02E117274C100E7F045 /* Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait.png"; sourceTree = "<group>"; };
 		D359A03211727BF200E7F045 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
-		D359A054117287BC00E7F045 /* FrontSideNavigationControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontSideNavigationControllerPad.h; sourceTree = "<group>"; };
-		D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontSideNavigationControllerPad.m; sourceTree = "<group>"; };
 		D359A0A51172A2A300E7F045 /* icon29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon29.png; path = images/icon29.png; sourceTree = "<group>"; };
 		D359A0A61172A2A300E7F045 /* icon50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon50.png; path = images/icon50.png; sourceTree = "<group>"; };
 		D359A0A81172A2A300E7F045 /* icon512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon512.png; path = images/icon512.png; sourceTree = "<group>"; };
@@ -472,8 +469,6 @@
 		D359A053117287BC00E7F045 /* Interface-iPad */ = {
 			isa = PBXGroup;
 			children = (
-				D359A054117287BC00E7F045 /* FrontSideNavigationControllerPad.h */,
-				D359A055117287BC00E7F045 /* FrontSideNavigationControllerPad.m */,
 			);
 			name = "Interface-iPad";
 			path = iPad;
@@ -617,7 +612,6 @@
 				55A380E910FAAA7A005671FD /* MKPlacemark+PrettyPrint.m in Sources */,
 				55B4F32A10FBE69600BDC29F /* UserKey.m in Sources */,
 				550CC346110D13FA00C3703B /* UnderlineButton.m in Sources */,
-				D359A056117287BC00E7F045 /* FrontSideNavigationControllerPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
