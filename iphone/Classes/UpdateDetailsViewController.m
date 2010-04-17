@@ -282,8 +282,14 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 - (void)viewDidLoad 
 {
-    [super viewDidLoad];
-	[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	[super viewDidLoad];
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		[self.view setBackgroundColor:[UIColor colorWithRed:.886 green:.898 blue:.918 alpha:1]];
+	} else {
+		[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	}
+
 }
 
 - (void)viewWillAppear:(BOOL)animated

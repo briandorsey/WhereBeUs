@@ -147,7 +147,7 @@
 }
 
 
-- (void)touchesEnded:touches withEvent:event
+- (void)touchesBegan:touches withEvent:event
 {
 	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 	{
@@ -170,6 +170,7 @@
 			// TODO: self should become a delegate and release this popover.
 		}
 	}
+	[super touchesBegan:touches withEvent:event];
 }
 
 //---------------------------------------------------------------------
