@@ -153,7 +153,6 @@ void uncaughtExceptionHandler(NSException *exception)
 		}
 	else
 		{
-			// TODO: decide - should we just use the CoverVertical style for both?
 			// Get our frontside/backside transitions set up
 			frontSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
 			backSideNavigationController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;

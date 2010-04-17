@@ -289,7 +289,10 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 - (void)viewWillAppear:(BOOL)animated
 {
 	WhereBeUsAppDelegate *appDelegate = (WhereBeUsAppDelegate *)[[UIApplication sharedApplication] delegate];
-	[[appDelegate frontSideNavigationController] setNavigationBarHidden:NO animated:YES];		
+	if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
+	{
+		[[appDelegate frontSideNavigationController] setNavigationBarHidden:NO animated:YES];		
+	}
 	
 	if (annotation != nil)
 	{

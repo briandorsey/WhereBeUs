@@ -162,9 +162,9 @@
 		{
 			id aPopover = [[UIPopoverController alloc]
 											 initWithContentViewController:updateDetailsViewController] ;
-			// TODO: This is attached to the wrong view somehow. Should attach to the annotation view instead.
-			[aPopover presentPopoverFromRect:self.frame
-							inView:self 
+			[aPopover setPopoverContentSize:CGSizeMake(320, 500) animated:NO];
+			[aPopover presentPopoverFromRect:self.bounds
+							inView:self
 							permittedArrowDirections:UIPopoverArrowDirectionAny 
 							animated:YES];
 			// TODO: self should become a delegate and release this popover.
