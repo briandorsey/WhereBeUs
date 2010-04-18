@@ -162,7 +162,7 @@
 		{
 			id aPopover = [[UIPopoverController alloc]
 											 initWithContentViewController:updateDetailsViewController] ;
-			[aPopover setPopoverContentSize:CGSizeMake(320, 500) animated:NO];
+			[aPopover setPopoverContentSize:CGSizeMake(320, 450) animated:NO];
 			[aPopover presentPopoverFromRect:self.bounds
 							inView:self
 							permittedArrowDirections:UIPopoverArrowDirectionAny 
