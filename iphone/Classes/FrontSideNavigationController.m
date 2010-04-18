@@ -24,6 +24,10 @@
 {
 	SendMessageViewController *controller = [[[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:nil] autorelease];	
 	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		controller.modalPresentationStyle = UIModalPresentationFormSheet;
+	}
 	[self presentModalViewController:controller animated:YES];
 }
 
@@ -31,6 +35,10 @@
 {
 	SendMessageViewController *controller = [[[SendMessageViewController alloc] initWithNibName:@"SendMessageViewController" bundle:nil customMessage:customMessage] autorelease];	
 	controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		controller.modalPresentationStyle = UIModalPresentationFormSheet;
+	}
 	[self presentModalViewController:controller animated:YES];
 }
 
