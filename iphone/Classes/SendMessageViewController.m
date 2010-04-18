@@ -75,6 +75,15 @@ static NSString *const WHEREBEUS_HASHTAG = @" #wherebeus";
     [super dealloc];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		return YES;
+	} else {
+		return (interfaceOrientation == UIInterfaceOrientationPortrait); // support only portrait
+	}
+}
 
 //---------------------------------------------------------------
 // Actions

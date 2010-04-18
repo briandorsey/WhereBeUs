@@ -200,6 +200,16 @@ static const NSTimeInterval kServiceSyncSeconds = 15;
 // Map View Management
 //------------------------------------------------------------------
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+	{
+		return YES;
+	} else {
+		return (interfaceOrientation == UIInterfaceOrientationPortrait); // support only portrait
+	}
+}
+
 - (void)centerAndZoomOnCoordinate:(CLLocationCoordinate2D)coordinate animated:(BOOL)animated
 {
 	// Region and Zoom
