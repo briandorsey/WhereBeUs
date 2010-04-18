@@ -115,7 +115,7 @@ const CGFloat kEmpiricallyDeterminedHeightMargin = 13.5;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	[tableView cellForRowAtIndexPath:indexPath].selected = NO;
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	NSUInteger section = [indexPath indexAtPosition:0];
 	
 	if (section == kServiceSection)
