@@ -17,6 +17,7 @@
 	BOOL initializing;
 	NSTimer *fadeTimer;	
 	id<WhereBeUsAnnotationManager> annotationManager;	
+	id popoverController;
 }
 
 - (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier annotationManager:(id<WhereBeUsAnnotationManager>)theAnnotationManager;

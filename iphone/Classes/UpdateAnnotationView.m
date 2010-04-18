@@ -108,6 +108,20 @@
 			[button addTarget:self action:@selector(disclosureButtonPressed:event:) forControlEvents:UIControlEventTouchUpInside];
 			self.rightCalloutAccessoryView = button;
 		}
+		
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		{
+			// create a shared UIPopoverController
+			// NSClassFromString needed to make iPhoneOS 3.1 happy. 
+			Class UIPopoverController = NSClassFromString(@"UIPopoverController");
+			if (UIPopoverController) 
+			{
+				UIViewController *view = [[[UIViewController alloc] init] autorelease];
+				popoverController = [[UIPopoverController alloc]
+							   initWithContentViewController:view];
+			}
+		}
+		
 	}
 	return self;
 }
@@ -122,6 +136,12 @@
 	
 	[twitterUserIcon release];
 	twitterUserIcon = nil;
+	
+	if (popoverController) 
+	{
+		[popoverController release];
+		popoverController = nil;
+	}
 	
 	[super dealloc];
 }
@@ -157,17 +177,15 @@
 																	 bundle:nil 
 																	 annotation:self.annotation] 
 																autorelease];
-		Class UIPopoverController = NSClassFromString(@"UIPopoverController");
-		if (UIPopoverController) 
+		// NSClassFromString needed to make iPhoneOS 3.1 happy. 
+		if (popoverController) 
 		{
-			id aPopover = [[UIPopoverController alloc]
-											 initWithContentViewController:updateDetailsViewController] ;
-			[aPopover setPopoverContentSize:CGSizeMake(320, 450) animated:NO];
-			[aPopover presentPopoverFromRect:self.bounds
+			[popoverController setContentViewController:updateDetailsViewController];
+			[popoverController setPopoverContentSize:CGSizeMake(320, 450) animated:NO];
+			[popoverController presentPopoverFromRect:self.bounds
 							inView:self
 							permittedArrowDirections:UIPopoverArrowDirectionAny 
 							animated:YES];
-			// TODO: self should become a delegate and release this popover.
 		}
 	}
 	[super touchesBegan:touches withEvent:event];
