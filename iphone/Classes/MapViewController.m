@@ -526,6 +526,11 @@ CGFloat fsign(CGFloat f)
     return self;
 }
 
+- (void)viewDidLoad
+{
+	self.chatButton.frame = CGRectInset(self.chatButton.frame, -20, -20);
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];	
